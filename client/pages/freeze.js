@@ -339,7 +339,7 @@ const Freeze = () => {
           </chakra.h3>
         </NextLink>
 
-        <chakra.h1 py={5} fontSize={40} fontWeight={"bold"} color={textColor} textShadow={`0 0 4px ${primaryGlow}, 0 0 12px ${primaryGlow}`}>
+        <chakra.h1 py={5} fontSize={40} fontWeight={"bold"} color={textColor} textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}>
           Freeze the Second
         </chakra.h1>
 

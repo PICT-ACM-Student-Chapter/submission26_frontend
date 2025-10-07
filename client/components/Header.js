@@ -44,7 +44,7 @@ const Header = () => {
     gap={"4px"}
   >
     <Link href="/" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
-      <Image src="/logo.svg" width={500} height={200} alt={"logo"} />
+      <Image src="https://i.postimg.cc/YSz4S1h5/PULZION-25-LOGO-HERO.png" width={800} height={200} alt={"logo"} />
     </Link>
     <Flex
       position="absolute" // Position the logout button container absolutely

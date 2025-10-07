@@ -10,7 +10,7 @@ const Layout = ({children}) => {
     // bgPosition="center"
     // bgRepeat="no-repeat"
     // bgSize="cover"
-    bg={"black"}
+    bg="hsl(220, 40%, 5%)"
     minHeight="100vh"  
     width="100%"  
     fontFamily="vt323 ,monospace"

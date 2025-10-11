@@ -302,7 +302,7 @@ function Loginpage() {
   const bgCard = useColorModeValue("background.200", "background.200");
   const textColor = useColorModeValue("foreground.100", "foreground.100");
   const primaryColor = useColorModeValue("primary.400", "primary.400");
-  const primaryHover = useColorModeValue("primary.200", "primary.200");
+  const primaryHover = useColorModeValue("primary.100", "primary.100");
   const borderColor = useColorModeValue("border.100", "border.100");
 
   return (

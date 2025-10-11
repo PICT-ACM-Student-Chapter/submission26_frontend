@@ -20,7 +20,7 @@ const ButtonWithModal = ({handleSubmit}) => {
         bg={"#203449"}
         color={"white"}
         _hover={{
-          bg: "#88B788",
+          bg: "hsl(265, 82%, 65%)",
         }}
         width={"100px"}
         justifyItems={"center"}

@@ -13,7 +13,7 @@ const SelectField = ({ name, placeholder, label, options, ...otherProps }) => {
                 w={'100%'}
                 {...otherProps}
                 color={"white"}  
-                _hover={{ bg: "#746A1B", color:"black" }}
+                _hover={{ bg: "hsl(265, 82%, 60%)", color:"black" }}
             >
                 {
                     options.map((item) => (

@@ -237,7 +237,7 @@ import { ChevronLeftIcon } from '@chakra-ui/icons';
 
 const Photoshop = () => {
     const textColor = useColorModeValue("white", "white");
-    const bgCard = useColorModeValue("hsl(265, 82%, 60%)", "hsl(265, 82%, 60%)");
+    const bgCard = useColorModeValue("hsl(220, 40%, 7%)", "hsl(220, 40%, 7%)");
     const [submission, setSubmission] = useState();
     const [loading, setLoading] = useState(true);
 
@@ -310,7 +310,7 @@ const Photoshop = () => {
                 </chakra.h1>
                 <SimpleGrid columns={{ base: 1, md: 2 }} gap={10}>
                     <GridItem>
-                        <Tabs onChange={(index) => setTabIndex(index)}>
+                        <Tabs onChange={(index) => setTabIndex(index)} color={textColor}>
                             <TabList>
                                 <Tab>Theme</Tab>
                                 <Tab>Instructions</Tab>
@@ -323,7 +323,7 @@ const Photoshop = () => {
                                     </Stack>
                                 </TabPanel>
                                 <TabPanel>
-                                    <Stack spacing={3}>
+                                    <Stack spacing={3} color={textColor}>
                                         <Text fontSize='2xl'>Instructions</Text>
                                         <Text fontSize='lg'>1. Submit entries through the platform.</Text>
                                         <Text fontSize='lg'>2. Choose a topic from the list and make a presentation on your idea.</Text>

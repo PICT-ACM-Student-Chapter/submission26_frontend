@@ -25,7 +25,7 @@ const FileInput = ({ label, name, accept, ...otherProps }) => {
           onChange={changeHandler}
           accept={accept}
           {...otherProps}
-          border={"#CFC36D"}
+          border={"hsl(188, 100%, 60%)"}
         />
         {errors[name] && touched[name] && <p color="red">{errors[name]}</p>}
       </FormControl>

@@ -58,7 +58,7 @@ const Leader = () => {
                             fontWeight={"bold"}
                             fontSize={20}
                             textTransform={"uppercase"}
-                            color={"green.400"}
+                            color={"theme.colors.primary[400]"}
                             cursor="pointer"
                             display={'flex'}
                             alignItems={'center'}
@@ -77,7 +77,7 @@ const Leader = () => {
                         // textAlign={'center'}
                         fontWeight={"bold"}
                         color={textColor}
-                        pb={'40px'}>Leaderboard {senior ? "( TE-BE )" : "( FE-SE )"}</chakra.h1>
+                        pb={'40px'}>Leaderboard {true ? "( TE-BE )" : "( FE-SE )"}</chakra.h1>
                         {
                             submissions?.length > 100 ? (
                         <Leaderboard submissions={submissions} senior={senior} />

@@ -417,25 +417,18 @@ import FormField from "../components/FormField";
 import { userLogin } from "../action/user";
 import AppContext from "../context/AppContext";
 import publicRoute from "../routers/publicRoute";
-import ReCAPTCHA from "react-google-recaptcha";
 
 const validateSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
   password: Yup.string().required("Required"),
 });
 
-console.log("reCAPTCHA Key:", process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
 
 function Loginpage() {
   const { dispatchUser, dispatchEvents } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
-  const [captchaValue, setCaptchaValue] = useState(null);
 
   const handleLogin = async (values) => {
-    if (!captchaValue) {
-      toast.error("Please verify the CAPTCHA before logging in.");
-      return;
-    }
 
     try {
       setLoading(true);
@@ -522,15 +515,6 @@ function Loginpage() {
                     color={textColor}
                     bg={bgCard}
                   />
-
-                  {/* ✅ ReCAPTCHA section (clean spacing, responsive) */}
-                  <Flex justify="center" py={2}>
-                    <ReCAPTCHA
-                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                      onChange={(value) => setCaptchaValue(value)}
-                      theme="light" // or "dark" for dark mode
-                    />
-                  </Flex>
 
                   <Button
                     type="submit"

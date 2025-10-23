@@ -11,7 +11,7 @@ export const userLogin = async (
 ) => {
   const options = {
     method: "POST",
-    url: `${apiConfig.url}/${type}/sign`,
+    url: `${apiConfig.url}/${type}/signin`,
     headers: {
       "Content-Type": "application/json",
     },

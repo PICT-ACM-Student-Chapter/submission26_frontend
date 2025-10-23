@@ -8,11 +8,11 @@ export const uploadFile = async (file) => {
 
   var upload = new AWS.S3.ManagedUpload({
     params: {
-      Bucket: "submission-pulzion-24",
+      Bucket: "submission25",
       Key: `submission/${id}_${file.name}`,
       Body: file,
     },
-    region: "ap-south-1",
+    region: "eu-north-1",
   });
   try {
     const res = await upload.promise();

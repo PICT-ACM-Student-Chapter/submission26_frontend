@@ -1,6 +1,6 @@
 const apiConfig = {
   //url: "https://api.submission.pulzion.co.in",
-  url: "http://13.233.124.59",  
+  url: process.env.NEXT_PUBLIC_BACKEND_URL 
 };
 
 export default apiConfig;

@@ -31,21 +31,24 @@ const Leaderboard = ({ submissions, senior }) => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {
-                        submissions?.map((submission, index) => {
-                            const acc = senior ? submission.max : submission.min
-                            return (
-                                <Tr key={index}>
-                                    <Td textAlign={'center'}>{index + 1}</Td>
-                                    <Td textAlign={'center'}>{submission.email}</Td>
-                                    <Td textAlign={'center'}>{submission.first_name}</Td>
-                                    <Td textAlign={'center'}>{submission.last_name}</Td>
-                                    <Td textAlign={'center'}>{acc.toPrecision(5)}</Td>
-                                </Tr>
-                            );
-                        })
-                    }
+                {submissions?.map((submission, index) => {
+                    // Use 'min' for accuracy (FE/SE) and 'max' for error (TE/BE)
+                    const value = senior ? submission.max : submission.min;
+
+                    return (
+                    <Tr key={index}>
+                        <Td textAlign="center">{index + 1}</Td>
+                        <Td textAlign="center">{submission.email}</Td>
+                        <Td textAlign="center">{submission.first_name}</Td>
+                        <Td textAlign="center">{submission.last_name}</Td>
+                        <Td textAlign="center">
+                        {value !== undefined && value !== null ? value.toPrecision(5) : "N/A"}
+                        </Td>
+                    </Tr>
+                    );
+                })}
                 </Tbody>
+
 
                 <Tfoot>
                     <Tr>

@@ -30,7 +30,7 @@ const Header = () => {
       console.log(e);
     }
   };
-  return (
+   return (
     <Flex
       alignItems="center"
       justifyContent="space-between"
@@ -40,7 +40,7 @@ const Header = () => {
         md: "8",
         lg: "16",
       }}
-      boxShadow="sm"
+      // Keeping navbar color same as previous
     >
       {/* Logo on the left */}
       <Link href="/">
@@ -48,7 +48,6 @@ const Header = () => {
           src="https://i.postimg.cc/YSz4S1h5/PULZION-25-LOGO-HERO.png"
           alt="logo"
           height="80px"
-       
           width="auto"
           objectFit="contain"
         />
@@ -62,7 +61,6 @@ const Header = () => {
           fontWeight="medium"
           px={6}
           py={3}
-          mr={4}
         >
           Log Out
         </Button>

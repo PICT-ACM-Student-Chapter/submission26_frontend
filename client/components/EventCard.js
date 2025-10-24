@@ -18,7 +18,8 @@ const EventCard = ({ event, page ,status}) => {
     const senior = user.year === "TE" || user.year === "BE";
     const router = useRouter();
     const { colorMode } = useColorMode();
-
+    
+    // Handle DataQuest routing logic
     const getDataQuestRoute = () => {
       if (event === "DataQuest") {
         // For DataQuest, determine route based on user year
@@ -28,7 +29,6 @@ const EventCard = ({ event, page ,status}) => {
       }
       return page;
     };
-
   return (
     <Flex
         alignItems={"center"}

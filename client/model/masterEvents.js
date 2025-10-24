@@ -21,7 +21,7 @@ export const masterEvents = [
     id: 4,
     ems_id: 7,
     name: "DataQuest",
-    page: "/dataquest",
+    page: "/dataquest1",
   },
   {
     id: 5,
@@ -32,7 +32,7 @@ export const masterEvents = [
 ];
 
 export const emsIds = {
-  dataquest: 7,
+  dataquest1: 7,
   web: 6,
   insight: 15,
   photoshop: 16,

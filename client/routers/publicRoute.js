@@ -9,7 +9,7 @@ const publicRoute = Component => {
         const router = useRouter();
         if (user?.id) {
             if(user.type === 'admin') {
-                router.push('/admin/dashboard')
+                router.push('/admin')
             } else {
                 router.push('/dashboard')
             }

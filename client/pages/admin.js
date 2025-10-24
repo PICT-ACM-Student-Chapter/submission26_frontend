@@ -457,6 +457,7 @@ import axios from 'axios';
 import apiConfig from '../configs/api';
 import { useRouter } from "next/router";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import privateAdminRoute from "../routers/privateAdminRoute";
 
 const INITIAL_GET_API = `${apiConfig.url}/allevents/events`;
 const SAVED_GET_API = `${apiConfig.url}/submission/get`;
@@ -675,7 +676,11 @@ const AdminPage = () => {
           duration: 3000,
           isClosable: true,
         });
+        route.push('/adminlogin');
       } catch (e) {
+        // Even if API call fails, clear local storage and redirect
+        localStorage.removeItem("admin");
+        route.push('/adminlogin');
         toast({
           title: 'Error',
           description: `Something went wrong`,
@@ -843,5 +848,5 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default privateAdminRoute(AdminPage);
 

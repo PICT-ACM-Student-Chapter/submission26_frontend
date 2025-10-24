@@ -143,6 +143,7 @@ import {
   Flex,
   Heading,
   Stack,
+  Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Formik } from "formik";
@@ -152,6 +153,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import FormField from "../components/FormField";
+import { useEffect } from "react";
 import apiConfig from "../configs/api";
 
 const validateSchema = Yup.object({
@@ -161,7 +163,32 @@ const validateSchema = Yup.object({
 
 const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const router = useRouter();
+
+  // Check if admin is already logged in
+  useEffect(() => {
+    const checkAdminAuth = () => {
+      try {
+        const adminData = localStorage.getItem("admin");
+        if (adminData) {
+          const admin = JSON.parse(adminData);
+          if (admin.token && admin.token.trim() !== '') {
+            router.push('/admin');
+          } else {
+            localStorage.removeItem("admin");
+          }
+        }
+      } catch (error) {
+        console.error('Error checking admin authentication:', error);
+        localStorage.removeItem("admin");
+      } finally {
+        setCheckingAuth(false);
+      }
+    };
+
+    checkAdminAuth();
+  }, [router]);
 
   const handleLogin = async (values) => {
     setLoading(true);
@@ -188,6 +215,25 @@ const AdminLogin = () => {
   const primaryColor = useColorModeValue("primary.400", "primary.400");
   const primaryHover = useColorModeValue("primary.100", "primary.100");
   const borderColor = useColorModeValue("border.100", "border.100");
+
+  if (checkingAuth) {
+    return (
+      <Layout>
+        <Flex
+          align="center"
+          justify="center"
+          px={{ base: "16px", md: "48px", lg: "64px" }}
+          py="6vh"
+          w="100vw"
+          minH="70vh"
+          bg="background.100"
+          className="scanlines"
+        >
+          <Text color={textColor}>Checking authentication...</Text>
+        </Flex>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

@@ -20,15 +20,12 @@ const EventCard = ({ event, page ,status}) => {
     const { colorMode } = useColorMode();
     
     // Handle DataQuest routing logic
-    const getDataQuestRoute = () => {
-      if (event === "DataQuest") {
-        // For DataQuest, determine route based on user year
-        // dataquest1 is for all students (Round 1)
-        // dataquest2 is only for TE-BE students (Round 2)
-        return "/dataquest1"; // Default to Round 1 for all students
-      }
-      return page;
-    };
+    // const getDataQuestRoute = () => {
+    //   if (event === "DataQuest") {
+    //     return "/dataquest1"; // Default to Round 1 for all students
+    //   }
+    //   return page;
+    // };
   return (
     <Flex
         alignItems={"center"}
@@ -80,7 +77,7 @@ const EventCard = ({ event, page ,status}) => {
             onClick={() =>
             {
               if(status===true){
-                router.push(getDataQuestRoute());}
+                router.push(page);}
                 else
                 {
                   toast.error("Sorry submission for this event is closed")

@@ -155,6 +155,7 @@ import {
   chakra,
 } from "@chakra-ui/react";
 import { getResults } from "../action/entries.js";
+import privateAdminRoute from "../routers/privateAdminRoute";
 
 const submissionEvents = [
   { name: "Insight", route: "insight" },
@@ -277,5 +278,5 @@ const Result = () => {
   );
 };
 
-export default Result;
+export default privateAdminRoute(Result);
 

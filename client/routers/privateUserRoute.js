@@ -8,7 +8,7 @@ const privateUserRoute = Component => {
         const { user } = useContext(AppContext);
         const router = useRouter();
         console.log(user)
-        if (!user?.id || user?.type !== 'user') {
+        if (!user?.id || user?.type !== 'user' ) {
             router.push('/')
             return <ContentLoader />;
         }

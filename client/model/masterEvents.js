@@ -32,7 +32,7 @@ export const masterEvents = [
 ];
 
 export const emsIds = {
-  dataquest: 7,
+  dataquest1: 7,
   web: 6,
   insight: 15,
   photoshop: 16,

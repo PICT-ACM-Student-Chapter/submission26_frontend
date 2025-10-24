@@ -18,6 +18,17 @@ const EventCard = ({ event, page ,status}) => {
     const senior = user.year === "TE" || user.year === "BE";
     const router = useRouter();
     const { colorMode } = useColorMode();
+
+    const getDataQuestRoute = () => {
+      if (event === "DataQuest") {
+        // For DataQuest, determine route based on user year
+        // dataquest1 is for all students (Round 1)
+        // dataquest2 is only for TE-BE students (Round 2)
+        return "/dataquest1"; // Default to Round 1 for all students
+      }
+      return page;
+    };
+
   return (
     <Flex
         alignItems={"center"}
@@ -29,8 +40,8 @@ const EventCard = ({ event, page ,status}) => {
         bgPosition="center"
         bgRepeat="no-repeat"
         bgSize="contain" // Ensure the image retains its original form
-        height="100%"
-        width="100%"
+        height="95%"
+        width="95%"
         >
           <Box
             w={"100px"} // Set equal width and height for a perfect circle
@@ -69,7 +80,7 @@ const EventCard = ({ event, page ,status}) => {
             onClick={() =>
             {
               if(status===true){
-                router.push(page);}
+                router.push(getDataQuestRoute());}
                 else
                 {
                   toast.error("Sorry submission for this event is closed")

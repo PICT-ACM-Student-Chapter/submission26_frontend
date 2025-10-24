@@ -32,33 +32,42 @@ const Header = () => {
   };
   return (
     <Flex
-    alignItems={"center"}
-    justifyContent={"center"} // Center logo horizontally
-    py={"2px"}
-    px={{
-      base: "32px",
-      md: "48px",
-      lg: "64px",
-    }}
-    position="relative" // Set relative positioning on the container
-    gap={"4px"}
-  >
-    <Link href="/" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
-      <Image src="https://i.postimg.cc/YSz4S1h5/PULZION-25-LOGO-HERO.png" width={800} height={200} alt={"logo"} />
-    </Link>
-    <Flex
-      position="absolute" // Position the logout button container absolutely
-      right="8px"
-      top={40} // Align it to the right end
-      alignItems={"center"}
-      gap={"15px"}
-      pr={4} // Add some padding to the right if needed
+      alignItems="center"
+      justifyContent="space-between"
+      py="2"
+      px={{
+        base: "4",
+        md: "8",
+        lg: "16",
+      }}
+      boxShadow="sm"
     >
-      {user?.id && <Button onClick={handleLogout} fontSize={20} fontWeight={"light"} p={5}>LogOut</Button>}
+      {/* Logo on the left */}
+      <Link href="/">
+        <Image
+          src="https://i.postimg.cc/YSz4S1h5/PULZION-25-LOGO-HERO.png"
+          alt="logo"
+          height="80px"
+       
+          width="auto"
+          objectFit="contain"
+        />
+      </Link>
+
+      {/* Logout button on the extreme right */}
+      {user?.id && (
+        <Button
+          onClick={handleLogout}
+          fontSize="md"
+          fontWeight="medium"
+          px={6}
+          py={3}
+          mr={4}
+        >
+          Log Out
+        </Button>
+      )}
     </Flex>
-  </Flex>
-  
-  
   );
 };
 

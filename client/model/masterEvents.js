@@ -21,7 +21,7 @@ export const masterEvents = [
     id: 4,
     ems_id: 7,
     name: "DataQuest",
-    page: "/dataquest",
+    page: "/dataquest1",
   },
   {
     id: 5,

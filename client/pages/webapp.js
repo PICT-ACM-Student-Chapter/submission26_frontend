@@ -359,16 +359,16 @@ const Webapp = () => {
                     <Text fontSize="xl">
                       2. Participants are expected to submit a PPT of the proposed solution and idea on the submission platform for round 1. Adding the link of the Figma prototype or GitHub repository in the PPT is optional but preferred.
                     </Text>
-                    <Text fontSize="xl">
+                    {/* <Text fontSize="xl">
                       3. Use of web frameworks and any suitable tech stack is allowed, but the use of ready-made templates is prohibited.
-                    </Text>
+                    </Text> */}
                     <Text fontSize="xl">
                       4. The decision of the organizers and judges will be final and binding on all participants.
                     </Text>
                     <Text fontSize="xl" textDecor="underline">
                       Team Distribution:
                     </Text>
-                    <Text fontSize="xl">1. FE-SE: Groups of a maximum of 3 participants.</Text>
+                    <Text fontSize="xl">1. FE-SE: Groups of a maximum of 4 participants.</Text>
                     <Text fontSize="xl">2. TE-BE: Groups of a maximum of 4 participants.</Text>
                   </Stack>
                 </TabPanel>

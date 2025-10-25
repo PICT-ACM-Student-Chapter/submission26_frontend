@@ -348,20 +348,51 @@ const Webapp = () => {
                 <Tab fontSize={20}>Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg}>
-                <TabPanel>
-                  <Stack spacing={3}></Stack>
+                <TabPanel color = "hsl(210, 40%, 100%)">
+                  <Stack spacing={3}>
+                    <Text fontSize="xl" fontWeight="bold" color={textColor}>
+                      Problem Statements:
+                    </Text>
+                    
+                    {/* FE-SE Category */}
+                    <Box>
+                      <Text fontSize="lg" fontWeight="semibold" color={primaryColor} mb={2}>
+                        FE-SE Category:
+                      </Text>
+                      <Stack spacing={2} pl={4}>
+                        <Text fontSize="md">1. Weather Storyboard – Dynamic Weather Visualization App</Text>
+                        <Text fontSize="md">2. NewsPulse – Trending Headlines Analyzer</Text>
+                        <Text fontSize="md">3. YouTube Trend Analyzer</Text>
+                        <Text fontSize="md">4. FocusFlow – Smart Pomodoro Timer for Productivity</Text>
+                      </Stack>
+                    </Box>
+
+                    {/* TE-BE Category */}
+                    <Box>
+                      <Text fontSize="lg" fontWeight="semibold" color={primaryColor} mb={2}>
+                        TE-BE Category:
+                      </Text>
+                      <Stack spacing={2} pl={4}>
+                        <Text fontSize="md">• Notification System as a SaaS</Text>
+                        <Text fontSize="md">• End-to-End AI SQL Assistant</Text>
+                        <Text fontSize="md">• Live Code Collaboration Platform</Text>
+                        <Text fontSize="md">• KnowledgeGraphX – AI-Powered Knowledge Insights SaaS</Text>
+                      </Stack>
+                    </Box>
+
+                    <Text fontSize="sm" color="gray.400" mt={2}>
+                      Note: You can choose any one problem statement from your respective category
+                    </Text>
+                  </Stack>
                 </TabPanel>
                 <TabPanel color="hsl(210, 40%, 100%)">
                   <Stack spacing={3}>
                     <Text fontSize="xl">
-                      1. Each team can submit an entry for only one problem statement.
+                      1. Each team can submit an entry for only one problem statement for their category.
                     </Text>
                     <Text fontSize="xl">
                       2. Participants are expected to submit a PPT of the proposed solution and idea on the submission platform for round 1. Adding the link of the Figma prototype or GitHub repository in the PPT is optional but preferred.
                     </Text>
-                    {/* <Text fontSize="xl">
-                      3. Use of web frameworks and any suitable tech stack is allowed, but the use of ready-made templates is prohibited.
-                    </Text> */}
                     <Text fontSize="xl">
                       4. The decision of the organizers and judges will be final and binding on all participants.
                     </Text>

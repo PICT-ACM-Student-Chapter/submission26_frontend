@@ -364,12 +364,11 @@ const Inowave1 = () => {
               <TabPanels bg={bgCard}>
                 <TabPanel color = "hsl(210, 40%, 100%)">
                   <Stack spacing={3}>
-                    <Text fontSize="3xl">Topics</Text>
-                    <Text fontSize="xl">- Application for an NGO to display its work + accept donations</Text>
-                    <Text fontSize="xl">- Travelogue Application</Text>
-                    <Text fontSize="xl">- Application for Health and Fitness</Text>
-                    <Text fontSize="xl">- Website/App for selling sports goods</Text>
-                    <Text fontSize="xl">- Smart hiring platform for recruiters</Text>
+                    <Text fontSize="3xl">Event Tracks</Text>
+                    <Text fontSize="xl">- Open Innovation (General Track)</Text>
+                    <Text fontSize="xl">- Climate Change Mitigation & Sustainability</Text>
+                    <Text fontSize="xl">- Healthcare & Wellbeing</Text>
+                    <Text fontSize="xl">- Trust in the Age of AI</Text>
                   </Stack>
                 </TabPanel>
                 <TabPanel color = "hsl(210, 40%, 100%)">
@@ -385,6 +384,8 @@ const Inowave1 = () => {
                     </Text>
                     <Text fontSize="xl">5. Any unfair means will lead to immediate disqualification.</Text>
                     <Text fontSize="xl">6. The decision of the judges will be considered final and binding on all the participants.</Text>
+                    <Text fontSize="xl">7. ⁠Each team must pick a single track to present their idea in.</Text>
+                    <Text fontSize="xl">8. only team leader must register for the team.</Text>
                   </Stack>
                 </TabPanel>
               </TabPanels>

@@ -137,6 +137,149 @@
 // export default result;
 
 
+// import {
+//   Box,
+//   Button,
+//   Divider,
+//   Text,
+//   VStack,
+//   Table,
+//   Thead,
+//   Tr,
+//   Th,
+//   Td,
+//   Tbody,
+//   useToast,
+//   useColorModeValue,
+//   Flex,
+//   chakra,
+// } from "@chakra-ui/react";
+// import { getResults } from "../action/entries.js";
+// import privateAdminRoute from "../routers/privateAdminRoute";
+
+// const submissionEvents = [
+//   { name: "Insight", route: "insight" },
+//   { name: "Web N App", route: "webapp" },
+//   { name: "Freeze", route: "freeze" },
+//   { name: "Innowave 1", route: "innowave" },
+//   { name: "Innowave 2", route: "innowave2" },
+//   { name: "Paper Presentation", route: "paper" },
+//   { name: "Dataquest 1", route: "dataquest" },
+//   { name: "Dataquest 2", route: "dataquest2" },
+// ];
+
+// const Result = () => {
+//   const toast = useToast();
+
+//   const bgCard = useColorModeValue("background.200", "background.200");
+//   const textColor = useColorModeValue("foreground.100", "foreground.100");
+//   const primaryColor = useColorModeValue("primary.400", "primary.400");
+//   const primaryHover = useColorModeValue("primary.300", "primary.300");
+
+//   const handleSubmit = async (event) => {
+//     try {
+//       const res = await getResults(event.route); // Fetch results
+//       if (!res || res.length === 0) {
+//         toast({
+//           title: "No Data",
+//           description: `No results found for ${event.name}.`,
+//           status: "info",
+//           duration: 4000,
+//           isClosable: true,
+//         });
+//         return;
+//       }
+//       const csvData = convertToCSV(res); // Convert to CSV format
+//       downloadCSV(csvData, `${event.name}.csv`); // Trigger CSV download
+//     } catch (err) {
+//       console.log(err);
+//       toast({
+//         title: "Error",
+//         description: "Failed to get result.",
+//         status: "error",
+//         duration: 5000,
+//         isClosable: true,
+//       });
+//     }
+//   };
+
+//   const convertToCSV = (data) => {
+//     const headers = Object.keys(data[0]).join(",");
+//     const rows = data.map((row) => Object.values(row).join(","));
+//     return [headers, ...rows].join("\n");
+//   };
+
+//   const downloadCSV = (csvData, filename) => {
+//     const blob = new Blob([csvData], { type: "text/csv" });
+//     const url = window.URL.createObjectURL(blob);
+//     const a = document.createElement("a");
+//     a.setAttribute("hidden", "");
+//     a.setAttribute("href", url);
+//     a.setAttribute("download", filename);
+//     document.body.appendChild(a);
+//     a.click();
+//     document.body.removeChild(a);
+//   };
+
+//   return (
+//     <Flex justify="center" maxH="100vh"  bg={useColorModeValue("background.100", "background.100")}>
+//       <Box
+//         w="full"
+//         maxW="1000px"
+//         p={8}
+//         borderWidth="1px"
+//         borderRadius="md"
+//         boxShadow="xl"
+//         bg={bgCard}
+//       >
+//         <chakra.h1
+//           fontSize={{ base: "3xl", md: "4xl" }}
+//           fontWeight="bold"
+//           textAlign="center"
+//           color={textColor}
+//           mb={4}
+//         >
+//           Event Results
+//         </chakra.h1>
+//         <Divider borderColor={primaryColor} mb={6} />
+
+//         <VStack spacing={6} align="stretch">
+//           <Table variant="simple" colorScheme="primary" size="md">
+//             <Thead>
+//               <Tr>
+//                 <Th color={textColor}>Event Name</Th>
+//                 <Th color={textColor}>Action</Th>
+//               </Tr>
+//             </Thead>
+//             <Tbody>
+//               {submissionEvents.map((event) => (
+//                 <Tr key={event.name} _hover={{ bg: useColorModeValue("muted.100", "muted.200") }}>
+//                   <Td color={textColor} fontWeight="medium">
+//                     {event.name}
+//                   </Td>
+//                   <Td>
+//                     <Button
+//                       size="sm"
+//                       bg={primaryColor}
+//                       color="white"
+//                       _hover={{ bg: primaryHover }}
+//                       onClick={() => handleSubmit(event)}
+//                     >
+//                       Download CSV
+//                     </Button>
+//                   </Td>
+//                 </Tr>
+//               ))}
+//             </Tbody>
+//           </Table>
+//         </VStack>
+//       </Box>
+//     </Flex>
+//   );
+// };
+
+// export default privateAdminRoute(Result);
+
 import {
   Box,
   Button,
@@ -176,39 +319,75 @@ const Result = () => {
   const primaryColor = useColorModeValue("primary.400", "primary.400");
   const primaryHover = useColorModeValue("primary.300", "primary.300");
 
-  const handleSubmit = async (event) => {
-    try {
-      const res = await getResults(event.route); // Fetch results
-      if (!res || res.length === 0) {
-        toast({
-          title: "No Data",
-          description: `No results found for ${event.name}.`,
-          status: "info",
-          duration: 4000,
-          isClosable: true,
-        });
-        return;
-      }
-      const csvData = convertToCSV(res); // Convert to CSV format
-      downloadCSV(csvData, `${event.name}.csv`); // Trigger CSV download
-    } catch (err) {
-      console.log(err);
+
+ const handleSubmit = async (event) => {
+  try {
+    const res = await getResults(event.route);
+    console.log('API Response:', res); // Debug log
+    
+    // Check if response contains error
+    if (res && res.error) {
       toast({
         title: "Error",
-        description: "Failed to get result.",
+        description: res.error || `Failed to get results for ${event.name}`,
         status: "error",
         duration: 5000,
         isClosable: true,
       });
+      return;
     }
-  };
-
+    
+    // Extract the submissions array from the response
+    const data = res?.submissions || res;
+    
+    // Check if we have valid array data
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      toast({
+        title: "No Data",
+        description: `No results found for ${event.name}.`,
+        status: "info",
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+    
+    const csvData = convertToCSV(data);
+    downloadCSV(csvData, `${event.name}.csv`);
+    
+    toast({
+      title: "Success",
+      description: `CSV downloaded for ${event.name} with ${data.length} records.`,
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+    
+  } catch (err) {
+    console.log(err);
+    toast({
+      title: "Error",
+      description: "Failed to get result.",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+  }
+};
+ 
   const convertToCSV = (data) => {
-    const headers = Object.keys(data[0]).join(",");
-    const rows = data.map((row) => Object.values(row).join(","));
-    return [headers, ...rows].join("\n");
-  };
+  // Add null/undefined check and ensure it's an array
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    console.error('Invalid data for CSV conversion:', data);
+    return '';
+  }
+  
+  const headers = Object.keys(data[0]).join(",");
+  const rows = data.map((row) => Object.values(row).join(","));
+  return [headers, ...rows].join("\n");
+};
 
+  
   const downloadCSV = (csvData, filename) => {
     const blob = new Blob([csvData], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
@@ -222,7 +401,11 @@ const Result = () => {
   };
 
   return (
-    <Flex justify="center" maxH="100vh"  bg={useColorModeValue("background.100", "background.100")}>
+    <Flex
+      justify="center"
+      maxH="100vh"
+      bg={useColorModeValue("background.100", "background.100")}
+    >
       <Box
         w="full"
         maxW="1000px"
@@ -253,7 +436,10 @@ const Result = () => {
             </Thead>
             <Tbody>
               {submissionEvents.map((event) => (
-                <Tr key={event.name} _hover={{ bg: useColorModeValue("muted.100", "muted.200") }}>
+                <Tr
+                  key={event.name}
+                  _hover={{ bg: useColorModeValue("muted.100", "muted.200") }}
+                >
                   <Td color={textColor} fontWeight="medium">
                     {event.name}
                   </Td>
@@ -279,4 +465,3 @@ const Result = () => {
 };
 
 export default privateAdminRoute(Result);
-

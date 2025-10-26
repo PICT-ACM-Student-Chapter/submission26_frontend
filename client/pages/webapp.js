@@ -394,7 +394,7 @@ const Webapp = () => {
                       2. Participants are expected to submit a PPT of the proposed solution and idea on the submission platform for round 1. Adding the link of the Figma prototype or GitHub repository in the PPT is optional but preferred.
                     </Text>
                     <Text fontSize="xl">
-                      4. The decision of the organizers and judges will be final and binding on all participants.
+                      3. The decision of the organizers and judges will be final and binding on all participants.
                     </Text>
                     <Text fontSize="xl" textDecor="underline">
                       Team Distribution:

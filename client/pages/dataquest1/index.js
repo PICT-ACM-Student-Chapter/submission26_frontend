@@ -360,7 +360,7 @@ const Dataquest = () => {
       );
       toast.success("Entry Submitted Successfully");
     } catch (e) {
-      toast.error("Something Went Wrong");
+      toast.error(e?.message || "Something Went Wrong");
     } finally {
       setLoading(false);
     }
@@ -440,35 +440,42 @@ const Dataquest = () => {
 
               <TabPanels bg={cardBg} p={4} rounded="md" boxShadow="md">
                 <TabPanel>
-                  <Stack spacing={3}>
-                    <Text fontSize="2xl" fontWeight="bold" color="hsl(210, 40%, 100%)">
-                      Problem Statement
-                    </Text>
-                    <Text fontSize="lg" color="hsl(210, 40%, 100%)">
-                      Click{" "}
-                      <Link
-                        href={
-                          senior
-                            ? "https://drive.google.com/drive/folders/1xFdaJY7xOyAmANreTbqyz_0HTOWYYcBj?usp=sharing"
-                            : "https://drive.google.com/drive/folders/11DW1H4CEcjthJB5LG2pgVK8kgtO1Xbsa"
-                        }
-                        target="_blank"
-                        color="hsl(210, 40%, 100%)"
-                        _hover={{ textDecoration: "underline" }}
-                      >
-                        here
-                      </Link>{" "}
-                      to view the problem statement and dataset.
-                    </Text>
-                    <Text fontSize="lg" color="hsl(210, 40%, 100%)">
-                      - You’ll receive train.csv, test.csv, and sample_submission.csv
-                    </Text>
-                    <Text fontSize="lg" color="hsl(210, 40%, 100%)">
-                      - Use the train/test files to build your model and submit both
-                      the output CSV and your code file (.ipynb or .py).
-                    </Text>
-                  </Stack>
-                </TabPanel>
+  <Stack spacing={3}>
+    <Text fontSize="2xl" fontWeight="bold" color="white">
+      Problem Statement
+    </Text>
+
+    <Text fontSize="lg" color="white">
+      Click{" "}
+      <Link
+        href={
+           "https://drive.google.com/drive/folders/16Oa8dsCFE4BCVdo5DGRj_azv5x4OwpRz?usp=sharing"
+        }
+        target="_blank"
+        color="#00FFFF"  // ✅ bright neon cyan
+        fontWeight="bold"
+        textDecoration="underline"
+        _hover={{
+          color: "#7DF9FF", // lighter glow on hover
+          textShadow: "0 0 10px #00FFFF", // ✅ glowing hover effect
+        }}
+      >
+        here
+      </Link>{" "}
+      to view the problem statement and dataset.
+    </Text>
+
+    <Text fontSize="lg" color="white">
+      - You’ll receive train.csv, test.csv, and sample_submission.csv
+    </Text>
+
+    <Text fontSize="lg" color="white">
+      - Use the train/test files to build your model and submit both the output
+      CSV and your code file (.ipynb or .py).
+    </Text>
+  </Stack>
+</TabPanel>
+
 
                 <TabPanel>
                   <Stack spacing={3}>
@@ -551,7 +558,7 @@ const Dataquest = () => {
                         Submit your Entry
                       </chakra.h3>
                       <Text fontSize="md" color="gray.300">
-                        Maximum 3 entries per day
+                        Maximum 5 entries per day
                       </Text>
                     </Box>
                     <FileInput

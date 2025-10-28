@@ -365,7 +365,7 @@ const Dataquest = () => {
 
       toast.success("Entry Submitted Successfully");
     } catch (e) {
-      toast.error("Something Went Wrong");
+      toast.error(e?.message || "Something Went Wrong");
     } finally {
       setLoading(false);
     }
@@ -461,9 +461,8 @@ const Dataquest = () => {
                         Click{" "}
                         <Link
                           href={
-                            senior
-                              ? "https://drive.google.com/drive/folders/1xFdaJY7xOyAmANreTbqyz_0HTOWYYcBj?usp=sharing"
-                              : "https://drive.google.com/drive/folders/11DW1H4CEcjthJB5LG2pgVK8kgtO1Xbsa"
+                            "https://drive.google.com/drive/folders/1MHJcUzcdRsYFkHDsYbSPN5-yWfBmaSQz"
+                            
                           }
                           target="_blank"
                           color="blue.300"
@@ -568,7 +567,7 @@ const Dataquest = () => {
                           Submit Your Entry
                         </chakra.h3>
                         <Text fontSize="md" color="gray.300">
-                          Maximum 3 entries per day
+                          Maximum 5 entries per day
                         </Text>
                       </Box>
 

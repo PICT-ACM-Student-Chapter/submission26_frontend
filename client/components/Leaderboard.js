@@ -26,14 +26,16 @@ const Leaderboard = ({ submissions, senior }) => {
                         <Th textAlign={'center'}>Email</Th>
                         <Th textAlign={'center'}>First Name</Th>
                         <Th textAlign={'center'}>Last Name</Th>
-                        <Th textAlign={'center'}>{senior ? "Error" :  "Accuracy"}</Th>
+                        {/* <Th textAlign={'center'}>{senior ? "Error" :  "Accuracy"}</Th> */}
+                        <Th textAlign={'center'}>F1 score</Th>
 
                     </Tr>
                 </Thead>
                 <Tbody>
                 {submissions?.map((submission, index) => {
                     // Use 'min' for accuracy (FE/SE) and 'max' for error (TE/BE)
-                    const value = senior ? submission.max : submission.min;
+                    // const value = senior ? submission.max : submission.min;
+                    const value = submission.best_score;
 
                     return (
                     <Tr key={index}>
@@ -42,7 +44,7 @@ const Leaderboard = ({ submissions, senior }) => {
                         <Td textAlign="center">{submission.first_name}</Td>
                         <Td textAlign="center">{submission.last_name}</Td>
                         <Td textAlign="center">
-                        {value !== undefined && value !== null ? value.toPrecision(5) : "N/A"}
+                        {submission.best_score !== undefined ? submission.best_score.toPrecision(5) : "N/A"}
                         </Td>
                     </Tr>
                     );
@@ -56,8 +58,8 @@ const Leaderboard = ({ submissions, senior }) => {
                         <Th textAlign={'center'}>Email</Th>
                         <Th textAlign={'center'}>First Name</Th>
                         <Th textAlign={'center'}>Last Name</Th>
-                        {/* <Th textAlign={'center'}>Accuracy</Th> */}
-                        <Th textAlign={'center'}>{senior ? "F1 Score" :  "Mean Square Error"}</Th>
+                        <Th textAlign={'center'}>F1 score</Th>
+                        {/* <Th textAlign={'center'}>{senior ? "F1 Score" :  "Mean Square Error"}</Th> */}
                     </Tr>
                 </Tfoot>
             </Table>

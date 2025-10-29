@@ -24,6 +24,7 @@ const Leader = () => {
                     console.log(data.error);
                 }
                 setSubmissions(data?.submissions);
+                console.log(data);
             } catch (e) {
                 console.log(e)
             }
@@ -77,7 +78,7 @@ const Leader = () => {
                         // textAlign={'center'}
                         fontWeight={"bold"}
                         color={textColor}
-                        pb={'40px'}>Leaderboard {true ? "( TE-BE )" : "( FE-SE )"}</chakra.h1>
+                        pb={'40px'}>Leaderboard {senior ? "( TE-BE )" : "( FE-SE )"}</chakra.h1>
                         {
                             submissions?.length > 0 ? (
                         <Leaderboard submissions={submissions} senior={senior} />

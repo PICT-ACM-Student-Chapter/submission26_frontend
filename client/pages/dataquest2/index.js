@@ -421,7 +421,7 @@ const Dataquest = () => {
             >
               DataQuest Round 2 ( TE-BE )
             </chakra.h1>
-            <NextLink href="/dataquest/leaderboard">
+            <NextLink href="/dataquest2/leaderboard">
               <chakra.span
                 fontWeight="bold"
                 fontSize={20}

@@ -55,6 +55,7 @@ export const getEntries = async (type) => {
 }
 
 export const getLeaderboard = async (type) => {
+    console.log(type);
     const submission = JSON.parse(localStorage.getItem("submission"));
     if (submission) {
         const options = {
@@ -70,10 +71,6 @@ export const getLeaderboard = async (type) => {
             return res.data;
         } catch (e) {
             console.log(e);
-            if ((type === "dataquest" || type === "dataquest2") && e?.response?.status === 400) {
-            return { error: e.response.data?.error || "Bad Request" };
-        }
-
             if (e?.response?.data) {
                 return e.response.data;
             }

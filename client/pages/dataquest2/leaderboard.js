@@ -53,7 +53,7 @@ const Leader = () => {
                     boxShadow={"md"}
 
                 >
-                    <NextLink href='/dataquest'>
+                    <NextLink href='/dataquest2'>
                         <chakra.h3
                             fontWeight={"bold"}
                             fontSize={20}

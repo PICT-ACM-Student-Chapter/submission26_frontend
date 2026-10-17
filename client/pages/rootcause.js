@@ -28,7 +28,7 @@ import { getEntries, submitEntries } from "../action/entries";
 import ContentLoader from "../components/ContentLoader";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
 
-const Webapp = () => {
+const Rootcause = () => {
   // Use theme tokens
   const theme = useTheme();
   const textColor = useColorModeValue("foreground.100", "foreground.100");
@@ -57,7 +57,7 @@ const Webapp = () => {
         setLoading(false);
         return;
       }
-      const entryData = await submitEntries(data, "webapp");
+      const entryData = await submitEntries(data, "rootcause");
       if (entryData?.error) {
         toast.error(entryData?.error);
         setLoading(false);
@@ -75,7 +75,7 @@ const Webapp = () => {
   useEffect(() => {
     const fetchSubmission = async () => {
       try {
-        const entryData = await getEntries("webapp");
+        const entryData = await getEntries("rootcause");
         if (entryData?.error) console.log(entryData?.error);
         setSubmission(entryData?.submission);
       } catch (e) {
@@ -205,8 +205,8 @@ const Webapp = () => {
                   <form onSubmit={handleSubmit}>
                     <Stack spacing={10}>
                       <FileInput
-                        accept=".ppt,.pptx"
-                        label="Upload Your PPT ( .ppt, .pptx upto 5mb )"
+                        accept=".diff,.patch,.zip,.tar,.gz,.pdf"
+                        label="Upload Your Bug Fix / Patch File (.diff, .patch, .zip, .pdf upto 50MB)"
                         name="file"
                         onBlur={handleBlur}
                         bg={cardBg}
@@ -227,4 +227,4 @@ const Webapp = () => {
   );
 };
 
-export default privateUserRoute(Webapp);
+export default privateUserRoute(Rootcause);

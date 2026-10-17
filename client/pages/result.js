@@ -304,14 +304,10 @@ import NextLink from "next/link";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
 
 const submissionEvents = [
-  { name: "Insight", route: "insight" },
-  { name: "Web N App", route: "webapp" },
-  { name: "Freeze", route: "freeze" },
-  { name: "Innowave 1", route: "innowave" },
-  { name: "Innowave 2", route: "innowave2" },
-  { name: "Paper Presentation", route: "paper" },
-  { name: "Dataquest 1", route: "dataquest" },
-  { name: "Dataquest 2", route: "dataquest2" },
+  { name: "Freeze The Second", route: "freeze" },
+  { name: "Innowave", route: "innowave" },
+  { name: "HackNova", route: "hacknova" },
+  { name: "Root Cause", route: "rootcause" },
 ];
 
 const Result = () => {

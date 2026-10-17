@@ -15,7 +15,8 @@ import AWS from "aws-sdk";
 AWS.config.update({
   accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
   secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_KEY,
-  region: "ap-south-1"
+  region: process.env.NEXT_PUBLIC_AWS_REGION || "ap-south-1",
+  signatureVersion: "v4"
 });
 
 export default AWS;

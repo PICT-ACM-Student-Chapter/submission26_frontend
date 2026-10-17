@@ -38,13 +38,22 @@ import { v4 as uuidv4 } from "uuid";
 // Make sure your awsClient already sets region correctly
 export const uploadFile = async (file) => {
   const id = uuidv4();
+  const bucket =
+    process.env.NEXT_PUBLIC_AWS_S3_BUCKET || "pulzion-submissions-bucket";
+  const region = process.env.NEXT_PUBLIC_AWS_REGION || "ap-south-1";
 
   const key = `submission/${id}_${file.name}`;
 
   try {
+    const s3 = new AWS.S3({
+      region: region,
+      signatureVersion: "v4",
+    });
+
     const upload = new AWS.S3.ManagedUpload({
+      service: s3,
       params: {
-        Bucket: "submission-platform-files-2025",
+        Bucket: bucket,
         Key: key,
         Body: file,
       },
@@ -54,13 +63,7 @@ export const uploadFile = async (file) => {
     console.log("upload: ", res);
 
     if (res?.Location) {
-      // Ensure the URL uses the correct S3 format: https://submission-platform-files-2025.s3.amazonaws.com/path/to/file
-      const standardUrl = res.Location.replace(
-        /\.s3\.[a-z0-9-]+\.amazonaws\.com\//,
-        ".s3.amazonaws.com/"
-      );
-
-      return { submission: standardUrl };
+      return { submission: res.Location };
     }
 
     return { error: "Something went wrong" };

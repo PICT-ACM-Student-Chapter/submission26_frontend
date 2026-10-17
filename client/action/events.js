@@ -14,8 +14,8 @@ export const getRegisteredEvents = async (dispatchEvents) => {
     };
     try {
       const res = await axios(options);
-      console.log("res",res);
-      console.log("line number 17 in get events", res.data);
+      // console.log("res",res);
+      // console.log("line number 17 in get events", res.data);
       dispatchEvents({
         type: "SET_EVENTS",
         events: res.data,

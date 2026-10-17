@@ -1,59 +1,3 @@
-// import {
-//     extendTheme,
-//     withDefaultColorScheme,
-//     theme as baseTheme,
-//   } from "@chakra-ui/react";
-//   import { Input } from "./components/input.theme";
-//   import { mode } from "@chakra-ui/theme-tools";
-//   import { Button } from "./components/button.theme";
-//   import { Container } from "./components/container.theme";
-//   import { Select } from "./components/select.theme";
-//   export const customTheme = extendTheme(
-//     {
-//       colors: {
-//         dark: {
-//           100: "#2E3440",
-//           200: "#292E39",
-//         },
-//         light: {
-//           100: "#FFFFFF",
-//           200: "#F8F9FB",
-//         },
-//         primaries: {
-//           100: '#e0e0e6', // Swatch 7
-//           200: '#999cac', // Swatch 2
-//           300: '#73859d', // Swatch 5
-//           400: '#5a7291', // Swatch 6
-//           500: '#46526d', // Swatch 3
-//           600: '#1b3357', // Swatch 4
-//           700: '#01030c', // Swatch 1
-//           800: '#0E0B16'
-//         },
-//         secondaries: {
-//           900: "#222",
-//           800: "#191919"
-//         }
-//       },
-//       styles: {
-//         global: (props) => ({
-//           body: {
-//             bg: mode("#FFFFFF", "#FFFFFF")(props),
-//           },
-//           "*::placeholder": {
-//             color: mode("#FFFFFF", "#FFFFFF")(props),
-//           },
-//         }),
-//       },
-//       components: {
-//         Input,
-//         Button,
-//         Container,
-//         Select,
-//       },
-//     },
-//     withDefaultColorScheme({ colorScheme: "green" })
-//   );
-  
 import {
   extendTheme,
   withDefaultColorScheme,
@@ -63,85 +7,89 @@ import { Input } from "./components/input.theme";
 import { Button } from "./components/button.theme";
 import { Container } from "./components/container.theme";
 import { Select } from "./components/select.theme";
-import { mode } from "@chakra-ui/theme-tools";
 
 export const customTheme = extendTheme(
   {
     colors: {
-      // Core palette based on your Tailwind base setup
+      // Pulzion 26 Palette
       background: {
-        100: "hsl(220, 40%, 5%)",   // Deep blue-black
-        200: "hsl(220, 40%, 7%)",   // Slightly lighter card background
+        100: "#030512", // Deep space dark
+        200: "#071024", // Deep navy container
+        300: "#0B152E", // Glass card top
       },
       foreground: {
-        100: "hsl(210, 40%, 100%)", // Pure white text
-        200: "hsl(210, 40%, 98%)",
+        100: "#F8FAFC", // Pure white/ice text
+        200: "#CBD5E1",
       },
       primary: {
-        100: "hsl(188, 100%, 60%)",
-        200: "hsl(188, 100%, 55%)",
-        300: "hsl(188, 100%, 50%)",
-        400: "hsl(188, 100%, 45%)", // Electric cyan
-        500: "hsl(188, 100%, 40%)",
+        100: "#A7F3D0",
+        200: "#6EE7B7",
+        300: "#22D3EE", // Electric Cyan
+        400: "#38D9A9", // Signature Pulzion 26 Mint Green
+        500: "#159097",
+        600: "#0D6569",
       },
       secondary: {
-        100: "hsl(265, 82%, 75%)",
-        200: "hsl(265, 82%, 70%)",
-        300: "hsl(265, 82%, 65%)", // Bright purple accent
-        400: "hsl(265, 82%, 60%)",
-        500: "hsl(265, 82%, 55%)",
+        100: "#BAE6FD",
+        200: "#7DD3FC",
+        300: "#38BDF8",
+        400: "#22D3EE", // Electric Cyan
+        500: "#0284C7",
       },
       accent: {
-        100: "hsl(0, 84%, 70%)",
-        200: "hsl(0, 84%, 65%)",
-        300: "hsl(0, 84%, 60%)", // Rogue Red
-        400: "hsl(0, 84%, 55%)",
+        100: "#FEF3C7",
+        200: "#FDE68A",
+        300: "#F8D092", // Pulzion 26 Warm Gold/Amber
+        400: "#F59E0B",
       },
       muted: {
-        100: "hsl(217, 33%, 25%)",
-        200: "hsl(217, 33%, 20%)",
-        300: "hsl(217, 33%, 17%)",
+        100: "#1E293B",
+        200: "#0F172A",
+        300: "#070B19",
       },
       border: {
-        100: "hsl(217, 33%, 17%)",
+        100: "rgba(56, 217, 169, 0.3)",
+        200: "rgba(255, 255, 255, 0.15)",
       },
       chart: {
-        1: "hsl(225, 70%, 50%)", // Persian blue
-        2: "hsl(265, 82%, 65%)",
-        3: "hsl(100, 66%, 63%)",
-        4: "hsl(48, 96%, 53%)",
-        5: "hsl(188, 100%, 45%)",
+        1: "#22D3EE",
+        2: "#38D9A9",
+        3: "#F8D092",
+        4: "#38BDF8",
+        5: "#818CF8",
       },
     },
 
     styles: {
-      global: (props) => ({
+      global: () => ({
         "html, body": {
-          bg: mode("hsl(210, 40%, 100%)", "hsl(220, 40%, 5%)")(props),
-          color: mode("hsl(220, 40%, 5%)", "hsl(210, 40%, 100%)")(props),
-          backgroundImage: mode(
-            "none",
-            `
-              radial-gradient(at 0% 0%, hsl(188, 100%, 45%, 0.25) 0px, transparent 50%),
-              radial-gradient(at 100% 0%, hsl(48, 96%, 53%, 0.25) 0px, transparent 50%)
-            `
-          )(props),
-          backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed",
+          bg: "#030512",
+          color: "#F8FAFC",
+          fontFamily: "'Oxanium', sans-serif",
           minHeight: "100vh",
+          backgroundImage: `
+            radial-gradient(ellipse 60% 40% at 20% 10%, rgba(34, 211, 238, 0.08) 0%, transparent 70%),
+            radial-gradient(ellipse 60% 40% at 80% 90%, rgba(56, 217, 169, 0.08) 0%, transparent 70%)
+          `,
+          backgroundAttachment: "fixed",
+          backgroundRepeat: "no-repeat",
+        },
+        "h1, h2, h3, h4, h5, h6": {
+          fontFamily: "'United Colony', sans-serif !important",
+          letterSpacing: "0.06em",
         },
         "*::placeholder": {
-          color: mode("gray.400", "whiteAlpha.400")(props),
+          color: "rgba(203, 213, 225, 0.5)",
         },
         "*": {
-          borderColor: "hsl(217, 33%, 17%)",
+          borderColor: "rgba(56, 217, 169, 0.25)",
         },
       }),
     },
 
     fonts: {
-      heading: `'Orbitron', ${baseTheme.fonts?.heading}`,
-      body: `'Rajdhani', ${baseTheme.fonts?.body}`,
+      heading: `'United Colony', -apple-system, sans-serif`,
+      body: `'Oxanium', -apple-system, sans-serif`,
     },
 
     components: {
@@ -152,7 +100,11 @@ export const customTheme = extendTheme(
     },
 
     radii: {
-      md: "0rem", // No rounded corners for cyberpunk aesthetic
+      none: "0px",
+      sm: "2px",
+      md: "4px",
+      lg: "8px",
+      xl: "12px",
     },
   },
   withDefaultColorScheme({ colorScheme: "primary" })

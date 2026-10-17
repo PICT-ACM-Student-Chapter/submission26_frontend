@@ -1,9 +1,54 @@
+/* United Colony Font Declarations */
+@font-face {
+  font-family: 'United Colony';
+  src: url('/fonts/unitedcolony.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'United Colony';
+  src: url('/fonts/unitedcolonycond.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'United Colony';
+  src: url('/fonts/unitedcolony3d.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'United Colony';
+  src: url('/fonts/unitedcolonyital.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #030512;
+  color: #F8FAFC;
+  font-family: 'Oxanium', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-title {
+  font-family: 'United Colony', sans-serif !important;
+  letter-spacing: 0.06em;
+}
+
+p, span, a, button, input, select, textarea, div, label {
+  font-family: 'Oxanium', sans-serif;
 }
 
 a {
@@ -13,4 +58,33 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+/* Pulzion 26 Theme Utilities */
+.text-glow-cyan {
+  text-shadow: 0 0 12px rgba(56, 217, 169, 0.6), 0 0 24px rgba(56, 217, 169, 0.3);
+}
+
+.text-glow-blue {
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.6), 0 0 24px rgba(34, 211, 238, 0.3);
+}
+
+.text-glow-gold {
+  text-shadow: 0 0 12px rgba(248, 208, 146, 0.5), 0 0 20px rgba(248, 208, 146, 0.25);
+}
+
+.pulzion-glass {
+  background: linear-gradient(180deg, rgba(11, 21, 46, 0.95) 0%, rgba(7, 16, 36, 0.95) 50%, rgba(4, 10, 28, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.85);
+}
+
+.pulzion-scanlines {
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255, 255, 255, 0.02) 4px);
+}
+
+.pulzion-grid {
+  background-image: linear-gradient(rgba(56, 217, 169, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(56, 217, 169, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
 }

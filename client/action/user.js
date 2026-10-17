@@ -34,11 +34,11 @@ export const userLogin = async (
     return res.data[type];
   } catch (e) {
     console.log(e);
-    if (e?.response) {
-      return e?.response?.data;
+    if (e?.response?.data) {
+      return e.response.data;
     }
     return {
-      error: "Something Went Wrong",
+      error: `Cannot connect to backend at ${apiConfig.url}. Please ensure the backend server is running.`,
     };
   }
 };

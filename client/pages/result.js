@@ -299,6 +299,9 @@ import {
 } from "@chakra-ui/react";
 import { getResults } from "../action/entries.js";
 import privateAdminRoute from "../routers/privateAdminRoute";
+import Layout from "../components/Layout";
+import NextLink from "next/link";
+import { ChevronLeftIcon } from "@chakra-ui/icons";
 
 const submissionEvents = [
   { name: "Insight", route: "insight" },
@@ -401,66 +404,145 @@ const Result = () => {
   };
 
   return (
-    <Flex
-      justify="center"
-      maxH="100vh"
-      bg={useColorModeValue("background.100", "background.100")}
-    >
-      <Box
-        w="full"
-        maxW="1000px"
-        p={8}
-        borderWidth="1px"
-        borderRadius="md"
-        boxShadow="xl"
-        bg={bgCard}
+    <Layout>
+      <Flex
+        justify="center"
+        w="100%"
+        py={{ base: 6, md: 10 }}
+        px={{ base: 4, sm: 6, lg: 8 }}
       >
-        <chakra.h1
-          fontSize={{ base: "3xl", md: "4xl" }}
-          fontWeight="bold"
-          textAlign="center"
-          color={textColor}
-          mb={4}
+        <Box
+          w="full"
+          maxW="1000px"
+          p={{ base: 6, md: 8 }}
+          position="relative"
+          border="1px solid rgba(56, 217, 169, 0.4)"
+          borderRadius="none"
+          boxShadow="0 0 30px rgba(56, 217, 169, 0.2), 0 12px 32px rgba(0, 0, 0, 0.85)"
+          bg="linear-gradient(180deg, rgba(11, 21, 46, 0.95) 0%, rgba(7, 16, 36, 0.95) 50%, rgba(4, 10, 28, 0.95) 100%)"
+          backdropFilter="blur(16px)"
+          overflow="hidden"
         >
-          Event Results
-        </chakra.h1>
-        <Divider borderColor={primaryColor} mb={6} />
+          {/* 4 Corner HUD Brackets */}
+          <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" top="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
 
-        <VStack spacing={6} align="stretch">
-          <Table variant="simple" colorScheme="primary" size="md">
-            <Thead>
-              <Tr>
-                <Th color={textColor}>Event Name</Th>
-                <Th color={textColor}>Action</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {submissionEvents.map((event) => (
-                <Tr
-                  key={event.name}
-                  _hover={{ bg: useColorModeValue("muted.100", "muted.200") }}
-                >
-                  <Td color={textColor} fontWeight="medium">
-                    {event.name}
-                  </Td>
-                  <Td>
-                    <Button
-                      size="sm"
-                      bg={primaryColor}
-                      color="white"
-                      _hover={{ bg: primaryHover }}
-                      onClick={() => handleSubmit(event)}
-                    >
-                      Download CSV
-                    </Button>
-                  </Td>
+          {/* Back link */}
+          <NextLink href="/admin">
+            <chakra.h3
+              fontFamily="'Oxanium', sans-serif"
+              fontWeight="bold"
+              fontSize="sm"
+              textTransform="uppercase"
+              letterSpacing="0.1em"
+              color="#38D9A9"
+              cursor="pointer"
+              display="inline-flex"
+              alignItems="center"
+              gap={1}
+              mb={4}
+              _hover={{ color: "#22D3EE", transform: "translateX(-3px)" }}
+              transition="all 0.2s"
+            >
+              <ChevronLeftIcon w={5} h={5} /> <span>Back to Admin Panel</span>
+            </chakra.h3>
+          </NextLink>
+
+          <chakra.h1
+            fontFamily="'United Colony', sans-serif !important"
+            fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+            fontWeight="bold"
+            textAlign="center"
+            color="#FFFFFF"
+            letterSpacing="0.08em"
+            textTransform="uppercase"
+            mb={2}
+          >
+            EVENT <chakra.span color="#38D9A9" textShadow="0 0 15px rgba(56, 217, 169, 0.5)">RESULTS</chakra.span>
+          </chakra.h1>
+
+          <Text
+            fontFamily="'Oxanium', sans-serif"
+            fontSize="xs"
+            color="gray.400"
+            letterSpacing="0.2em"
+            textTransform="uppercase"
+            textAlign="center"
+            mb={6}
+          >
+            DOWNLOAD MISSION SUBMISSIONS DATA
+          </Text>
+
+          <Divider borderColor="rgba(56, 217, 169, 0.3)" mb={6} />
+
+          <VStack spacing={6} align="stretch" fontFamily="'Oxanium', sans-serif">
+            <Table variant="simple" size="md">
+              <Thead bg="rgba(56, 217, 169, 0.1)">
+                <Tr borderBottom="2px solid rgba(56, 217, 169, 0.4)">
+                  <Th
+                    fontFamily="'United Colony', sans-serif !important"
+                    color="#38D9A9"
+                    fontSize="sm"
+                    letterSpacing="0.1em"
+                    textTransform="uppercase"
+                    py={3}
+                  >
+                    Event Name
+                  </Th>
+                  <Th
+                    fontFamily="'United Colony', sans-serif !important"
+                    color="#38D9A9"
+                    fontSize="sm"
+                    letterSpacing="0.1em"
+                    textTransform="uppercase"
+                    textAlign="right"
+                    py={3}
+                  >
+                    Action
+                  </Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </VStack>
-      </Box>
-    </Flex>
+              </Thead>
+              <Tbody>
+                {submissionEvents.map((event) => (
+                  <Tr
+                    key={event.name}
+                    borderBottom="1px solid rgba(255, 255, 255, 0.08)"
+                    _hover={{ bg: "rgba(56, 217, 169, 0.08)" }}
+                  >
+                    <Td color="#FFFFFF" fontWeight="semibold" fontSize="sm">
+                      {event.name}
+                    </Td>
+                    <Td textAlign="right">
+                      <Button
+                        size="sm"
+                        bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                        color="#030512"
+                        fontFamily="'Oxanium', sans-serif"
+                        fontSize="xs"
+                        fontWeight="bold"
+                        letterSpacing="0.1em"
+                        textTransform="uppercase"
+                        rounded="md"
+                        boxShadow="0 0 10px rgba(56, 217, 169, 0.25)"
+                        _hover={{
+                          bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+                          boxShadow: "0 0 20px rgba(56, 217, 169, 0.45)",
+                        }}
+                        onClick={() => handleSubmit(event)}
+                      >
+                        Download CSV
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </VStack>
+        </Box>
+      </Flex>
+    </Layout>
   );
 };
 

@@ -8,10 +8,10 @@ const publicRoute = Component => {
         const { user } = useContext(AppContext);
         const router = useRouter();
         if (user?.id) {
-            if(user.type === 'admin') {
-                router.push('/admin')
+            if (user.type === 'admin') {
+                router.push('/admin');
             } else {
-                router.push('/dashboard')
+                router.push('/dashboard');
             }
             return <ContentLoader />;
         }

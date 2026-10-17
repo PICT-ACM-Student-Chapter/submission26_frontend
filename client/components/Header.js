@@ -1,25 +1,18 @@
 import {
+  Box,
   Button,
   Flex,
   Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  useColorMode,
-  useColorModeValue,
+  Text,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { SwitchThemeButton } from "./Util/SwitchTheme";
 import Link from "next/link";
-import * as styles from "../styles/header.module.css";
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import AppContext from "../context/AppContext";
 import { logout } from "../action/user";
 
 const Header = () => {
-  const { colorMode } = useColorMode();
   const { user, dispatchUser, dispatchEvents } = useContext(AppContext);
+
   const handleLogout = async () => {
     try {
       const data = await logout(dispatchUser, dispatchEvents);
@@ -30,42 +23,118 @@ const Header = () => {
       console.log(e);
     }
   };
-   return (
-    <Flex
-      alignItems="center"
-      justifyContent="space-between"
-      py="2"
-      px={{
-        base: "4",
-        md: "8",
-        lg: "16",
-      }}
-      // Keeping navbar color same as previous
-    >
-      {/* Logo on the left */}
-      <Link href="/">
-        <Image
-          src="https://i.postimg.cc/YSz4S1h5/PULZION-25-LOGO-HERO.png"
-          alt="logo"
-          height="80px"
-          width="auto"
-          objectFit="contain"
-        />
-      </Link>
 
-      {/* Logout button on the extreme right */}
-      {user?.id && (
-        <Button
-          onClick={handleLogout}
-          fontSize="md"
-          fontWeight="medium"
-          px={6}
-          py={3}
-        >
-          Log Out
-        </Button>
-      )}
-    </Flex>
+  return (
+    <Box
+      as="header"
+      position="sticky"
+      top={0}
+      left={0}
+      right={0}
+      zIndex={100}
+      w="full"
+      bg="rgba(3, 8, 23, 0.85)"
+      backdropFilter="blur(20px)"
+      borderBottom="1px solid rgba(56, 217, 169, 0.2)"
+      boxShadow="0 8px 32px rgba(0, 0, 0, 0.65)"
+    >
+      {/* Bottom glowing cyber accent line */}
+      <Box
+        position="absolute"
+        insetX={0}
+        bottom={0}
+        h="1px"
+        bgGradient="linear(to-r, transparent, rgba(56, 217, 169, 0.7), transparent)"
+        pointerEvents="none"
+      />
+
+      <Flex
+        alignItems="center"
+        justifyContent="space-between"
+        h="70px"
+        px={{
+          base: "4",
+          md: "8",
+          lg: "16",
+        }}
+      >
+        {/* Pulzion Logo on the left */}
+        <Link href="/" passHref>
+          <Box as="a" cursor="pointer" display="flex" alignItems="center">
+            <Image
+              src="/logo.png"
+              alt="Pulzion '26"
+              h={{ base: "65px", md: "90px" }}
+              w="auto"
+              objectFit="contain"
+              filter="drop-shadow(0 0 12px rgba(56, 217, 169, 0.35))"
+              transition="all 0.3s"
+              _hover={{
+                filter: "drop-shadow(0 0 18px rgba(34, 211, 238, 0.7))",
+              }}
+            />
+          </Box>
+        </Link>
+
+        {/* Right side actions */}
+        <Flex alignItems="center" gap={4}>
+          {user?.name && (
+            <Box
+              display={{ base: "none", sm: "flex" }}
+              alignItems="center"
+              gap={2}
+              px={3}
+              py={1}
+              rounded="full"
+              border="1px solid rgba(56, 217, 169, 0.3)"
+              bg="rgba(7, 17, 38, 0.6)"
+            >
+              <Box w="6px" h="6px" rounded="full" bg="#38D9A9" boxShadow="0 0 8px #38D9A9" />
+              <Text
+                fontFamily="'Oxanium', sans-serif"
+                fontSize="xs"
+                fontWeight="semibold"
+                color="#CBD5E1"
+                letterSpacing="0.05em"
+              >
+                {user.name}
+              </Text>
+            </Box>
+          )}
+
+          {user?.id && (
+            <Button
+              onClick={handleLogout}
+              fontFamily="'Oxanium', sans-serif"
+              fontSize="xs"
+              fontWeight="extrabold"
+              letterSpacing="0.15em"
+              textTransform="uppercase"
+              rounded="full"
+              px={{ base: 4, md: 5 }}
+              h="36px"
+              bg="rgba(5, 11, 29, 0.9)"
+              border="1px solid rgba(56, 217, 169, 0.5)"
+              color="#38D9A9"
+              boxShadow="0 0 14px rgba(56, 217, 169, 0.2)"
+              transition="all 0.2s"
+              _hover={{
+                bg: "#38D9A9",
+                color: "#030612",
+                borderColor: "#38D9A9",
+                boxShadow: "0 0 20px rgba(56, 217, 169, 0.45)",
+                transform: "translateY(-1px)",
+              }}
+              _active={{
+                transform: "scale(0.97)",
+              }}
+            >
+              Log Out
+            </Button>
+          )}
+        </Flex>
+      </Flex>
+    </Box>
   );
 };
 

@@ -350,7 +350,7 @@ const Inowave1 = () => {
           color={textColor}
           textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}
         >
-          Inowave
+          Innowave
         </chakra.h1>
 
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={10}>

@@ -1,25 +1,57 @@
 import {
+  Box,
   FormControl,
   FormLabel,
   Input,
+  Text,
 } from "@chakra-ui/react";
-import { useFormikContext } from 'formik';
+import { useFormikContext } from "formik";
 
 const FormField = ({ label, name, placeholder, ...otherProps }) => {
-  const { errors, touched } = useFormikContext()
+  const { errors, touched } = useFormikContext();
   return (
     <FormControl id={name}>
-      <FormLabel fontSize={"20px"} color={"white"}>{label}</FormLabel>
+      <FormLabel
+        fontFamily="'Oxanium', sans-serif"
+        fontSize="xs"
+        fontWeight="bold"
+        letterSpacing="0.1em"
+        textTransform="uppercase"
+        color="#38D9A9"
+        mb={1.5}
+      >
+        {label}
+      </FormLabel>
       <Input
         name={name}
         placeholder={placeholder}
-        w={"100%"}
+        w="100%"
+        h="44px"
+        fontFamily="'Oxanium', sans-serif"
+        color="#FFFFFF"
+        bg="rgba(7, 16, 36, 0.85)"
+        border="1px solid rgba(56, 217, 169, 0.35)"
+        borderRadius="md"
+        _hover={{
+          borderColor: "rgba(56, 217, 169, 0.6)",
+        }}
+        _focus={{
+          borderColor: "#38D9A9",
+          boxShadow: "0 0 12px rgba(56, 217, 169, 0.35)",
+        }}
+        _placeholder={{
+          color: "rgba(203, 213, 225, 0.45)",
+          fontSize: "sm",
+        }}
         {...otherProps}
-        color={"#FFFFFF"}
       />
-      {errors[name] && touched[name] && <p color="red">{errors[name]}</p>}
+      {errors[name] && touched[name] && (
+        <Text color="#F87171" fontSize="xs" fontFamily="'Oxanium', sans-serif" mt={1}>
+          {errors[name]}
+        </Text>
+      )}
     </FormControl>
-  )
-}
+  );
+};
 
-export default FormField
+export default FormField;

@@ -1,70 +1,138 @@
-import React from 'react';
+import React from "react";
 import {
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableContainer,
-    useColorModeValue,
-} from '@chakra-ui/react';
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
+  Box,
+} from "@chakra-ui/react";
 
 const Leaderboard = ({ submissions, senior }) => {
-    const textColor = useColorModeValue("gray.700", "gray.50");
+  return (
+    <TableContainer
+      w="100%"
+      border="1px solid rgba(56, 217, 169, 0.3)"
+      bg="rgba(7, 16, 36, 0.85)"
+      backdropFilter="blur(16px)"
+      borderRadius="md"
+      boxShadow="0 8px 32px rgba(0, 0, 0, 0.7)"
+      overflow="hidden"
+    >
+      <Table variant="simple">
+        <Thead bg="rgba(56, 217, 169, 0.12)">
+          <Tr borderBottom="2px solid rgba(56, 217, 169, 0.4)">
+            <Th
+              textAlign="center"
+              fontFamily="'United Colony', sans-serif !important"
+              color="#38D9A9"
+              fontSize="sm"
+              letterSpacing="0.1em"
+              textTransform="uppercase"
+              py={4}
+            >
+              Rank
+            </Th>
+            <Th
+              textAlign="center"
+              fontFamily="'United Colony', sans-serif !important"
+              color="#38D9A9"
+              fontSize="sm"
+              letterSpacing="0.1em"
+              textTransform="uppercase"
+              py={4}
+            >
+              Email
+            </Th>
+            <Th
+              textAlign="center"
+              fontFamily="'United Colony', sans-serif !important"
+              color="#38D9A9"
+              fontSize="sm"
+              letterSpacing="0.1em"
+              textTransform="uppercase"
+              py={4}
+            >
+              First Name
+            </Th>
+            <Th
+              textAlign="center"
+              fontFamily="'United Colony', sans-serif !important"
+              color="#38D9A9"
+              fontSize="sm"
+              letterSpacing="0.1em"
+              textTransform="uppercase"
+              py={4}
+            >
+              Last Name
+            </Th>
+            <Th
+              textAlign="center"
+              fontFamily="'United Colony', sans-serif !important"
+              color="#38D9A9"
+              fontSize="sm"
+              letterSpacing="0.1em"
+              textTransform="uppercase"
+              py={4}
+            >
+              F1 Score
+            </Th>
+          </Tr>
+        </Thead>
+        <Tbody fontFamily="'Oxanium', sans-serif">
+          {submissions?.map((submission, index) => {
+            const isTop3 = index < 3;
+            const rankColor =
+              index === 0 ? "#F8D092" : index === 1 ? "#E2E8F0" : index === 2 ? "#F59E0B" : "#38D9A9";
 
-    return (
-        <TableContainer
-            w={'100%'}>
-
-            <Table variant='simple' color="hsl(188, 100%, 60%)">
-                {/* <TableCaption>Admin Leaderboard</TableCaption> */}
-                <Thead >
-                    <Tr>
-                        <Th textAlign={'center'}>Rank</Th>
-                        <Th textAlign={'center'}>Email</Th>
-                        <Th textAlign={'center'}>First Name</Th>
-                        <Th textAlign={'center'}>Last Name</Th>
-                        {/* <Th textAlign={'center'}>{senior ? "Error" :  "Accuracy"}</Th> */}
-                        <Th textAlign={'center'}>F1 score</Th>
-
-                    </Tr>
-                </Thead>
-                <Tbody>
-                {submissions?.map((submission, index) => {
-                    // Use 'min' for accuracy (FE/SE) and 'max' for error (TE/BE)
-                    // const value = senior ? submission.max : submission.min;
-                    const value = submission.best_score;
-
-                    return (
-                    <Tr key={index} color="hsl(188, 100%, 60%)">  
-                        <Td textAlign="center">{index + 1}</Td>
-                        <Td textAlign="center">{submission.email}</Td>
-                        <Td textAlign="center">{submission.first_name}</Td>
-                        <Td textAlign="center">{submission.last_name}</Td>
-                        <Td textAlign="center">
-                        {submission.best_score !== undefined ? submission.best_score.toPrecision(5) : "N/A"}
-                        </Td>
-                    </Tr>
-                    );
-                })}
-                </Tbody>
-
-
-                {/* <Tfoot>
-                    <Tr>
-                        <Th textAlign={'center'} >Rank</Th>
-                        <Th textAlign={'center'}>Email</Th>
-                        <Th textAlign={'center'}>First Name</Th>
-                        <Th textAlign={'center'}>Last Name</Th>
-                        <Th textAlign={'center'}>F1 score</Th>
-                        <Th textAlign={'center'}>{senior ? "F1 Score" :  "Mean Square Error"}</Th>
-                    </Tr>
-                </Tfoot> */}
-            </Table>
-        </TableContainer>
-    );
-}
+            return (
+              <Tr
+                key={index}
+                borderBottom="1px solid rgba(255, 255, 255, 0.08)"
+                transition="background-color 0.2s"
+                _hover={{ bg: "rgba(56, 217, 169, 0.08)" }}
+              >
+                <Td textAlign="center">
+                  <Box
+                    as="span"
+                    display="inline-flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    w="28px"
+                    h="28px"
+                    rounded="full"
+                    bg={isTop3 ? `${rankColor}20` : "transparent"}
+                    border={isTop3 ? `1px solid ${rankColor}` : "none"}
+                    color={rankColor}
+                    fontWeight="bold"
+                    fontSize="sm"
+                  >
+                    {index + 1}
+                  </Box>
+                </Td>
+                <Td textAlign="center" color="#CBD5E1" fontSize="sm">
+                  {submission.email}
+                </Td>
+                <Td textAlign="center" color="#FFFFFF" fontWeight="medium" fontSize="sm">
+                  {submission.first_name}
+                </Td>
+                <Td textAlign="center" color="#FFFFFF" fontWeight="medium" fontSize="sm">
+                  {submission.last_name}
+                </Td>
+                <Td textAlign="center" color="#22D3EE" fontWeight="bold" fontSize="sm">
+                  {submission.best_score !== undefined
+                    ? submission.best_score.toPrecision(5)
+                    : "N/A"}
+                </Td>
+              </Tr>
+            );
+          })}
+        </Tbody>
+      </Table>
+    </TableContainer>
+  );
+};
 
 export default Leaderboard;

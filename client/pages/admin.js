@@ -431,6 +431,7 @@
 
 import React, { useState, useEffect } from 'react';
 import {
+  chakra,
   Box,
   Switch,
   Input,
@@ -458,6 +459,7 @@ import apiConfig from '../configs/api';
 import { useRouter } from "next/router";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import privateAdminRoute from "../routers/privateAdminRoute";
+import Layout from "../components/Layout";
 
 const INITIAL_GET_API = `${apiConfig.url}/allevents/events`;
 const SAVED_GET_API = `${apiConfig.url}/submission/get`;
@@ -471,12 +473,12 @@ const AdminPage = () => {
   const [submissionevents, setSubmissionevents] = useState([]);
   const route = useRouter();
   const toast = useToast();
-  const admin = JSON.parse(localStorage.getItem("admin"));
+  const admin = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("admin") || "null") : null;
 
-  const bgCard = useColorModeValue("rgba(255,255,255,0.05)", "rgba(255,255,255,0.05)");
-  const textColor = useColorModeValue("foreground.100", "foreground.100");
-  const headerColor = useColorModeValue("secondary.400", "secondary.400");
-  const buttonColor = "secondary";
+  const bgCard = "linear-gradient(180deg, rgba(11, 21, 46, 0.95) 0%, rgba(7, 16, 36, 0.95) 50%, rgba(4, 10, 28, 0.95) 100%)";
+  const textColor = "#F8FAFC";
+  const headerColor = "#38D9A9";
+  const buttonColor = "primary";
 
   const fetchInitialEvents = async () => {
     try {
@@ -694,157 +696,247 @@ const AdminPage = () => {
 
   if (loading) {
     return (
-      <Flex justify="center" align="center" height="100vh" bg="gray.900">
-        <Spinner size="xl" color="secondary.400" />
-      </Flex>
+      <Layout>
+        <Flex justify="center" align="center" minHeight="70vh">
+          <Spinner size="xl" color="#38D9A9" thickness="3px" />
+        </Flex>
+      </Layout>
     );
   }
 
   return (
-    <Flex direction="column" justify="center" align="center" minHeight="100vh" bg="gray.900" p={6}>
-      
-      {/* Add Events Card */}
-      <Box
-        w="100%"
-        maxWidth="900px"
-        p={8}
-        borderWidth="1px"
-        borderRadius="md"
-        boxShadow="0 0 20px rgba(138, 83, 241, 0.5)"
-        bg={bgCard}
-        mb={8}
-      >
-        <Flex gap={6} mb={4}>
-          <Button colorScheme={buttonColor} onClick={handleLogout}>Logout</Button>
-          <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />} colorScheme={buttonColor}>
-              Result
-            </MenuButton>
-            <MenuList bg="gray.800">
-              <MenuItem onClick={() => route.push('/result')}>Result</MenuItem>
-              <MenuItem>Abstract</MenuItem>
-            </MenuList>
-          </Menu>
-        </Flex>
+    <Layout>
+      <Flex direction="column" justify="center" align="center" width="full" py={{ base: 6, md: 10 }} px={{ base: 4, sm: 6, lg: 8 }}>
+        {/* Add Events Card */}
+        <Box
+          w="100%"
+          maxWidth="900px"
+          p={{ base: 6, md: 8 }}
+          position="relative"
+          border="1px solid rgba(56, 217, 169, 0.4)"
+          borderRadius="none"
+          boxShadow="0 0 30px rgba(56, 217, 169, 0.2), 0 12px 32px rgba(0, 0, 0, 0.85)"
+          bg={bgCard}
+          backdropFilter="blur(16px)"
+          overflow="hidden"
+          mb={8}
+        >
+          {/* 4 Corner HUD Brackets */}
+          <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" top="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
 
-        <Text fontSize="3xl" mb={6} fontWeight="bold" textAlign="center" color={headerColor}>
-          Admin Panel - Add Events
-        </Text>
-        <Divider mb={6} borderColor={headerColor} />
+          <Flex gap={4} mb={6} justify="space-between" align="center" wrap="wrap">
+            <Flex gap={3}>
+              <Button
+                size="sm"
+                variant="outline"
+                borderColor="rgba(255, 255, 255, 0.2)"
+                color="#94A3B8"
+                fontFamily="'Oxanium', sans-serif"
+                fontSize="xs"
+                fontWeight="bold"
+                letterSpacing="0.1em"
+                textTransform="uppercase"
+                _hover={{ bg: "whiteAlpha.100", color: "#FFFFFF" }}
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  size="sm"
+                  rightIcon={<ChevronDownIcon />}
+                  bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                  color="#030512"
+                  fontFamily="'Oxanium', sans-serif"
+                  fontSize="xs"
+                  fontWeight="bold"
+                  letterSpacing="0.1em"
+                  textTransform="uppercase"
+                  _hover={{ bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)" }}
+                >
+                  Results &amp; Data
+                </MenuButton>
+                <MenuList bg="#071024" borderColor="rgba(56, 217, 169, 0.3)" fontFamily="'Oxanium', sans-serif">
+                  <MenuItem bg="#071024" color="#FFFFFF" _hover={{ bg: "rgba(56, 217, 169, 0.15)", color: "#38D9A9" }} onClick={() => route.push('/result')}>
+                    Download Results CSV
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
+          </Flex>
 
-        <VStack spacing={8} align="stretch">
-          <Table variant="striped" colorScheme="secondary">
-            <Thead>
-              <Tr>
-                <Th color={headerColor}>Event Name</Th>
-                <Th color={headerColor}>Status</Th>
-                <Th color={headerColor}>Route</Th>
-                <Th color={headerColor}>Action</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {events.map(event => (
-                <Tr key={event.id} bg="rgba(0,0,0,0.05)" _hover={{ bg: "rgba(138, 83, 241,0.2)" }}>
-                  <Td>{event.name}</Td>
-                  <Td>
-                    <Switch
-                      colorScheme={buttonColor}
-                      isChecked={event.status}
-                      onChange={() => handleToggleEvent(event.id)}
-                    />
-                  </Td>
-                  <Td>
-                    <Input
-                      placeholder="Enter route"
-                      value={event.route}
-                      onChange={(e) => handleRouteChange(event.id, e.target.value)}
-                      bg="gray.900"
-                      color={textColor}
-                      borderColor="secondary.400"
-                      focusBorderColor="secondary.300"
-                    />
-                  </Td>
-                  <Td>
-                    <Button
-                      colorScheme={buttonColor}
-                      onClick={() => handleAddEvent(event)}
-                      isLoading={saving[event.id]}
-                      loadingText="Saving"
-                    >
-                      Add
-                    </Button>
-                  </Td>
+          <Text
+            fontFamily="'United Colony', sans-serif !important"
+            fontSize={{ base: "2xl", md: "3xl" }}
+            mb={2}
+            fontWeight="bold"
+            textAlign="center"
+            color="#FFFFFF"
+            letterSpacing="0.08em"
+            textTransform="uppercase"
+          >
+            ADMIN PANEL - <chakra.span color="#38D9A9">ADD EVENTS</chakra.span>
+          </Text>
+          <Divider mb={6} borderColor="rgba(56, 217, 169, 0.3)" />
+
+          <VStack spacing={6} align="stretch" fontFamily="'Oxanium', sans-serif">
+            <Table variant="simple" size="md">
+              <Thead bg="rgba(56, 217, 169, 0.1)">
+                <Tr borderBottom="2px solid rgba(56, 217, 169, 0.4)">
+                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Event Name</Th>
+                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Status</Th>
+                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Route</Th>
+                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Action</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </VStack>
-      </Box>
+              </Thead>
+              <Tbody>
+                {events.map(event => (
+                  <Tr key={event.id} borderBottom="1px solid rgba(255, 255, 255, 0.08)" _hover={{ bg: "rgba(56, 217, 169, 0.08)" }}>
+                    <Td color="#FFFFFF" fontWeight="medium">{event.name}</Td>
+                    <Td>
+                      <Switch
+                        colorScheme="teal"
+                        isChecked={event.status}
+                        onChange={() => handleToggleEvent(event.id)}
+                      />
+                    </Td>
+                    <Td>
+                      <Input
+                        placeholder="Enter route"
+                        value={event.route}
+                        onChange={(e) => handleRouteChange(event.id, e.target.value)}
+                        bg="rgba(3, 8, 23, 0.8)"
+                        color={textColor}
+                        borderColor="rgba(56, 217, 169, 0.3)"
+                        focusBorderColor="#38D9A9"
+                        size="sm"
+                        borderRadius="md"
+                      />
+                    </Td>
+                    <Td>
+                      <Button
+                        size="sm"
+                        bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                        color="#030512"
+                        fontFamily="'Oxanium', sans-serif"
+                        fontSize="xs"
+                        fontWeight="bold"
+                        letterSpacing="0.1em"
+                        textTransform="uppercase"
+                        rounded="md"
+                        _hover={{ bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)" }}
+                        onClick={() => handleAddEvent(event)}
+                        isLoading={saving[event.id]}
+                        loadingText="Saving"
+                      >
+                        Add
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </VStack>
+        </Box>
 
-      {/* Update Events Card */}
-      <Box
-        w="100%"
-        maxWidth="900px"
-        p={8}
-        borderWidth="1px"
-        borderRadius="md"
-        boxShadow="0 0 20px rgba(138, 83, 241, 0.5)"
-        bg={bgCard}
-      >
-        <Text fontSize="3xl" mb={6} fontWeight="bold" textAlign="center" color={headerColor}>
-          Update Events
-        </Text>
-        <Divider mb={6} borderColor={headerColor} />
+        {/* Update Events Card */}
+        <Box
+          w="100%"
+          maxWidth="900px"
+          p={{ base: 6, md: 8 }}
+          position="relative"
+          border="1px solid rgba(56, 217, 169, 0.4)"
+          borderRadius="none"
+          boxShadow="0 0 30px rgba(56, 217, 169, 0.2), 0 12px 32px rgba(0, 0, 0, 0.85)"
+          bg={bgCard}
+          backdropFilter="blur(16px)"
+          overflow="hidden"
+        >
+          {/* 4 Corner HUD Brackets */}
+          <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" top="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
 
-        <VStack spacing={8} align="stretch">
-          <Table variant="striped" colorScheme="secondary">
-            <Thead>
-              <Tr>
-                <Th color={headerColor}>Event Name</Th>
-                <Th color={headerColor}>Status</Th>
-                <Th color={headerColor}>Route</Th>
-                <Th color={headerColor}>Action</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {submissionevents.map(event => (
-                <Tr key={event.id} bg="rgba(0,0,0,0.05)" _hover={{ bg: "rgba(138, 83, 241,0.2)" }}>
-                  <Td>{event.name}</Td>
-                  <Td>
-                    <Switch
-                      colorScheme={buttonColor}
-                      isChecked={event.status}
-                      onChange={() => handleToggleSubmissionEvent(event.id)}
-                    />
-                  </Td>
-                  <Td>
-                    <Input
-                      placeholder="Enter route"
-                      value={event.route}
-                      onChange={(e) => handleSubmissionRouteChange(event.id, e.target.value)}
-                      bg="gray.900"
-                      color={textColor}
-                      borderColor="secondary.400"
-                      focusBorderColor="secondary.300"
-                    />
-                  </Td>
-                  <Td>
-                    <Button
-                      colorScheme={buttonColor}
-                      onClick={() => handleUpdateEvent(event)}
-                      isLoading={saving[event.id]}
-                      loadingText="Saving"
-                    >
-                      Update
-                    </Button>
-                  </Td>
+          <Text
+            fontFamily="'United Colony', sans-serif !important"
+            fontSize={{ base: "2xl", md: "3xl" }}
+            mb={2}
+            fontWeight="bold"
+            textAlign="center"
+            color="#FFFFFF"
+            letterSpacing="0.08em"
+            textTransform="uppercase"
+          >
+            UPDATE <chakra.span color="#38D9A9">EVENTS</chakra.span>
+          </Text>
+          <Divider mb={6} borderColor="rgba(56, 217, 169, 0.3)" />
+
+          <VStack spacing={6} align="stretch" fontFamily="'Oxanium', sans-serif">
+            <Table variant="simple" size="md">
+              <Thead bg="rgba(56, 217, 169, 0.1)">
+                <Tr borderBottom="2px solid rgba(56, 217, 169, 0.4)">
+                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Event Name</Th>
+                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Status</Th>
+                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Route</Th>
+                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Action</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </VStack>
-      </Box>
-    </Flex>
+              </Thead>
+              <Tbody>
+                {submissionevents.map(event => (
+                  <Tr key={event.id} borderBottom="1px solid rgba(255, 255, 255, 0.08)" _hover={{ bg: "rgba(56, 217, 169, 0.08)" }}>
+                    <Td color="#FFFFFF" fontWeight="medium">{event.name}</Td>
+                    <Td>
+                      <Switch
+                        colorScheme="teal"
+                        isChecked={event.status}
+                        onChange={() => handleToggleSubmissionEvent(event.id)}
+                      />
+                    </Td>
+                    <Td>
+                      <Input
+                        placeholder="Enter route"
+                        value={event.route}
+                        onChange={(e) => handleSubmissionRouteChange(event.id, e.target.value)}
+                        bg="rgba(3, 8, 23, 0.8)"
+                        color={textColor}
+                        borderColor="rgba(56, 217, 169, 0.3)"
+                        focusBorderColor="#38D9A9"
+                        size="sm"
+                        borderRadius="md"
+                      />
+                    </Td>
+                    <Td>
+                      <Button
+                        size="sm"
+                        bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                        color="#030512"
+                        fontFamily="'Oxanium', sans-serif"
+                        fontSize="xs"
+                        fontWeight="bold"
+                        letterSpacing="0.1em"
+                        textTransform="uppercase"
+                        rounded="md"
+                        _hover={{ bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)" }}
+                        onClick={() => handleUpdateEvent(event)}
+                        isLoading={saving[event.id]}
+                        loadingText="Saving"
+                      >
+                        Update
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </VStack>
+        </Box>
+      </Flex>
+    </Layout>
   );
 };
 

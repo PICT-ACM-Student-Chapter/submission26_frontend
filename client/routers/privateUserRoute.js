@@ -9,7 +9,7 @@ const privateUserRoute = Component => {
         const router = useRouter();
         console.log(user)
         if (!user?.id || user?.type !== 'user' ) {
-            router.push('/')
+            router.push('/');
             return <ContentLoader />;
         }
         return (

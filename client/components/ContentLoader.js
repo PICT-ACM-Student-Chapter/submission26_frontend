@@ -1,79 +1,4 @@
-// import { Flex, useColorModeValue } from '@chakra-ui/react';
-// import React from 'react'
-// import Lottie from 'react-lottie';
-// import * as data from '../lotties/final.json';
-// const defaultOptions = {
-//   loop: true,
-//   autoplay: true,
-//   animationData: data,
-//   rendererSettings: {
-//     preserveAspectRatio: 'xMidYMid slice'
-//   }
-// };
-
-// const ContentLoader = () => {
-//   return (
-//     <Flex
-//         flexDirection={"column"}
-//         alignItems={"center"}
-//         justifyContent={"center"}
-//         w={"100vw"}
-//         h={"100vh"}
-//         bg={useColorModeValue("#f8f9fb", "green.200")}
-//     >
-//         <Lottie
-//           options={defaultOptions}
-//           height={200}
-//           width={200}
-//         />
-//     </Flex>
-//   )
-// }
-
-// export default ContentLoader
-
-// import { Flex, useColorModeValue } from "@chakra-ui/react";
-// import React, { useEffect, useState } from "react";
-
-// const ContentLoader = () => {
-//   const [Lottie, setLottie] = useState(null);
-//   const [animationData, setAnimationData] = useState(null);
-
-//   useEffect(() => {
-//     // Load Lottie only on the client
-//     import("react-lottie").then((mod) => setLottie(() => mod.default));
-//     import("../lotties/final.json").then((mod) => setAnimationData(mod.default || mod));
-//   }, []);
-
-//   // Don't render anything on server or before Lottie loads
-//   if (!Lottie || !animationData) return null;
-
-//   const defaultOptions = {
-//     loop: true,
-//     autoplay: true,
-//     animationData,
-//     rendererSettings: {
-//       preserveAspectRatio: "xMidYMid slice",
-//     },
-//   };
-
-//   return (
-//     <Flex
-//       flexDirection="column"
-//       alignItems="center"
-//       justifyContent="center"
-//       w="100vw"
-//       h="100vh"
-//       bg={useColorModeValue("#f8f9fb", "green.200")}
-//     >
-//       <Lottie options={defaultOptions} height={200} width={200} />
-//     </Flex>
-//   );
-// };
-
-// export default ContentLoader;
-
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 const ContentLoader = () => {
@@ -81,12 +6,31 @@ const ContentLoader = () => {
   const [Lottie, setLottie] = useState(null);
 
   useEffect(() => {
-    // Dynamically import only on client side
     import("lottie-react").then((mod) => setLottie(() => mod.default));
     import("../lotties/final.json").then((mod) => setAnimationData(mod.default || mod));
   }, []);
 
-  if (!Lottie || !animationData) return null;
+  if (!Lottie || !animationData) {
+    return (
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        w="100vw"
+        h="100vh"
+        bg="#030512"
+      >
+        <Box
+          w="50px"
+          h="50px"
+          rounded="full"
+          border="2px solid rgba(56, 217, 169, 0.2)"
+          borderTopColor="#38D9A9"
+          className="animate-spin"
+        />
+      </Flex>
+    );
+  }
 
   return (
     <Flex
@@ -95,13 +39,38 @@ const ContentLoader = () => {
       justifyContent="center"
       w="100vw"
       h="100vh"
-      bg={useColorModeValue("#f8f9fb", "green.200")}
+      bg="#030512"
+      position="relative"
+      overflow="hidden"
     >
+      <Box
+        position="absolute"
+        w="250px"
+        h="250px"
+        bg="#38D9A9"
+        opacity={0.15}
+        rounded="full"
+        filter="blur(80px)"
+        pointerEvents="none"
+      />
       <Lottie
         animationData={animationData}
         loop={true}
-        style={{ height: 200, width: 200 }}
+        style={{ height: 220, width: 220, position: "relative", zIndex: 10 }}
       />
+      <Text
+        fontFamily="'Oxanium', sans-serif"
+        fontSize="xs"
+        fontWeight="bold"
+        letterSpacing="0.25em"
+        color="#38D9A9"
+        textTransform="uppercase"
+        mt={4}
+        position="relative"
+        zIndex={10}
+      >
+        INITIALIZING MISSION INTERFACE...
+      </Text>
     </Flex>
   );
 };

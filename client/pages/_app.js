@@ -45,11 +45,19 @@ function MyApp({ Component, pageProps }) {
     >
       <ChakraProvider theme={customTheme}>
         <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
-          rel="stylesheet"
-        />
-          <title>Pulzion 25 | Submission</title>
+          <link rel="icon" href="/favicon-P.png" />
+          <link rel="shortcut icon" href="/favicon-P.png" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="anonymous"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
+          />
+          <title>Pulzion 26 | Submission</title>
         </Head>
         <ToastContainer />
         <Component {...pageProps} />

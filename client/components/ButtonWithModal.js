@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Modal,
   ModalOverlay,
@@ -8,56 +8,119 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
+  Box,
   useDisclosure,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 
-
-const ButtonWithModal = ({handleSubmit}) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+const ButtonWithModal = ({ handleSubmit }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       <Button
-        bg={"#203449"}
-        color={"white"}
+        bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+        color="#030512"
         _hover={{
-          bg: "hsl(265, 82%, 65%)",
+          bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+          boxShadow: "0 0 25px rgba(56, 217, 169, 0.5)",
+          transform: "translateY(-1px)",
         }}
-        width={"100px"}
-        justifyItems={"center"}
+        _active={{
+          transform: "scale(0.98)",
+        }}
+        w={{ base: "full", sm: "160px" }}
+        h="44px"
         type="button"
         onClick={onOpen}
-        fontWeight={"light"}
-        fontSize={20}
+        fontFamily="'Oxanium', sans-serif"
+        fontWeight="extrabold"
+        letterSpacing="0.12em"
+        fontSize="sm"
+        textTransform="uppercase"
+        rounded="md"
+        boxShadow="0 0 15px rgba(56, 217, 169, 0.3)"
       >
-        Submit
+        Submit Entry
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Are You Sure?</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            Entry once submitted cannot be edited.
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay bg="rgba(3, 5, 18, 0.8)" backdropFilter="blur(8px)" />
+        <ModalContent
+          position="relative"
+          bg="linear-gradient(180deg, rgba(11, 21, 46, 0.98) 0%, rgba(7, 16, 36, 0.98) 100%)"
+          border="1px solid rgba(56, 217, 169, 0.45)"
+          boxShadow="0 0 35px rgba(56, 217, 169, 0.25), 0 12px 32px rgba(0, 0, 0, 0.9)"
+          borderRadius="none"
+          p={3}
+          overflow="hidden"
+        >
+          {/* 4 Corner HUD Brackets */}
+          <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" top="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+
+          <ModalHeader
+            fontFamily="'United Colony', sans-serif !important"
+            color="#FFFFFF"
+            fontSize="xl"
+            letterSpacing="0.08em"
+            textTransform="uppercase"
+            pt={3}
+          >
+            CONFIRM SUBMISSION
+          </ModalHeader>
+          <ModalCloseButton color="#38D9A9" _hover={{ color: "#22D3EE" }} />
+          <ModalBody
+            fontFamily="'Oxanium', sans-serif"
+            color="#CBD5E1"
+            fontSize="sm"
+            lineHeight="tall"
+          >
+            Are you sure you want to proceed? Entry once submitted cannot be edited or replaced.
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter gap={3} pt={4}>
             <Button
-              bg={"#88B788"}
-              color={"white"}
+              variant="outline"
+              borderColor="rgba(255, 255, 255, 0.2)"
+              color="#94A3B8"
+              fontFamily="'Oxanium', sans-serif"
+              fontSize="xs"
+              fontWeight="bold"
+              letterSpacing="0.1em"
+              textTransform="uppercase"
               _hover={{
-                bg: "#88B788",
+                bg: "whiteAlpha.100",
+                color: "#FFFFFF",
               }}
-              type="submit"
-              onClick={handleSubmit}
-              // isLoading={loading}
+              onClick={onClose}
             >
-              Yes
+              Cancel
+            </Button>
+            <Button
+              bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+              color="#030512"
+              fontFamily="'Oxanium', sans-serif"
+              fontSize="xs"
+              fontWeight="extrabold"
+              letterSpacing="0.12em"
+              textTransform="uppercase"
+              boxShadow="0 0 15px rgba(56, 217, 169, 0.3)"
+              _hover={{
+                bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+                boxShadow: "0 0 25px rgba(56, 217, 169, 0.5)",
+              }}
+              onClick={() => {
+                onClose();
+                handleSubmit();
+              }}
+            >
+              Yes, Submit
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default ButtonWithModal
+export default ButtonWithModal;

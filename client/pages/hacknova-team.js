@@ -54,10 +54,10 @@ const HacknovaTeamPage = () => {
   return (
     <Layout>
       <Box
-        pt={{ base: 6, md: 10 }}
+        pt={{ base: 4, sm: 6, md: 10 }}
         width="full"
-        pb="80px"
-        px={{ base: "16px", md: "48px", lg: "64px" }}
+        pb={{ base: "40px", md: "80px" }}
+        px={{ base: 3, sm: 6, md: 10, lg: 12 }}
         maxW="6xl"
         mx="auto"
       >
@@ -93,6 +93,7 @@ const HacknovaTeamPage = () => {
             <Button
               as="a"
               size="sm"
+              w={{ base: "full", sm: "auto" }}
               variant="outline"
               borderColor="rgba(56, 217, 169, 0.4)"
               color="#38D9A9"
@@ -156,7 +157,7 @@ const HacknovaTeamPage = () => {
           </Flex>
 
           <chakra.h1
-            fontSize={{ base: 28, sm: 40 }}
+            fontSize={{ base: "22px", sm: "32px", md: "40px" }}
             fontWeight="bold"
             color={textColor}
             textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}
@@ -184,7 +185,7 @@ const HacknovaTeamPage = () => {
         {registeredTeam && (
           <Box
             mb={6}
-            p={4}
+            p={{ base: 3.5, sm: 4 }}
             bg="rgba(56, 217, 169, 0.12)"
             border="1px solid rgba(56, 217, 169, 0.5)"
             borderRadius="md"
@@ -196,10 +197,10 @@ const HacknovaTeamPage = () => {
               justify="space-between"
               gap={3}
             >
-              <Flex align="center" gap={3}>
-                <CheckCircleIcon color="#38D9A9" w={5} h={5} />
-                <Box>
-                  <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" color="#FFFFFF" fontWeight="bold">
+              <Flex align="center" gap={3} minW={0} maxW="100%">
+                <CheckCircleIcon color="#38D9A9" w={5} h={5} flexShrink={0} />
+                <Box minW={0}>
+                  <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" color="#FFFFFF" fontWeight="bold" wordBreak="break-word">
                     Squad Roster Confirmed: <chakra.span color="#38D9A9">{registeredTeam.team_name}</chakra.span>
                   </Text>
                   <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="gray.300">
@@ -212,6 +213,7 @@ const HacknovaTeamPage = () => {
                 <Button
                   as="a"
                   size="sm"
+                  w={{ base: "full", sm: "auto" }}
                   bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                   color="#030512"
                   fontFamily="'Oxanium', sans-serif"

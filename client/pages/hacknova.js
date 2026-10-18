@@ -246,13 +246,13 @@ const Hacknova = () => {
 
   return !loading ? (
     <Layout>
-      <Box pt={10} width="full" pb="60px" px={{ base: 4, sm: 6, md: 12, lg: 16 }}>
+      <Box pt={{ base: 5, md: 10 }} width="full" pb={{ base: "40px", md: "60px" }} px={{ base: 3, sm: 6, md: 10, lg: 16 }}>
         {/* Top Header Navigation */}
         <Flex justify="space-between" align="center" wrap="wrap" gap={3} mb={2}>
           <NextLink href="/dashboard" passHref>
             <chakra.h3
               fontWeight="bold"
-              fontSize={{ base: 18, sm: 22 }}
+              fontSize={{ base: "sm", sm: "md", md: 20 }}
               textTransform="uppercase"
               color={primaryColor}
               cursor="pointer"
@@ -260,32 +260,13 @@ const Hacknova = () => {
               alignItems="center"
               fontFamily="'Oxanium', sans-serif"
             >
-              <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
+              <ChevronLeftIcon w={5} h={5} /> <span>Back to all events</span>
             </chakra.h3>
           </NextLink>
-
-          {/* {isSquadRegistrationActive === true && (
-            <NextLink href="/hacknova-team" passHref>
-              <Button
-                as="a"
-                size="sm"
-                variant="outline"
-                borderColor="rgba(56, 217, 169, 0.4)"
-                color="#38D9A9"
-                fontFamily="'Oxanium', sans-serif"
-                fontSize="xs"
-                letterSpacing="0.1em"
-                textTransform="uppercase"
-                _hover={{ bg: "rgba(56, 217, 169, 0.15)", borderColor: "#38D9A9" }}
-              >
-                Fill Team Form →
-              </Button>
-            </NextLink>
-          )} */}
         </Flex>
 
         <chakra.h1
-          py={4}
+          py={{ base: 2, sm: 4 }}
           fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
           fontWeight="bold"
           color={textColor}
@@ -297,121 +278,62 @@ const Hacknova = () => {
           HackNova
         </chakra.h1>
 
-        {/* Squad Registration Notice: Displayed ONLY when HackNova Squad Registrations (Event ID 200, /hacknova-team) is true */}
-        {/* {isSquadRegistrationActive === true && (
-          <Box
-            mb={6}
-            p={4}
-            bg="linear-gradient(90deg, rgba(56, 217, 169, 0.12) 0%, rgba(34, 211, 238, 0.08) 100%)"
-            border="1px solid rgba(56, 217, 169, 0.45)"
-            borderRadius="md"
-            boxShadow="0 0 20px rgba(56, 217, 169, 0.15)"
-          > */}
-            {/* <Flex
-              direction={{ base: "column", sm: "row" }}
-              align={{ base: "flex-start", sm: "center" }}
-              justify="space-between"
-              gap={3}
-            > */}
-              {/* <Box>
-                <Text
-                  fontFamily="'Oxanium', sans-serif"
-                  fontSize="xs"
-                  color="#38D9A9"
-                  fontWeight="bold"
-                  letterSpacing="0.1em"
-                  textTransform="uppercase"
-                  mb={0.5}
-                >
-                  SQUAD REGISTRATION NOTICE
-                </Text>
-                <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" color="#FFFFFF">
-                  You are registered for HackNova. Please{" "}
-                  <chakra.span fontWeight="bold" color="#38D9A9">
-                    Fill the Team Form
-                  </chakra.span>{" "}
-                  to assemble your 2–4 member squad before submitting your project.
-                </Text>
-              </Box> */}
-              {/* <NextLink href="/hacknova-team" passHref>
-                <Button
-                  as="a"
-                  size="sm"
-                  bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
-                  color="#030512"
-                  fontFamily="'Oxanium', sans-serif"
-                  fontSize="xs"
-                  fontWeight="bold"
-                  letterSpacing="0.1em"
-                  textTransform="uppercase"
-                  _hover={{
-                    bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
-                  }}
-                  whiteSpace="nowrap"
-                >
-                  Fill Team Form →
-                </Button>
-              </NextLink> */}
-            {/* </Flex> */}
-          {/* </Box> */}
-        {/* )} */}
-
-        <SimpleGrid columns={{ base: 1, lg: 2 }} gap={10} alignItems="start">
+        <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 6, lg: 10 }} alignItems="start">
           {/* Left Column: Topics and Instructions */}
-          <GridItem>
+          <GridItem minW={0}>
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={textColor} fontFamily="'Oxanium', sans-serif">
-                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontWeight="bold" fontFamily="'Oxanium', sans-serif">Topics</Tab>
-                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontWeight="bold" fontFamily="'Oxanium', sans-serif">Instructions</Tab>
+                <Tab fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} px={{ base: 3, sm: 4 }} fontWeight="bold" fontFamily="'Oxanium', sans-serif">Topics</Tab>
+                <Tab fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} px={{ base: 3, sm: 4 }} fontWeight="bold" fontFamily="'Oxanium', sans-serif">Instructions</Tab>
               </TabList>
-              <TabPanels bg={tabBg}>
+              <TabPanels bg={tabBg} borderRadius="md" overflow="hidden">
                 {/* Tab 1: Problem Statements */}
-                <TabPanel color="hsl(210, 40%, 100%)">
+                <TabPanel p={{ base: 3, sm: 4, md: 5 }} color="hsl(210, 40%, 100%)">
                   <Stack spacing={3} fontFamily="'Oxanium', sans-serif">
-                    <Text fontSize="xl" fontWeight="bold" color={textColor}>
+                    <Text fontSize={{ base: "md", sm: "lg", md: "xl" }} fontWeight="bold" color={textColor}>
                       Problem Statements:
                     </Text>
 
                     {/* FE-SE Category */}
                     <Box>
-                      <Text fontSize="lg" fontWeight="semibold" color={primaryColor} mb={2}>
+                      <Text fontSize={{ base: "sm", sm: "md", md: "lg" }} fontWeight="semibold" color={primaryColor} mb={1.5}>
                         FE-SE Category:
                       </Text>
-                      <Stack spacing={2} pl={4}>
-                        <Text fontSize="md">1. Weather Storyboard – Dynamic Weather Visualization App</Text>
-                        <Text fontSize="md">2. NewsPulse – Trending Headlines Analyzer</Text>
-                        <Text fontSize="md">3. YouTube Trend Analyzer</Text>
-                        <Text fontSize="md">4. FocusFlow – Smart Pomodoro Timer for Productivity</Text>
+                      <Stack spacing={2} pl={{ base: 2, sm: 4 }}>
+                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">1. Weather Storyboard – Dynamic Weather Visualization App</Text>
+                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">2. NewsPulse – Trending Headlines Analyzer</Text>
+                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">3. YouTube Trend Analyzer</Text>
+                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">4. FocusFlow – Smart Pomodoro Timer for Productivity</Text>
                       </Stack>
                     </Box>
 
                     {/* TE-BE Category */}
                     <Box>
-                      <Text fontSize="lg" fontWeight="semibold" color={primaryColor} mb={2}>
+                      <Text fontSize={{ base: "sm", sm: "md", md: "lg" }} fontWeight="semibold" color={primaryColor} mb={1.5}>
                         TE-BE Category:
                       </Text>
-                      <Stack spacing={2} pl={4}>
-                        <Text fontSize="md">• Notification System as a SaaS</Text>
-                        <Text fontSize="md">• End-to-End AI SQL Assistant</Text>
-                        <Text fontSize="md">• Live Code Collaboration Platform</Text>
-                        <Text fontSize="md">• KnowledgeGraphX – AI-Powered Knowledge Insights SaaS</Text>
+                      <Stack spacing={2} pl={{ base: 2, sm: 4 }}>
+                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">• Notification System as a SaaS</Text>
+                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">• End-to-End AI SQL Assistant</Text>
+                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">• Live Code Collaboration Platform</Text>
+                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">• KnowledgeGraphX – AI-Powered Knowledge Insights SaaS</Text>
                       </Stack>
                     </Box>
 
-                    <Text fontSize="sm" color="gray.400" mt={2}>
+                    <Text fontSize={{ base: "2xs", sm: "xs", md: "sm" }} color="gray.400" mt={1}>
                       Note: You can choose any one problem statement from your respective category.
                     </Text>
                   </Stack>
                 </TabPanel>
 
                 {/* Tab 2: Submission Rules */}
-                <TabPanel color="hsl(210, 40%, 100%)">
+                <TabPanel p={{ base: 3, sm: 4, md: 5 }} color="hsl(210, 40%, 100%)">
                   <Stack spacing={3} fontFamily="'Oxanium', sans-serif">
-                    <Text fontSize="xl" fontWeight="bold" color={textColor} mb={1}>
+                    <Text fontSize={{ base: "md", sm: "lg", md: "xl" }} fontWeight="bold" color={textColor} mb={1}>
                       HackNova &apos;26 — Rules & Workflow
                     </Text>
 
-                    <Stack spacing={2.5} fontSize="md">
+                    <Stack spacing={2.5} fontSize={{ base: "xs", sm: "sm", md: "md" }}>
                       <Text>
                         1. <chakra.span fontWeight="bold" color={primaryColor}>Step 1: Team Registration.</chakra.span> Register your squad (2–4 members) on the{" "}
                         <NextLink href="/hacknova-team" passHref>
@@ -462,20 +384,26 @@ const Hacknova = () => {
           </GridItem>
 
           {/* Right Column: Project Submission Deliverables */}
-          <GridItem>
+          <GridItem minW={0} w="full">
             {/* Squad Status Banner (shown when squad is registered) */}
             {registeredTeam && (
               <Box
                 mb={4}
-                p={3.5}
+                p={{ base: 3, sm: 3.5 }}
                 bg="rgba(56, 217, 169, 0.08)"
                 border="1px solid rgba(56, 217, 169, 0.4)"
                 borderRadius="md"
               >
-                <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
-                  <Flex align="center" gap={2}>
-                    <CheckCircleIcon color="#38D9A9" />
-                    <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#CBD5E1">
+                <Flex
+                  direction={{ base: "column", sm: "row" }}
+                  justify="space-between"
+                  align={{ base: "flex-start", sm: "center" }}
+                  wrap="wrap"
+                  gap={2.5}
+                >
+                  <Flex align="center" gap={2} minW={0} maxW="100%">
+                    <CheckCircleIcon color="#38D9A9" flexShrink={0} />
+                    <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#CBD5E1" wordBreak="break-word">
                       Registered Squad:{" "}
                       <chakra.span fontWeight="bold" color="#38D9A9">
                         {registeredTeam.team_name}
@@ -486,6 +414,7 @@ const Hacknova = () => {
                     <Button
                       as="a"
                       size="xs"
+                      w={{ base: "full", sm: "auto" }}
                       variant="outline"
                       borderColor="#38D9A9"
                       color="#38D9A9"
@@ -504,12 +433,13 @@ const Hacknova = () => {
               /* Project Already Submitted Card */
               <Box
                 position="relative"
-                p={{ base: 6, md: 8 }}
+                p={{ base: 4, sm: 6, md: 8 }}
                 bg="linear-gradient(180deg, rgba(11, 21, 46, 0.95) 0%, rgba(7, 16, 36, 0.95) 100%)"
                 border="1px solid rgba(56, 217, 169, 0.5)"
                 boxShadow="0 0 35px rgba(56, 217, 169, 0.2), 0 12px 32px rgba(0, 0, 0, 0.85)"
                 borderRadius="md"
                 overflow="hidden"
+                maxW="100%"
               >
                 {/* HUD Brackets */}
                 <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
@@ -562,7 +492,7 @@ const Hacknova = () => {
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
                         Team Name
                       </Text>
-                      <Text fontSize="md" color="#FFFFFF" fontWeight="semibold" mt={0.5}>
+                      <Text fontSize="md" color="#FFFFFF" fontWeight="semibold" mt={0.5} wordBreak="break-word">
                         {submission.team_name}
                       </Text>
                     </Box>
@@ -573,14 +503,14 @@ const Hacknova = () => {
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
                         Project Title
                       </Text>
-                      <Text fontSize="md" color="#FFFFFF" fontWeight="semibold" mt={0.5}>
+                      <Text fontSize="md" color="#FFFFFF" fontWeight="semibold" mt={0.5} wordBreak="break-word">
                         {submission.project_title}
                       </Text>
                     </Box>
                   )}
 
                   {submission.github_url && (
-                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
+                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)" maxW="100%">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
                         GitHub Repository
                       </Text>
@@ -593,15 +523,19 @@ const Hacknova = () => {
                         alignItems="center"
                         gap={1.5}
                         mt={0.5}
+                        maxW="100%"
                         _hover={{ textDecoration: "underline", color: "#38D9A9" }}
                       >
-                        {submission.github_url} <ExternalLinkIcon mx="2px" />
+                        <Text as="span" wordBreak="break-all">
+                          {submission.github_url}
+                        </Text>
+                        <ExternalLinkIcon mx="2px" flexShrink={0} />
                       </Link>
                     </Box>
                   )}
 
                   {submission.live_demo_url && (
-                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
+                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)" maxW="100%">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
                         Live Demo URL
                       </Text>
@@ -614,15 +548,19 @@ const Hacknova = () => {
                         alignItems="center"
                         gap={1.5}
                         mt={0.5}
+                        maxW="100%"
                         _hover={{ textDecoration: "underline", color: "#38D9A9" }}
                       >
-                        {submission.live_demo_url} <ExternalLinkIcon mx="2px" />
+                        <Text as="span" wordBreak="break-all">
+                          {submission.live_demo_url}
+                        </Text>
+                        <ExternalLinkIcon mx="2px" flexShrink={0} />
                       </Link>
                     </Box>
                   )}
 
                   {submission.presentation_url && (
-                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
+                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)" maxW="100%">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
                         Presentation Deck
                       </Text>
@@ -635,15 +573,17 @@ const Hacknova = () => {
                         alignItems="center"
                         gap={1.5}
                         mt={0.5}
+                        wordBreak="break-all"
+                        maxW="100%"
                         _hover={{ textDecoration: "underline" }}
                       >
-                        <DownloadIcon /> View / Download Presentation
+                        <DownloadIcon flexShrink={0} /> View / Download Presentation
                       </Link>
                     </Box>
                   )}
 
                   {submission.project_zip_url && (
-                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
+                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)" maxW="100%">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
                         Project Archive (ZIP)
                       </Text>
@@ -656,9 +596,11 @@ const Hacknova = () => {
                         alignItems="center"
                         gap={1.5}
                         mt={0.5}
+                        wordBreak="break-all"
+                        maxW="100%"
                         _hover={{ textDecoration: "underline" }}
                       >
-                        <DownloadIcon /> Download Project ZIP Archive
+                        <DownloadIcon flexShrink={0} /> Download Project ZIP Archive
                       </Link>
                     </Box>
                   )}
@@ -876,12 +818,13 @@ const Hacknova = () => {
               /* Submission Form */
               <Box
                 position="relative"
-                p={{ base: 5, md: 7 }}
+                p={{ base: 4, sm: 5, md: 7 }}
                 bg="linear-gradient(180deg, rgba(11, 21, 46, 0.95) 0%, rgba(7, 16, 36, 0.95) 100%)"
                 border="1px solid rgba(56, 217, 169, 0.35)"
                 boxShadow="0 12px 32px rgba(0, 0, 0, 0.85)"
                 borderRadius="md"
                 overflow="hidden"
+                maxW="100%"
               >
                 {/* 4 Corner HUD Brackets */}
                 <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
@@ -889,10 +832,10 @@ const Hacknova = () => {
                 <Box position="absolute" bottom="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
                 <Box position="absolute" bottom="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
 
-                <Box mb={5}>
+                <Box mb={{ base: 3, sm: 5 }}>
                   <chakra.h2
                     fontFamily="'United Colony', sans-serif !important"
-                    fontSize={{ base: "xl", sm: "2xl" }}
+                    fontSize={{ base: "lg", sm: "xl", md: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
                     letterSpacing="0.08em"

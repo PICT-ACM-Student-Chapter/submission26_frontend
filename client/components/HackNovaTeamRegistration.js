@@ -398,11 +398,13 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
             </Badge>
             <chakra.h2
               fontFamily="'United Colony', sans-serif !important"
-              fontSize={{ base: "xl", sm: "2xl" }}
+              fontSize={{ base: "lg", sm: "xl", md: "2xl" }}
               fontWeight="bold"
               color="#FFFFFF"
               letterSpacing="0.06em"
               textTransform="uppercase"
+              wordBreak="break-word"
+              maxW="100%"
             >
               {team.team_name}
             </chakra.h2>

@@ -26,8 +26,12 @@ const FormField = ({ label, name, placeholder, ...otherProps }) => {
         name={name}
         placeholder={placeholder}
         w="100%"
-        h="44px"
+        maxW="100%"
+        boxSizing="border-box"
+        h={{ base: "42px", sm: "44px" }}
         fontFamily="'Oxanium', sans-serif"
+        fontSize={{ base: "xs", sm: "sm" }}
+        px={{ base: 3, sm: 4 }}
         color="#FFFFFF"
         bg="rgba(7, 16, 36, 0.85)"
         border="1px solid rgba(56, 217, 169, 0.35)"
@@ -41,7 +45,7 @@ const FormField = ({ label, name, placeholder, ...otherProps }) => {
         }}
         _placeholder={{
           color: "rgba(203, 213, 225, 0.45)",
-          fontSize: "sm",
+          fontSize: "xs",
         }}
         {...otherProps}
       />

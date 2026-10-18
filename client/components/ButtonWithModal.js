@@ -48,8 +48,10 @@ const ButtonWithModal = ({ handleSubmit }) => {
           bg="linear-gradient(180deg, rgba(11, 21, 46, 0.98) 0%, rgba(7, 16, 36, 0.98) 100%)"
           border="1px solid rgba(56, 217, 169, 0.45)"
           boxShadow="0 0 35px rgba(56, 217, 169, 0.25), 0 12px 32px rgba(0, 0, 0, 0.9)"
-          borderRadius="none"
-          p={3}
+          borderRadius="md"
+          maxW={{ base: "calc(100vw - 32px)", sm: "md" }}
+          mx="auto"
+          p={{ base: 2, sm: 3 }}
           overflow="hidden"
         >
           {/* 4 Corner HUD Brackets */}
@@ -61,7 +63,7 @@ const ButtonWithModal = ({ handleSubmit }) => {
           <ModalHeader
             fontFamily="'United Colony', sans-serif !important"
             color="#FFFFFF"
-            fontSize="xl"
+            fontSize={{ base: "lg", sm: "xl" }}
             letterSpacing="0.08em"
             textTransform="uppercase"
             pt={3}
@@ -78,8 +80,15 @@ const ButtonWithModal = ({ handleSubmit }) => {
             Are you sure you want to proceed? Entry once submitted cannot be edited or replaced.
           </ModalBody>
 
-          <ModalFooter gap={3} pt={4}>
+          <ModalFooter
+            gap={3}
+            pt={4}
+            flexDirection={{ base: "column-reverse", sm: "row" }}
+            alignItems={{ base: "stretch", sm: "center" }}
+          >
             <Button
+              w={{ base: "full", sm: "auto" }}
+              minH="42px"
               variant="outline"
               borderColor="rgba(255, 255, 255, 0.2)"
               color="#94A3B8"
@@ -97,6 +106,8 @@ const ButtonWithModal = ({ handleSubmit }) => {
               Cancel
             </Button>
             <Button
+              w={{ base: "full", sm: "auto" }}
+              minH="42px"
               bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
               color="#030512"
               fontFamily="'Oxanium', sans-serif"

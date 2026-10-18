@@ -29,12 +29,16 @@ const FileInput = ({ label, name, accept, ...otherProps }) => {
         <Input
           type="file"
           name={name}
-          h="52px"
-          py="12px"
-          px={3}
+          w="100%"
+          maxW="100%"
+          boxSizing="border-box"
+          minH="48px"
+          h="auto"
+          py={{ base: "8px", sm: "10px" }}
+          px={{ base: 2.5, sm: 3 }}
           color="#FFFFFF"
           fontFamily="'Oxanium', sans-serif"
-          fontSize="sm"
+          fontSize={{ base: "xs", sm: "sm" }}
           bg="rgba(7, 16, 36, 0.85)"
           border="1px dashed rgba(56, 217, 169, 0.5)"
           borderRadius="md"

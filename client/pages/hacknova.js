@@ -28,6 +28,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import FileInput from "../components/FileInput";
 import FormField from "../components/FormField";
 import { uploadFile } from "../action/uploadFile";
@@ -44,6 +45,7 @@ import {
   LockIcon,
   WarningIcon,
   ArrowForwardIcon,
+  RepeatIcon,
 } from "@chakra-ui/icons";
 
 const Hacknova = () => {
@@ -59,7 +61,27 @@ const Hacknova = () => {
   const [isSquadRegistrationActive, setIsSquadRegistrationActive] = useState(false);
   const [registeredTeam, setRegisteredTeam] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshingStatus, setRefreshingStatus] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
+  const router = useRouter();
+
+  const handleRefreshStatus = async () => {
+    try {
+      setRefreshingStatus(true);
+      const teamData = await getHackNovaTeamMe();
+      if (teamData?.team) {
+        setRegisteredTeam(teamData.team);
+        toast.success(`Squad detected: "${teamData.team.team_name}". Project submission unlocked! 🚀`);
+      } else {
+        toast.info("No registered squad found yet. Please complete team registration first.");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to re-check squad status. Please try again.");
+    } finally {
+      setRefreshingStatus(false);
+    }
+  };
 
   const initialFormValues = {
     team_name: registeredTeam?.team_name || "",
@@ -86,6 +108,12 @@ const Hacknova = () => {
   });
 
   const handleSubmit = async (values) => {
+    if (!registeredTeam) {
+      toast.error("You must register your squad before submitting your project. Please complete team registration first.");
+      router.push("/hacknova-team");
+      return;
+    }
+
     if (!isSubmissionActive) {
       toast.error("Submissions for HackNova are currently closed. Entries cannot be submitted or stored in the database.");
       return;
@@ -93,7 +121,7 @@ const Hacknova = () => {
     const finalTeamName = (registeredTeam?.team_name || values?.team_name || "").trim();
 
     if (!finalTeamName) {
-      toast.error("Please enter your Team Name or register your squad first");
+      toast.error("Please register your squad first");
       return;
     }
     if (!values?.project_title?.trim()) {
@@ -435,8 +463,8 @@ const Hacknova = () => {
 
           {/* Right Column: Project Submission Deliverables */}
           <GridItem>
-            {/* Squad Status Banner */}
-            {registeredTeam ? (
+            {/* Squad Status Banner (shown when squad is registered) */}
+            {registeredTeam && (
               <Box
                 mb={4}
                 p={3.5}
@@ -467,51 +495,6 @@ const Hacknova = () => {
                     >
                       View Team Dossier →
                     </Button>
-                  </NextLink>
-                </Flex>
-              </Box>
-            ) : (
-              <Box
-                mb={4}
-                p={3.5}
-                bg="rgba(34, 211, 238, 0.08)"
-                border="1px solid rgba(34, 211, 238, 0.35)"
-                borderRadius="md"
-              >
-                <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
-                  <Text fontFamily="'Oxanium', sans-serif" fontSize="s" color="#ebf1f2">
-                    Need to register or verify your squad ?
-                  </Text>
-                  <NextLink href="/hacknova-team" passHref>
-                    {/* <Button
-                      as="a"
-                      size="xs"
-                      variant="outline"
-                      borderColor="#22D3EE"
-                      color="#22D3EE"
-                      fontFamily="'Oxanium', sans-serif"
-                      fontSize="2xs"
-                      _hover={{ bg: "rgba(34, 211, 238, 0.2)" }}
-                    >
-                      Go to Team Registration Form →
-                    </Button> */}
-                    <Button
-                  as="a"
-                  size="sm"
-                  bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
-                  color="#030512"
-                  fontFamily="'Oxanium', sans-serif"
-                  fontSize="xs"
-                  fontWeight="bold"
-                  letterSpacing="0.1em"
-                  textTransform="uppercase"
-                  _hover={{
-                    bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
-                  }}
-                  whiteSpace="nowrap"
-                >
-                  Open Form →
-                </Button>
                   </NextLink>
                 </Flex>
               </Box>
@@ -708,6 +691,187 @@ const Hacknova = () => {
             ) : !isSubmissionActive ? (
               /* Submissions Closed Notice */
               <SubmissionClosedNotice eventName="HackNova" />
+            ) : !registeredTeam ? (
+              /* SQUAD REGISTRATION REQUIRED NOTICE */
+              <Box
+                position="relative"
+                p={{ base: 6, sm: 8 }}
+                bg="linear-gradient(180deg, rgba(11, 21, 46, 0.95) 0%, rgba(7, 16, 36, 0.95) 100%)"
+                border="1px solid rgba(245, 158, 11, 0.45)"
+                boxShadow="0 0 35px rgba(245, 158, 11, 0.15), 0 12px 32px rgba(0, 0, 0, 0.85)"
+                borderRadius="md"
+                overflow="hidden"
+              >
+                {/* 4 Corner HUD Brackets */}
+                <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #F59E0B" borderTop="2px solid #F59E0B" pointerEvents="none" />
+                <Box position="absolute" top="6px" right="6px" w="10px" h="10px" borderRight="2px solid #F59E0B" borderTop="2px solid #F59E0B" pointerEvents="none" />
+                <Box position="absolute" bottom="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #F59E0B" borderBottom="2px solid #F59E0B" pointerEvents="none" />
+                <Box position="absolute" bottom="6px" right="6px" w="10px" h="10px" borderRight="2px solid #F59E0B" borderBottom="2px solid #F59E0B" pointerEvents="none" />
+
+                <Flex direction="column" align="center" textAlign="center" mb={6}>
+                  <Flex
+                    align="center"
+                    justify="center"
+                    w="56px"
+                    h="56px"
+                    rounded="full"
+                    bg="rgba(245, 158, 11, 0.15)"
+                    border="1px solid #F59E0B"
+                    color="#F59E0B"
+                    mb={3.5}
+                    boxShadow="0 0 25px rgba(245, 158, 11, 0.35)"
+                  >
+                    <LockIcon w={6} h={6} />
+                  </Flex>
+
+                  <Badge
+                    px={3}
+                    py={1}
+                    bg="rgba(245, 158, 11, 0.2)"
+                    color="#F59E0B"
+                    border="1px solid rgba(245, 158, 11, 0.5)"
+                    fontFamily="'Oxanium', sans-serif"
+                    fontSize="2xs"
+                    letterSpacing="0.15em"
+                    mb={2}
+                    borderRadius="full"
+                  >
+                    STEP 1 INCOMPLETE &bull; SQUAD REGISTRATION REQUIRED
+                  </Badge>
+
+                  <chakra.h2
+                    fontFamily="'United Colony', sans-serif !important"
+                    fontSize={{ base: "xl", sm: "2xl" }}
+                    fontWeight="bold"
+                    color="#FFFFFF"
+                    letterSpacing="0.08em"
+                    textTransform="uppercase"
+                  >
+                    TEAM REGISTRATION REQUIRED
+                  </chakra.h2>
+
+                  <chakra.p
+                    fontFamily="'Oxanium', sans-serif"
+                    fontSize="xs"
+                    color="#FCD34D"
+                    letterSpacing="0.1em"
+                    textTransform="uppercase"
+                    mt={1}
+                  >
+                    SUBMISSION WILL BE UNLOCKED AFTER SQUAD REGISTRATION
+                  </chakra.p>
+                </Flex>
+
+                <Stack spacing={4} fontFamily="'Oxanium', sans-serif">
+                  <Box
+                    p={4}
+                    rounded="md"
+                    bg="rgba(7, 16, 36, 0.75)"
+                    border="1px solid rgba(245, 158, 11, 0.25)"
+                  >
+                    <Text fontSize="sm" color="#E2E8F0" lineHeight="tall">
+                      According to HackNova regulations, you must register your team squad (2 to 4 members) before submitting your project deliverables. Submissions are only recorded for verified, registered teams.
+                    </Text>
+                  </Box>
+
+                  {/* Two-step visual progression */}
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={3} my={1}>
+                    <Box
+                      p={3.5}
+                      rounded="md"
+                      bg="rgba(245, 158, 11, 0.1)"
+                      border="1px solid rgba(245, 158, 11, 0.5)"
+                    >
+                      <Flex align="center" gap={2} mb={1}>
+                        <Badge bg="#F59E0B" color="#030512" fontSize="2xs" fontWeight="bold">
+                          STEP 1
+                        </Badge>
+                        <Text fontSize="xs" fontWeight="bold" color="#FCD34D" textTransform="uppercase">
+                          Squad Registration
+                        </Text>
+                      </Flex>
+                      <Text fontSize="2xs" color="gray.300">
+                        Form your 2–4 member roster on the HackNova Team portal.
+                      </Text>
+                    </Box>
+
+                    <Box
+                      p={3.5}
+                      rounded="md"
+                      bg="rgba(255, 255, 255, 0.03)"
+                      border="1px dashed rgba(255, 255, 255, 0.2)"
+                      opacity={0.7}
+                    >
+                      <Flex align="center" gap={2} mb={1}>
+                        <Badge bg="gray.600" color="gray.300" fontSize="2xs" fontWeight="bold">
+                          STEP 2
+                        </Badge>
+                        <Text fontSize="xs" fontWeight="bold" color="gray.400" textTransform="uppercase">
+                          Project Submission
+                        </Text>
+                      </Flex>
+                      <Text fontSize="2xs" color="gray.400">
+                        Submit GitHub repo, presentation (PPT/PDF), and ZIP archive.
+                      </Text>
+                    </Box>
+                  </SimpleGrid>
+
+                  {/* Actions */}
+                  <Flex direction="column" gap={3} pt={2}>
+                    {isSquadRegistrationActive ? (
+                      <NextLink href="/hacknova-team" passHref>
+                        <Button
+                          as="a"
+                          w="full"
+                          h="46px"
+                          bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                          color="#030512"
+                          fontFamily="'Oxanium', sans-serif"
+                          fontSize="sm"
+                          fontWeight="bold"
+                          letterSpacing="0.1em"
+                          textTransform="uppercase"
+                          boxShadow="0 0 20px rgba(56, 217, 169, 0.35)"
+                          _hover={{
+                            bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+                            boxShadow: "0 0 30px rgba(56, 217, 169, 0.6)",
+                          }}
+                          rightIcon={<ArrowForwardIcon />}
+                        >
+                          Register Your Squad Now →
+                        </Button>
+                      </NextLink>
+                    ) : (
+                      <Box p={3} rounded="md" bg="rgba(239, 68, 68, 0.1)" border="1px solid rgba(239, 68, 68, 0.4)" textAlign="center">
+                        <Text fontSize="xs" color="#FCA5A5">
+                          HackNova Squad Registrations are currently closed by event coordinators.
+                        </Text>
+                      </Box>
+                    )}
+
+                    <Button
+                      w="full"
+                      h="38px"
+                      variant="outline"
+                      borderColor="rgba(245, 158, 11, 0.4)"
+                      color="#FCD34D"
+                      fontFamily="'Oxanium', sans-serif"
+                      fontSize="xs"
+                      letterSpacing="0.08em"
+                      textTransform="uppercase"
+                      _hover={{
+                        bg: "rgba(245, 158, 11, 0.15)",
+                        borderColor: "#F59E0B",
+                      }}
+                      onClick={handleRefreshStatus}
+                      isLoading={refreshingStatus}
+                      leftIcon={<RepeatIcon />}
+                    >
+                      Re-check Squad Registration Status
+                    </Button>
+                  </Flex>
+                </Stack>
+              </Box>
             ) : (
               /* Submission Form */
               <Box
@@ -761,14 +925,21 @@ const Hacknova = () => {
                     <form onSubmit={handleSubmit}>
                       <Stack spacing={4}>
                         <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
-                          <FormField
-                            label="Team Name *"
-                            name="team_name"
-                            placeholder="e.g. CyberNovas"
-                            value={values.team_name}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
+                          <Box>
+                            <FormField
+                              label="Squad Name (Locked) *"
+                              name="team_name"
+                              placeholder="e.g. CyberNovas"
+                              value={registeredTeam?.team_name || values.team_name}
+                              isReadOnly={true}
+                              readOnly={true}
+                              cursor="not-allowed"
+                              opacity={0.9}
+                            />
+                            <Text fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#38D9A9" mt={1}>
+                              ✓ Locked to registered squad: {registeredTeam.team_name}
+                            </Text>
+                          </Box>
                           <FormField
                             label="Project Title *"
                             name="project_title"

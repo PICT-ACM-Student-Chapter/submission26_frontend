@@ -29,7 +29,9 @@ import {
   DeleteIcon,
   WarningIcon,
   InfoOutlineIcon,
+  ArrowForwardIcon,
 } from "@chakra-ui/icons";
+import NextLink from "next/link";
 import { toast } from "react-toastify";
 import { getHackNovaTeamMe, postHackNovaTeam } from "../action/hacknovaTeam";
 import SubmissionClosedNotice from "./SubmissionClosedNotice";
@@ -500,6 +502,32 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
             <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#38D9A9" letterSpacing="0.05em">
               ✓ Team roster is locked for HackNova. Each participant is bound to this team and cannot register another team.
             </Text>
+          </Box>
+
+          <Box pt={3} textAlign="center">
+            <NextLink href="/hacknova" passHref>
+              <Button
+                as="a"
+                size="md"
+                w="full"
+                maxW="md"
+                bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                color="#030512"
+                fontFamily="'Oxanium', sans-serif"
+                fontSize="xs"
+                fontWeight="bold"
+                letterSpacing="0.1em"
+                textTransform="uppercase"
+                boxShadow="0 0 20px rgba(56, 217, 169, 0.35)"
+                _hover={{
+                  bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+                  boxShadow: "0 0 30px rgba(56, 217, 169, 0.55)",
+                }}
+                rightIcon={<ArrowForwardIcon />}
+              >
+                Proceed to Project Submission →
+              </Button>
+            </NextLink>
           </Box>
         </Stack>
       </Box>

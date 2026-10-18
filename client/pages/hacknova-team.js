@@ -15,7 +15,7 @@ import {
 import Layout from "../components/Layout";
 import privateUserRoute from "../routers/privateUserRoute";
 import NextLink from "next/link";
-import { ChevronRightIcon, CheckCircleIcon } from "@chakra-ui/icons";
+import { ChevronRightIcon, CheckCircleIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import HackNovaTeamRegistration from "../components/HackNovaTeamRegistration";
 import SubmissionClosedNotice from "../components/SubmissionClosedNotice";
 import AppContext from "../context/AppContext";
@@ -190,16 +190,45 @@ const HacknovaTeamPage = () => {
             borderRadius="md"
             boxShadow="0 0 25px rgba(56, 217, 169, 0.2)"
           >
-            <Flex align="center" gap={3}>
-              <CheckCircleIcon color="#38D9A9" w={5} h={5} />
-              <Box>
-                <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" color="#FFFFFF" fontWeight="bold">
-                  Squad Roster Confirmed: <chakra.span color="#38D9A9">{registeredTeam.team_name}</chakra.span>
-                </Text>
-                <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="gray.300">
-                  Your team details are locked and permanently recorded for HackNova.
-                </Text>
-              </Box>
+            <Flex
+              direction={{ base: "column", sm: "row" }}
+              align={{ base: "flex-start", sm: "center" }}
+              justify="space-between"
+              gap={3}
+            >
+              <Flex align="center" gap={3}>
+                <CheckCircleIcon color="#38D9A9" w={5} h={5} />
+                <Box>
+                  <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" color="#FFFFFF" fontWeight="bold">
+                    Squad Roster Confirmed: <chakra.span color="#38D9A9">{registeredTeam.team_name}</chakra.span>
+                  </Text>
+                  <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="gray.300">
+                    Your team details are locked and permanently recorded. You can now submit your project.
+                  </Text>
+                </Box>
+              </Flex>
+
+              <NextLink href="/hacknova" passHref>
+                <Button
+                  as="a"
+                  size="sm"
+                  bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                  color="#030512"
+                  fontFamily="'Oxanium', sans-serif"
+                  fontSize="xs"
+                  fontWeight="bold"
+                  letterSpacing="0.1em"
+                  textTransform="uppercase"
+                  boxShadow="0 0 15px rgba(56, 217, 169, 0.35)"
+                  _hover={{
+                    bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+                  }}
+                  whiteSpace="nowrap"
+                  rightIcon={<ArrowForwardIcon />}
+                >
+                  Proceed to Project Submission →
+                </Button>
+              </NextLink>
             </Flex>
           </Box>
         )}

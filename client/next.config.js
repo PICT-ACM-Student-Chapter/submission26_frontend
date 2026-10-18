@@ -25,6 +25,39 @@ const nextConfig = {
         source: "/backend-api/:path*",
         destination: `${targetBackend}/:path*`,
       },
+      // Admin Portal & Backend Admin API Endpoints
+      {
+        source: "/admin/portal",
+        destination: `${targetBackend}/admin/portal`,
+      },
+      {
+        source: "/admin/csv-portal",
+        destination: `${targetBackend}/admin/csv-portal`,
+      },
+      {
+        source: "/admin/signin",
+        destination: `${targetBackend}/admin/signin`,
+      },
+      {
+        source: "/admin/signout",
+        destination: `${targetBackend}/admin/signout`,
+      },
+      {
+        source: "/admin/me",
+        destination: `${targetBackend}/admin/me`,
+      },
+      {
+        source: "/admin/csv/:path*",
+        destination: `${targetBackend}/admin/csv/:path*`,
+      },
+      {
+        source: "/admin/export-csv/:path*",
+        destination: `${targetBackend}/admin/export-csv/:path*`,
+      },
+      {
+        source: "/admin/submission-status/:path*",
+        destination: `${targetBackend}/admin/submission-status/:path*`,
+      },
     ];
   },
 };

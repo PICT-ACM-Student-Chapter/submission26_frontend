@@ -764,7 +764,20 @@ const AdminPage = () => {
                   <MenuItem bg="#071024" color="#FFFFFF" _hover={{ bg: "rgba(56, 217, 169, 0.15)", color: "#38D9A9" }} onClick={() => route.push('/result')}>
                     Download Results CSV
                   </MenuItem>
-                  <MenuItem bg="#071024" color="#FFFFFF" _hover={{ bg: "rgba(56, 217, 169, 0.15)", color: "#38D9A9" }} onClick={() => window.open(`${apiConfig.url}/admin/portal`, '_blank')}>
+                  <MenuItem
+                    bg="#071024"
+                    color="#FFFFFF"
+                    _hover={{ bg: "rgba(56, 217, 169, 0.15)", color: "#38D9A9" }}
+                    onClick={() => {
+                      try {
+                        const adminObj = JSON.parse(localStorage.getItem("admin") || "{}");
+                        const tokenQuery = adminObj?.token ? `?token=${encodeURIComponent(adminObj.token)}` : "";
+                        window.open(`${apiConfig.url}/admin/portal${tokenQuery}`, "_blank");
+                      } catch {
+                        window.open(`${apiConfig.url}/admin/portal`, "_blank");
+                      }
+                    }}
+                  >
                     Admin Submissions &amp; CSV Portal ↗
                   </MenuItem>
                 </MenuList>

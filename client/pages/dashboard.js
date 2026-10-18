@@ -226,16 +226,51 @@ const Dashboard = () => {
           </Box>
         )}
 
+
         {safeContEvents.length === 0 && (
-          <Box textAlign="center" py={12}>
+          <Box
+            textAlign="center"
+            py={16}
+            px={4}
+            maxW="420px"
+            mx="auto"
+          >
+            <Flex
+              align="center"
+              justify="center"
+              w="64px"
+              h="64px"
+              rounded="full"
+              bg="rgba(56, 217, 169, 0.08)"
+              border="1px solid rgba(56, 217, 169, 0.25)"
+              color="#38D9A9"
+              mx="auto"
+              mb={5}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </Flex>
+            <chakra.p
+              fontFamily="'United Colony', sans-serif !important"
+              fontSize={{ base: "lg", md: "xl" }}
+              color="#FFFFFF"
+              letterSpacing="0.08em"
+              textTransform="uppercase"
+              mb={2}
+            >
+              No Events Registered
+            </chakra.p>
             <Text
               fontFamily="'Oxanium', sans-serif"
-              fontSize={{ base: "lg", md: "2xl" }}
+              fontSize={{ base: "xs", sm: "sm" }}
               color="gray.400"
               letterSpacing="0.1em"
-              mt={6}
             >
-              You haven&lsquo;t registered for any event
+              You haven&lsquo;t registered for any event yet. Visit Pulzion EMS to register for events.
             </Text>
           </Box>
         )}

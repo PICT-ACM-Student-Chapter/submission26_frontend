@@ -271,12 +271,14 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
     return (
       <Box
         position="relative"
-        p={{ base: 6, md: 8 }}
+        w="full"
+        maxW="100%"
+        boxSizing="border-box"
+        p={{ base: 3, sm: 5, md: 8 }}
         bg="linear-gradient(180deg, rgba(20, 10, 25, 0.95) 0%, rgba(12, 6, 18, 0.95) 100%)"
         border="1px solid rgba(239, 68, 68, 0.45)"
         boxShadow="0 0 30px rgba(239, 68, 68, 0.2)"
         borderRadius="md"
-        overflow="hidden"
       >
         {/* HUD Brackets */}
         <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #EF4444" borderTop="2px solid #EF4444" pointerEvents="none" />
@@ -362,12 +364,14 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
     return (
       <Box
         position="relative"
-        p={{ base: 5, md: 7 }}
+        w="full"
+        maxW="100%"
+        boxSizing="border-box"
+        p={{ base: 4, sm: 5, md: 7 }}
         bg="linear-gradient(180deg, rgba(11, 21, 46, 0.95) 0%, rgba(7, 16, 36, 0.95) 100%)"
         border="1px solid rgba(56, 217, 169, 0.45)"
         boxShadow="0 0 35px rgba(56, 217, 169, 0.2), 0 12px 32px rgba(0, 0, 0, 0.85)"
         borderRadius="md"
-        overflow="hidden"
       >
         {/* HUD Brackets */}
         <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
@@ -427,23 +431,30 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
 
           {/* Leader Card */}
           <Box
-            p={4}
+            p={{ base: 3, sm: 4 }}
+            minW={0}
             bg="rgba(5, 11, 29, 0.75)"
             border="1px solid rgba(56, 217, 169, 0.4)"
             borderRadius="md"
             position="relative"
           >
-            <Flex justify="space-between" align="center" mb={2}>
-              <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" fontWeight="bold" color="#FFFFFF">
+            <Flex
+              justify="space-between"
+              align={{ base: "flex-start", sm: "center" }}
+              direction={{ base: "column", sm: "row" }}
+              gap={2}
+              mb={2}
+            >
+              <Text minW={0} wordBreak="break-word" fontFamily="'Oxanium', sans-serif" fontSize="sm" fontWeight="bold" color="#FFFFFF">
                 {leaderMember.user_name}
               </Text>
-              <Badge bg="#38D9A9" color="#030512" fontFamily="'Oxanium', sans-serif" fontSize="2xs" fontWeight="extrabold" px={2} py={0.5}>
+              <Badge alignSelf={{ base: "flex-start", sm: "auto" }} bg="#38D9A9" color="#030512" fontFamily="'Oxanium', sans-serif" fontSize="2xs" fontWeight="extrabold" px={2} py={0.5}>
                 TEAM LEADER
               </Badge>
             </Flex>
-            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={2} fontSize="xs" fontFamily="'Oxanium', sans-serif" color="#CBD5E1">
-              <Text>📧 {leaderMember.email}</Text>
-              <Text>📱 {leaderMember.phone || "N/A"}</Text>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={2} minW={0} fontSize="xs" fontFamily="'Oxanium', sans-serif" color="#CBD5E1">
+              <Text wordBreak="break-word">📧 {leaderMember.email}</Text>
+              <Text wordBreak="break-word">📱 {leaderMember.phone || "N/A"}</Text>
             </SimpleGrid>
           </Box>
 
@@ -451,22 +462,29 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
           {otherMembers.map((m, idx) => (
             <Box
               key={m.id || idx}
-              p={4}
+              p={{ base: 3, sm: 4 }}
+              minW={0}
               bg="rgba(5, 11, 29, 0.5)"
               border="1px solid rgba(255, 255, 255, 0.1)"
               borderRadius="md"
             >
-              <Flex justify="space-between" align="center" mb={2}>
-                <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" fontWeight="bold" color="#FFFFFF">
+              <Flex
+                justify="space-between"
+                align={{ base: "flex-start", sm: "center" }}
+                direction={{ base: "column", sm: "row" }}
+                gap={2}
+                mb={2}
+              >
+                <Text minW={0} wordBreak="break-word" fontFamily="'Oxanium', sans-serif" fontSize="sm" fontWeight="bold" color="#FFFFFF">
                   {m.user_name}
                 </Text>
-                <Badge bg="rgba(34, 211, 238, 0.15)" color="#22D3EE" border="1px solid rgba(34, 211, 238, 0.3)" fontFamily="'Oxanium', sans-serif" fontSize="2xs" px={2} py={0.5}>
+                <Badge alignSelf={{ base: "flex-start", sm: "auto" }} bg="rgba(34, 211, 238, 0.15)" color="#22D3EE" border="1px solid rgba(34, 211, 238, 0.3)" fontFamily="'Oxanium', sans-serif" fontSize="2xs" px={2} py={0.5}>
                   MEMBER {idx + 2}
                 </Badge>
               </Flex>
-              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={2} fontSize="xs" fontFamily="'Oxanium', sans-serif" color="#CBD5E1">
-                <Text>📧 {m.email}</Text>
-                <Text>📱 {m.phone}</Text>
+              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={2} minW={0} fontSize="xs" fontFamily="'Oxanium', sans-serif" color="#CBD5E1">
+                <Text wordBreak="break-word">📧 {m.email}</Text>
+                <Text wordBreak="break-word">📱 {m.phone}</Text>
               </SimpleGrid>
             </Box>
           ))}
@@ -499,12 +517,14 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
   return (
     <Box
       position="relative"
-      p={{ base: 5, md: 7 }}
+      w="full"
+      maxW="100%"
+      boxSizing="border-box"
+      p={{ base: 4, sm: 5, md: 7 }}
       bg="linear-gradient(180deg, rgba(11, 21, 46, 0.95) 0%, rgba(7, 16, 36, 0.95) 100%)"
       border="1px solid rgba(56, 217, 169, 0.35)"
       boxShadow="0 12px 32px rgba(0, 0, 0, 0.85)"
       borderRadius="md"
-      overflow="hidden"
     >
       {/* 4 Corner HUD Brackets */}
       <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
@@ -513,10 +533,19 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
       <Box position="absolute" bottom="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
 
       <Box mb={5}>
-        <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
+        <Flex
+          justify="space-between"
+          align={{ base: "flex-start", sm: "center" }}
+          direction={{ base: "column", sm: "row" }}
+          wrap="wrap"
+          gap={2}
+          minW={0}
+        >
           <chakra.h2
+            w="full"
+            minW={0}
             fontFamily="'United Colony', sans-serif !important"
-            fontSize={{ base: "xl", sm: "2xl" }}
+            fontSize={{ base: "lg", sm: "2xl" }}
             fontWeight="bold"
             color="#FFFFFF"
             letterSpacing="0.08em"
@@ -525,13 +554,16 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
             HACKNOVA TEAM REGISTRATION
           </chakra.h2>
           <Badge
+            maxW="100%"
+            whiteSpace="normal"
+            wordBreak="break-word"
             px={2.5}
             py={1}
             bg="rgba(56, 217, 169, 0.15)"
             color="#38D9A9"
             border="1px solid rgba(56, 217, 169, 0.35)"
             fontFamily="'Oxanium', sans-serif"
-            fontSize="2xs"
+            fontSize="xs"
             letterSpacing="0.1em"
           >
             2–4 MEMBERS REQUIRED
@@ -560,13 +592,16 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
       <form onSubmit={handlePreSubmit}>
         <Stack spacing={5}>
           {/* Section: Team Details */}
-          <Box p={4} bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(56, 217, 169, 0.2)" borderRadius="md">
-            <FormControl id="teamName" isRequired>
+          <Box p={{ base: 3, sm: 4 }} minW={0} bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(56, 217, 169, 0.2)" borderRadius="md">
+            <FormControl id="teamName" isRequired minW={0} maxW="100%">
               <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="xs" fontWeight="bold" letterSpacing="0.1em" textTransform="uppercase" color="#38D9A9" mb={1.5}>
                 Team Name *
               </FormLabel>
               <Input
                 name="teamName"
+                w="full"
+                maxW="100%"
+                boxSizing="border-box"
                 placeholder="e.g. CyberNovas"
                 h="44px"
                 fontFamily="'Oxanium', sans-serif"
@@ -588,24 +623,33 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
           </Box>
 
           {/* Section: Team Leader (Auto-Fetched & Read-Only) */}
-          <Box p={4} bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(34, 211, 238, 0.25)" borderRadius="md">
-            <Flex justify="space-between" align="center" mb={3}>
-              <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" fontWeight="bold" color="#22D3EE" letterSpacing="0.1em" textTransform="uppercase">
+          <Box p={{ base: 3, sm: 4 }} minW={0} bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(34, 211, 238, 0.25)" borderRadius="md">
+            <Flex
+              justify="space-between"
+              align={{ base: "flex-start", sm: "center" }}
+              direction={{ base: "column", sm: "row" }}
+              gap={2}
+              mb={3}
+            >
+              <Text minW={0} fontFamily="'Oxanium', sans-serif" fontSize="xs" fontWeight="bold" color="#22D3EE" letterSpacing="0.1em" textTransform="uppercase">
                 MEMBER 1: TEAM LEADER (AUTO-FETCHED & READ-ONLY)
               </Text>
-              <Badge bg="#38D9A9" color="#030512" fontFamily="'Oxanium', sans-serif" fontSize="2xs" fontWeight="bold">
+              <Badge alignSelf={{ base: "flex-start", sm: "auto" }} maxW="100%" whiteSpace="normal" bg="#38D9A9" color="#030512" fontFamily="'Oxanium', sans-serif" fontSize="xs" fontWeight="bold">
                 LEADER (YOU)
               </Badge>
             </Flex>
 
-            <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={3}>
-              <FormControl>
+            <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={3} minW={0}>
+              <FormControl minW={0} maxW="100%">
                 <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="gray.400" mb={1}>
                   LEADER NAME
                 </FormLabel>
                 <Input
                   value={leader.name || ""}
                   isReadOnly
+                  w="full"
+                  maxW="100%"
+                  boxSizing="border-box"
                   h="40px"
                   fontFamily="'Oxanium', sans-serif"
                   color="#CBD5E1"
@@ -615,13 +659,16 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl minW={0} maxW="100%">
                 <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="gray.400" mb={1}>
                   LEADER EMAIL
                 </FormLabel>
                 <Input
                   value={leader.email || ""}
                   isReadOnly
+                  w="full"
+                  maxW="100%"
+                  boxSizing="border-box"
                   h="40px"
                   fontFamily="'Oxanium', sans-serif"
                   color="#CBD5E1"
@@ -631,13 +678,16 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl minW={0} maxW="100%">
                 <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="gray.400" mb={1}>
                   LEADER PHONE
                 </FormLabel>
                 <Input
                   value={leader.phone || ""}
                   isReadOnly
+                  w="full"
+                  maxW="100%"
+                  boxSizing="border-box"
                   h="40px"
                   fontFamily="'Oxanium', sans-serif"
                   color="#CBD5E1"
@@ -648,28 +698,37 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
               </FormControl>
             </SimpleGrid>
             <Text fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="gray.400" mt={2}>
-              🔒 Leader details are securely sourced from your authenticated Pulzion account.
+              Leader details are securely sourced from your authenticated Pulzion account.
             </Text>
           </Box>
 
           {/* Section: Member 2 (Mandatory) */}
-          <Box p={4} bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(56, 217, 169, 0.25)" borderRadius="md">
-            <Flex justify="space-between" align="center" mb={3}>
+          <Box p={{ base: 3, sm: 4 }} minW={0} bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(56, 217, 169, 0.25)" borderRadius="md">
+            <Flex
+              justify="space-between"
+              align={{ base: "flex-start", sm: "center" }}
+              direction={{ base: "column", sm: "row" }}
+              gap={2}
+              mb={3}
+            >
               <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" fontWeight="bold" color="#38D9A9" letterSpacing="0.1em" textTransform="uppercase">
                 MEMBER 2 (MANDATORY) *
               </Text>
-              <Badge bg="rgba(56, 217, 169, 0.15)" color="#38D9A9" border="1px solid rgba(56, 217, 169, 0.3)" fontFamily="'Oxanium', sans-serif" fontSize="2xs">
+              <Badge alignSelf={{ base: "flex-start", sm: "auto" }} maxW="100%" whiteSpace="normal" bg="rgba(56, 217, 169, 0.15)" color="#38D9A9" border="1px solid rgba(56, 217, 169, 0.3)" fontFamily="'Oxanium', sans-serif" fontSize="xs">
                 REQUIRED
               </Badge>
             </Flex>
 
-            <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={3}>
-              <FormControl isRequired>
+            <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={3} minW={0}>
+              <FormControl isRequired minW={0} maxW="100%">
                 <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#38D9A9" mb={1}>
                   FULL NAME *
                 </FormLabel>
                 <Input
                   placeholder="e.g. Alex Smith"
+                  w="full"
+                  maxW="100%"
+                  boxSizing="border-box"
                   h="40px"
                   fontFamily="'Oxanium', sans-serif"
                   color="#FFFFFF"
@@ -685,13 +744,17 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                 )}
               </FormControl>
 
-              <FormControl isRequired>
+              <FormControl isRequired minW={0} maxW="100%">
                 <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#38D9A9" mb={1}>
                   EMAIL ADDRESS *
                 </FormLabel>
+               
                 <Input
                   type="email"
                   placeholder="alex@example.com"
+                  w="full"
+                  maxW="100%"
+                  boxSizing="border-box"
                   h="40px"
                   fontFamily="'Oxanium', sans-serif"
                   color="#FFFFFF"
@@ -705,14 +768,20 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                     {formErrors.m2Email}
                   </Text>
                 )}
+                 <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="gray.400">
+                      Same email will be used during OA
+                  </Text>
               </FormControl>
 
-              <FormControl isRequired>
+              <FormControl isRequired minW={0} maxW="100%">
                 <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#38D9A9" mb={1}>
                   PHONE NUMBER *
                 </FormLabel>
                 <Input
                   placeholder="9876543210"
+                  w="full"
+                  maxW="100%"
+                  boxSizing="border-box"
                   h="40px"
                   fontFamily="'Oxanium', sans-serif"
                   color="#FFFFFF"
@@ -731,8 +800,14 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
           </Box>
 
           {/* Section: Member 3 (Optional) */}
-          <Box p={4} bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.15)" borderRadius="md">
-            <Flex justify="space-between" align="center" mb={showMember3 ? 3 : 0}>
+          <Box p={{ base: 3, sm: 4 }} minW={0} bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.15)" borderRadius="md">
+            <Flex
+              justify="space-between"
+              align={{ base: "stretch", sm: "center" }}
+              direction={{ base: "column", sm: "row" }}
+              gap={2}
+              mb={showMember3 ? 3 : 0}
+            >
               <Box>
                 <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" fontWeight="bold" color="#CBD5E1" letterSpacing="0.1em" textTransform="uppercase">
                   MEMBER 3 (OPTIONAL)
@@ -747,12 +822,15 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
               {!showMember3 ? (
                 <Button
                   size="xs"
+                  w={{ base: "full", sm: "auto" }}
+                  minH="36px"
+                  maxW="100%"
                   leftIcon={<AddIcon />}
                   variant="outline"
                   borderColor="#38D9A9"
                   color="#38D9A9"
                   fontFamily="'Oxanium', sans-serif"
-                  fontSize="2xs"
+                  fontSize="xs"
                   _hover={{ bg: "rgba(56, 217, 169, 0.15)" }}
                   onClick={() => setShowMember3(true)}
                 >
@@ -761,11 +839,14 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
               ) : (
                 <Button
                   size="xs"
+                  w={{ base: "full", sm: "auto" }}
+                  minH="36px"
+                  maxW="100%"
                   leftIcon={<DeleteIcon />}
                   variant="ghost"
                   color="#F87171"
                   fontFamily="'Oxanium', sans-serif"
-                  fontSize="2xs"
+                  fontSize="xs"
                   _hover={{ bg: "rgba(239, 68, 68, 0.15)" }}
                   onClick={() => {
                     setShowMember3(false);
@@ -781,13 +862,16 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
             </Flex>
 
             {showMember3 && (
-              <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={3} mt={2}>
-                <FormControl>
+              <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={3} mt={2} minW={0}>
+                <FormControl minW={0} maxW="100%">
                   <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#CBD5E1" mb={1}>
                     FULL NAME
                   </FormLabel>
                   <Input
                     placeholder="e.g. Sam Wilson"
+                    w="full"
+                    maxW="100%"
+                    boxSizing="border-box"
                     h="40px"
                     fontFamily="'Oxanium', sans-serif"
                     color="#FFFFFF"
@@ -803,13 +887,16 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                   )}
                 </FormControl>
 
-                <FormControl>
+                <FormControl minW={0} maxW="100%">
                   <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#CBD5E1" mb={1}>
                     EMAIL ADDRESS
                   </FormLabel>
                   <Input
                     type="email"
                     placeholder="sam@example.com"
+                    w="full"
+                    maxW="100%"
+                    boxSizing="border-box"
                     h="40px"
                     fontFamily="'Oxanium', sans-serif"
                     color="#FFFFFF"
@@ -823,14 +910,20 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                       {formErrors.m3Email}
                     </Text>
                   )}
+                  <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="gray.400">
+                      Same email will be used during OA
+                  </Text>
                 </FormControl>
 
-                <FormControl>
+                <FormControl minW={0} maxW="100%">
                   <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#CBD5E1" mb={1}>
                     PHONE NUMBER
                   </FormLabel>
                   <Input
                     placeholder="9876543211"
+                    w="full"
+                    maxW="100%"
+                    boxSizing="border-box"
                     h="40px"
                     fontFamily="'Oxanium', sans-serif"
                     color="#FFFFFF"
@@ -851,13 +944,20 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
 
           {/* Section: Member 4 (Optional, conditional on Member 3) */}
           <Box
-            p={4}
+            p={{ base: 3, sm: 4 }}
+            minW={0}
             bg="rgba(7, 16, 36, 0.7)"
             border="1px solid rgba(255, 255, 255, 0.15)"
             borderRadius="md"
             opacity={!showMember3 ? 0.6 : 1}
           >
-            <Flex justify="space-between" align="center" mb={showMember4 ? 3 : 0}>
+            <Flex
+              justify="space-between"
+              align={{ base: "stretch", sm: "center" }}
+              direction={{ base: "column", sm: "row" }}
+              gap={2}
+              mb={showMember4 ? 3 : 0}
+            >
               <Box>
                 <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" fontWeight="bold" color="#CBD5E1" letterSpacing="0.1em" textTransform="uppercase">
                   MEMBER 4 (OPTIONAL)
@@ -872,13 +972,16 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
               {!showMember4 ? (
                 <Button
                   size="xs"
+                  w={{ base: "full", sm: "auto" }}
+                  minH="36px"
+                  maxW="100%"
                   leftIcon={<AddIcon />}
                   variant="outline"
                   borderColor={showMember3 ? "#38D9A9" : "gray.600"}
                   color={showMember3 ? "#38D9A9" : "gray.500"}
                   isDisabled={!showMember3}
                   fontFamily="'Oxanium', sans-serif"
-                  fontSize="2xs"
+                  fontSize="xs"
                   _hover={showMember3 ? { bg: "rgba(56, 217, 169, 0.15)" } : {}}
                   onClick={() => setShowMember4(true)}
                 >
@@ -887,11 +990,14 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
               ) : (
                 <Button
                   size="xs"
+                  w={{ base: "full", sm: "auto" }}
+                  minH="36px"
+                  maxW="100%"
                   leftIcon={<DeleteIcon />}
                   variant="ghost"
                   color="#F87171"
                   fontFamily="'Oxanium', sans-serif"
-                  fontSize="2xs"
+                  fontSize="xs"
                   _hover={{ bg: "rgba(239, 68, 68, 0.15)" }}
                   onClick={() => {
                     setShowMember4(false);
@@ -904,13 +1010,16 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
             </Flex>
 
             {showMember4 && showMember3 && (
-              <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={3} mt={2}>
-                <FormControl>
+              <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={3} mt={2} minW={0}>
+                <FormControl minW={0} maxW="100%">
                   <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#CBD5E1" mb={1}>
                     FULL NAME
                   </FormLabel>
                   <Input
                     placeholder="e.g. Taylor Swift"
+                    w="full"
+                    maxW="100%"
+                    boxSizing="border-box"
                     h="40px"
                     fontFamily="'Oxanium', sans-serif"
                     color="#FFFFFF"
@@ -926,13 +1035,16 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                   )}
                 </FormControl>
 
-                <FormControl>
+                <FormControl minW={0} maxW="100%">
                   <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#CBD5E1" mb={1}>
                     EMAIL ADDRESS
                   </FormLabel>
                   <Input
                     type="email"
                     placeholder="taylor@example.com"
+                    w="full"
+                    maxW="100%"
+                    boxSizing="border-box"
                     h="40px"
                     fontFamily="'Oxanium', sans-serif"
                     color="#FFFFFF"
@@ -946,14 +1058,20 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                       {formErrors.m4Email}
                     </Text>
                   )}
+                  <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="gray.400">
+                      Same email will be used during OA
+                  </Text>
                 </FormControl>
 
-                <FormControl>
+                <FormControl minW={0} maxW="100%">
                   <FormLabel fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#CBD5E1" mb={1}>
                     PHONE NUMBER
                   </FormLabel>
                   <Input
                     placeholder="9876543212"
+                    w="full"
+                    maxW="100%"
+                    boxSizing="border-box"
                     h="40px"
                     fontFamily="'Oxanium', sans-serif"
                     color="#FFFFFF"
@@ -977,15 +1095,22 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
             <Button
               type="submit"
               w={{ base: "full", sm: "auto" }}
-              px={8}
-              h="46px"
+              minW={0}
+              maxW="100%"
+              px={{ base: 3, sm: 8 }}
+              minH="48px"
+              h="auto"
+              py={3}
+              lineHeight="short"
               bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
               color="#030512"
               fontFamily="'Oxanium', sans-serif"
               fontWeight="extrabold"
               letterSpacing="0.12em"
-              fontSize="sm"
+              fontSize={{ base: "xs", sm: "sm" }}
               textTransform="uppercase"
+              whiteSpace="normal"
+              wordBreak="break-word"
               rounded="md"
               boxShadow="0 0 20px rgba(56, 217, 169, 0.35)"
               _hover={{
@@ -996,7 +1121,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
               _active={{ transform: "scale(0.98)" }}
               isLoading={submitting}
             >
-              🔒 Review & Register Team
+              Review & Register Team
             </Button>
           </Box>
         </Stack>
@@ -1022,9 +1147,10 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
           <ModalHeader
             fontFamily="'United Colony', sans-serif !important"
             color="#FFFFFF"
-            fontSize="xl"
+            fontSize={{ base: "lg", sm: "xl" }}
             letterSpacing="0.08em"
             textTransform="uppercase"
+            wordBreak="break-word"
             pt={3}
           >
             CONFIRM HACKNOVA TEAM ROSTER
@@ -1044,19 +1170,19 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
               </Text>
 
               <Stack spacing={2} fontSize="xs">
-                <Text>• <chakra.span fontWeight="bold" color="#38D9A9">Leader:</chakra.span> {leader.name} ({leader.email})</Text>
-                <Text>• <chakra.span fontWeight="bold" color="#FFFFFF">Member 2:</chakra.span> {member2.name} ({member2.email})</Text>
+                <Text wordBreak="break-word">• <chakra.span fontWeight="bold" color="#38D9A9">Leader:</chakra.span> {leader.name} ({leader.email})</Text>
+                <Text wordBreak="break-word">• <chakra.span fontWeight="bold" color="#FFFFFF">Member 2:</chakra.span> {member2.name} ({member2.email})</Text>
                 {showMember3 && member3.name && (
-                  <Text>• <chakra.span fontWeight="bold" color="#FFFFFF">Member 3:</chakra.span> {member3.name} ({member3.email})</Text>
+                  <Text wordBreak="break-word">• <chakra.span fontWeight="bold" color="#FFFFFF">Member 3:</chakra.span> {member3.name} ({member3.email})</Text>
                 )}
                 {showMember4 && member4.name && (
-                  <Text>• <chakra.span fontWeight="bold" color="#FFFFFF">Member 4:</chakra.span> {member4.name} ({member4.email})</Text>
+                  <Text wordBreak="break-word">• <chakra.span fontWeight="bold" color="#FFFFFF">Member 4:</chakra.span> {member4.name} ({member4.email})</Text>
                 )}
               </Stack>
 
               <Box p={3} bg="rgba(239, 68, 68, 0.12)" border="1px solid rgba(239, 68, 68, 0.4)" borderRadius="md" mt={2}>
                 <Text fontSize="xs" color="#FCA5A5" fontWeight="bold">
-                  ⚠️ PERMANENT LOCK WARNING:
+                  PERMANENT LOCK WARNING:
                 </Text>
                 <Text fontSize="2xs" color="#CBD5E1" mt={1}>
                   Once submitted, team details are permanently locked in the database and CANNOT be modified, updated, or reassigned.
@@ -1065,8 +1191,15 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
             </Stack>
           </ModalBody>
 
-          <ModalFooter gap={3} pt={4}>
+          <ModalFooter
+            gap={3}
+            pt={4}
+            flexDirection={{ base: "column", sm: "row" }}
+            alignItems={{ base: "stretch", sm: "center" }}
+          >
             <Button
+              w={{ base: "full", sm: "auto" }}
+              minH="44px"
               variant="outline"
               borderColor="rgba(255, 255, 255, 0.2)"
               color="#94A3B8"
@@ -1080,6 +1213,8 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
               Cancel
             </Button>
             <Button
+              w={{ base: "full", sm: "auto" }}
+              minH="44px"
               bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
               color="#030512"
               fontFamily="'Oxanium', sans-serif"

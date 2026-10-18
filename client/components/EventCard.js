@@ -1,4 +1,4 @@
-import { ArrowRightIcon } from "@chakra-ui/icons";
+import { ArrowRightIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import { Box, Button, chakra, Flex, Image, SimpleGrid } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
@@ -27,7 +27,7 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false })
       role="group"
       position="relative"
       h="full"
-      minH={{ base: "320px", sm: "340px" }}
+      minH={{ base: "290px", sm: "310px" }}
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
@@ -187,8 +187,7 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false })
         <chakra.p
           fontFamily="'Oxanium', sans-serif"
           fontSize="xs"
-          color="slate.300"
-          opacity={0.8}
+          opacity={0.75}
           textAlign="center"
           mt={1.5}
           px={2}
@@ -304,8 +303,9 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false })
               e.stopPropagation();
               router.push("/hacknova-team");
             }}
+            leftIcon={<InfoOutlineIcon w={3} h={3} />}
           >
-            👥 Fill Team Form →
+            Fill Team Form
           </Button>
         )}
 

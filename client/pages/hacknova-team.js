@@ -109,8 +109,17 @@ const HacknovaTeamPage = () => {
 
         {/* Page Title & Badging */}
         <Box mb={6}>
-          <Flex align="center" gap={2} mb={2}>
+          <Flex
+            align="flex-start"
+            wrap="wrap"
+            gap={2}
+            mb={2}
+            maxW="100%"
+          >
             <Badge
+              maxW="100%"
+              whiteSpace="normal"
+              wordBreak="break-word"
               px={3}
               py={1}
               rounded="full"
@@ -128,6 +137,9 @@ const HacknovaTeamPage = () => {
             </Badge>
 
             <Badge
+              maxW="100%"
+              whiteSpace="normal"
+              wordBreak="break-word"
               px={2.5}
               py={1}
               rounded="full"

@@ -218,7 +218,7 @@ const Hacknova = () => {
 
   return !loading ? (
     <Layout>
-      <Box pt={10} width="full" pb="60px" px={{ base: "16px", md: "48px", lg: "64px" }}>
+      <Box pt={10} width="full" pb="60px" px={{ base: 4, sm: 6, md: 12, lg: 16 }}>
         {/* Top Header Navigation */}
         <Flex justify="space-between" align="center" wrap="wrap" gap={3} mb={2}>
           <NextLink href="/dashboard" passHref>
@@ -236,7 +236,7 @@ const Hacknova = () => {
             </chakra.h3>
           </NextLink>
 
-          {isSquadRegistrationActive === true && (
+          {/* {isSquadRegistrationActive === true && (
             <NextLink href="/hacknova-team" passHref>
               <Button
                 as="a"
@@ -250,15 +250,15 @@ const Hacknova = () => {
                 textTransform="uppercase"
                 _hover={{ bg: "rgba(56, 217, 169, 0.15)", borderColor: "#38D9A9" }}
               >
-                👥 Fill Team Form →
+                Fill Team Form →
               </Button>
             </NextLink>
-          )}
+          )} */}
         </Flex>
 
         <chakra.h1
           py={4}
-          fontSize={40}
+          fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
           fontWeight="bold"
           color={textColor}
           textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}
@@ -270,7 +270,7 @@ const Hacknova = () => {
         </chakra.h1>
 
         {/* Squad Registration Notice: Displayed ONLY when HackNova Squad Registrations (Event ID 200, /hacknova-team) is true */}
-        {isSquadRegistrationActive === true && (
+        {/* {isSquadRegistrationActive === true && (
           <Box
             mb={6}
             p={4}
@@ -278,14 +278,14 @@ const Hacknova = () => {
             border="1px solid rgba(56, 217, 169, 0.45)"
             borderRadius="md"
             boxShadow="0 0 20px rgba(56, 217, 169, 0.15)"
-          >
-            <Flex
+          > */}
+            {/* <Flex
               direction={{ base: "column", sm: "row" }}
               align={{ base: "flex-start", sm: "center" }}
               justify="space-between"
               gap={3}
-            >
-              <Box>
+            > */}
+              {/* <Box>
                 <Text
                   fontFamily="'Oxanium', sans-serif"
                   fontSize="xs"
@@ -295,7 +295,7 @@ const Hacknova = () => {
                   textTransform="uppercase"
                   mb={0.5}
                 >
-                  ⚡ SQUAD REGISTRATION NOTICE
+                  SQUAD REGISTRATION NOTICE
                 </Text>
                 <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" color="#FFFFFF">
                   You are registered for HackNova. Please{" "}
@@ -304,8 +304,8 @@ const Hacknova = () => {
                   </chakra.span>{" "}
                   to assemble your 2–4 member squad before submitting your project.
                 </Text>
-              </Box>
-              <NextLink href="/hacknova-team" passHref>
+              </Box> */}
+              {/* <NextLink href="/hacknova-team" passHref>
                 <Button
                   as="a"
                   size="sm"
@@ -323,18 +323,18 @@ const Hacknova = () => {
                 >
                   Fill Team Form →
                 </Button>
-              </NextLink>
-            </Flex>
-          </Box>
-        )}
+              </NextLink> */}
+            {/* </Flex> */}
+          {/* </Box> */}
+        {/* )} */}
 
         <SimpleGrid columns={{ base: 1, lg: 2 }} gap={10} alignItems="start">
           {/* Left Column: Topics and Instructions */}
           <GridItem>
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={textColor} fontFamily="'Oxanium', sans-serif">
-                <Tab fontSize={18} fontWeight="bold">Topics</Tab>
-                <Tab fontSize={18} fontWeight="bold">Instructions</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontWeight="bold" fontFamily="'Oxanium', sans-serif">Topics</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontWeight="bold" fontFamily="'Oxanium', sans-serif">Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg}>
                 {/* Tab 1: Problem Statements */}
@@ -380,7 +380,7 @@ const Hacknova = () => {
                 <TabPanel color="hsl(210, 40%, 100%)">
                   <Stack spacing={3} fontFamily="'Oxanium', sans-serif">
                     <Text fontSize="xl" fontWeight="bold" color={textColor} mb={1}>
-                      🚀 HackNova &apos;26 — Rules & Workflow
+                      HackNova &apos;26 — Rules & Workflow
                     </Text>
 
                     <Stack spacing={2.5} fontSize="md">
@@ -388,7 +388,7 @@ const Hacknova = () => {
                         1. <chakra.span fontWeight="bold" color={primaryColor}>Step 1: Team Registration.</chakra.span> Register your squad (2–4 members) on the{" "}
                         <NextLink href="/hacknova-team" passHref>
                           <chakra.span color="#38D9A9" textDecoration="underline" cursor="pointer">
-                            HackNova Team Registration Route
+                            HackNova Team Registration
                           </chakra.span>
                         </NextLink>{" "}
                         before project submission.
@@ -424,7 +424,7 @@ const Hacknova = () => {
                       textAlign="center"
                     >
                       <Text fontSize="md" fontWeight="bold" color={primaryColor} letterSpacing="0.05em">
-                        All the best, HackNova participants! 🚀
+                        All the best, HackNova participants!
                       </Text>
                     </Box>
                   </Stack>
@@ -479,11 +479,11 @@ const Hacknova = () => {
                 borderRadius="md"
               >
                 <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
-                  <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#22D3EE">
-                    👥 Need to register or verify your squad roster?
+                  <Text fontFamily="'Oxanium', sans-serif" fontSize="s" color="#ebf1f2">
+                    Need to register or verify your squad ?
                   </Text>
                   <NextLink href="/hacknova-team" passHref>
-                    <Button
+                    {/* <Button
                       as="a"
                       size="xs"
                       variant="outline"
@@ -494,7 +494,24 @@ const Hacknova = () => {
                       _hover={{ bg: "rgba(34, 211, 238, 0.2)" }}
                     >
                       Go to Team Registration Form →
-                    </Button>
+                    </Button> */}
+                    <Button
+                  as="a"
+                  size="sm"
+                  bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                  color="#030512"
+                  fontFamily="'Oxanium', sans-serif"
+                  fontSize="xs"
+                  fontWeight="bold"
+                  letterSpacing="0.1em"
+                  textTransform="uppercase"
+                  _hover={{
+                    bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+                  }}
+                  whiteSpace="nowrap"
+                >
+                  Open Form →
+                </Button>
                   </NextLink>
                 </Flex>
               </Box>

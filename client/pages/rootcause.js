@@ -159,11 +159,12 @@ const Rootcause = () => {
 
   return !loading ? (
     <Layout>
-      <Box pt={10} width="full" pb="40px" px={{ base: "16px", md: "48px", lg: "64px" }}>
+      <Box pt={10} width="full" pb="40px" px={{ base: 4, sm: 6, md: 12, lg: 16 }}>
         <NextLink href="/dashboard">
           <chakra.h3
             fontWeight="bold"
-            fontSize={24}
+            fontSize={{ base: 'sm', md: 'md' }}
+            fontFamily="'Oxanium', sans-serif"
             textTransform="uppercase"
             color={primaryColor}
             cursor="pointer"
@@ -176,8 +177,11 @@ const Rootcause = () => {
 
         <chakra.h1
           py={5}
-          fontSize={40}
+          fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
+          fontFamily="'United Colony', sans-serif !important"
           fontWeight="bold"
+          letterSpacing="0.05em"
+          textTransform="uppercase"
           color={textColor}
           textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}
         >
@@ -189,8 +193,8 @@ const Rootcause = () => {
           <GridItem>
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={textColor}>
-                <Tab fontSize={20}>Topics</Tab>
-                <Tab fontSize={20}>Instructions</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Topics</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg}>
                 {/* Tab 1: Problem Statements */}
@@ -236,7 +240,7 @@ const Rootcause = () => {
                 <TabPanel color="hsl(210, 40%, 100%)">
                   <Stack spacing={3}>
                     <Text fontSize="xl" fontWeight="bold" color={textColor} mb={1}>
-                      🚀 Root Cause &apos;26 — Submission Rules
+                      Root Cause &apos;26 — Submission Rules
                     </Text>
 
                     <Stack spacing={2.5} fontSize="md">

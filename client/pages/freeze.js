@@ -145,11 +145,12 @@ const Freeze = () => {
 
   return !loading ? (
     <Layout>
-      <Box pt={10} width="full" pb="40px" px={{ base: "16px", md: "48px", lg: "64px" }}>
+      <Box pt={10} width="full" pb="40px" px={{ base: 4, sm: 6, md: 12, lg: 16 }}>
         <NextLink href="/dashboard">
           <chakra.h3
             fontWeight="bold"
-            fontSize={24}
+            fontSize={{ base: 'sm', md: 'md' }}
+            fontFamily="'Oxanium', sans-serif"
             textTransform="uppercase"
             color={primaryColor}
             cursor="pointer"
@@ -162,7 +163,10 @@ const Freeze = () => {
 
         <chakra.h1
           py={5}
-          fontSize={40}
+          fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
+          fontFamily="'United Colony', sans-serif !important"
+          letterSpacing="0.05em"
+          textTransform="uppercase"
           fontWeight="bold"
           color={textColor}
           textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}
@@ -175,8 +179,8 @@ const Freeze = () => {
           <GridItem>
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={textColor}>
-                <Tab fontSize={20}>Theme</Tab>
-                <Tab fontSize={20}>Instructions</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Theme</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg}>
                 {/* Tab 1: Theme Details */}
@@ -206,7 +210,7 @@ const Freeze = () => {
                 <TabPanel color="hsl(210, 40%, 100%)">
                   <Stack spacing={3}>
                     <Text fontSize="xl" fontWeight="bold" color={textColor} mb={1}>
-                      📸 Freeze the Second — Submission Rules
+                      Freeze the Second — Submission Rules
                     </Text>
 
                     <Stack spacing={2.5} fontSize="md">
@@ -239,7 +243,7 @@ const Freeze = () => {
                       textAlign="center"
                     >
                       <Text fontSize="md" fontWeight="bold" color={primaryColor} letterSpacing="0.05em">
-                        All the best, photographers! Capture the extraordinary. 📸
+                        All the best, photographers! Capture the extraordinary.
                       </Text>
                     </Box>
                   </Stack>

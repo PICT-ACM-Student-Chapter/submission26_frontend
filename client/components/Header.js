@@ -54,17 +54,18 @@ const Header = () => {
         h="70px"
         px={{
           base: "4",
+          sm: "6",
           md: "8",
           lg: "16",
         }}
       >
         {/* Pulzion Logo on the left */}
         <Link href="/" passHref>
-          <Box as="a" cursor="pointer" display="flex" alignItems="center">
+          <Box as="a" cursor="pointer" display="flex" alignItems="center" aria-label="Pulzion '26 Home">
             <Image
               src="/logo.png"
               alt="Pulzion '26"
-              h={{ base: "65px", md: "90px" }}
+              h={{ base: "48px", sm: "56px", md: "62px" }}
               w="auto"
               objectFit="contain"
               filter="drop-shadow(0 0 12px rgba(56, 217, 169, 0.35))"

@@ -306,7 +306,8 @@ import { ChevronLeftIcon } from "@chakra-ui/icons";
 const submissionEvents = [
   { name: "Freeze The Second", route: "freeze" },
   { name: "Innowave", route: "innowave" },
-  { name: "HackNova", route: "hacknova" },
+  { name: "HackNova - Project Deliverables", route: "hacknova" },
+  { name: "HackNova - Squad Registrations", route: "hacknova-teams" },
   { name: "Root Cause", route: "rootcause" },
 ];
 

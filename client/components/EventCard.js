@@ -5,9 +5,14 @@ import React, { useContext } from "react";
 import { toast } from "react-toastify";
 import AppContext from "../context/AppContext";
 
-const EventCard = ({ event, page, status }) => {
+const EventCard = ({ id, event, page, status, squadRegistrationActive = false }) => {
   const router = useRouter();
   const { user } = useContext(AppContext);
+
+  const isHackNova =
+    Number(id) === 20 ||
+    String(event || "").toLowerCase().includes("hacknova") ||
+    String(page || "").toLowerCase().includes("hacknova");
 
   const handleNavigate = () => {
     if (status === true) {
@@ -273,6 +278,36 @@ const EventCard = ({ event, page, status }) => {
             </chakra.span>
           </Flex>
         </SimpleGrid>
+
+        {/* If HackNova and HackNova Squad Registrations is active, show direct Fill Team Form CTA */}
+        {isHackNova && squadRegistrationActive === true && (
+          <Button
+            size="xs"
+            w="full"
+            variant="outline"
+            borderColor="rgba(56, 217, 169, 0.6)"
+            color="#38D9A9"
+            bg="rgba(56, 217, 169, 0.12)"
+            fontFamily="'Oxanium', sans-serif"
+            fontSize="xs"
+            fontWeight="bold"
+            letterSpacing="0.08em"
+            textTransform="uppercase"
+            boxShadow="0 0 10px rgba(56, 217, 169, 0.2)"
+            _hover={{
+              bg: "rgba(56, 217, 169, 0.25)",
+              borderColor: "#38D9A9",
+              color: "#FFFFFF",
+              boxShadow: "0 0 15px rgba(56, 217, 169, 0.4)",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push("/hacknova-team");
+            }}
+          >
+            👥 Fill Team Form →
+          </Button>
+        )}
 
         {/* Pulzion 26 Interactive Action */}
         <Flex

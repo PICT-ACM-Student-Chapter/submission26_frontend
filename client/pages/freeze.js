@@ -32,6 +32,7 @@ import { uploadFile } from "../action/uploadFile";
 import ButtonWithModal from "../components/ButtonWithModal";
 import { getEntries, submitEntries } from "../action/entries";
 import ContentLoader from "../components/ContentLoader";
+import SubmissionClosedNotice from "../components/SubmissionClosedNotice";
 import {
   ChevronLeftIcon,
   CheckCircleIcon,
@@ -47,6 +48,7 @@ const Freeze = () => {
   const primaryGlow = theme.colors.primary[200];
 
   const [submission, setSubmission] = useState(null);
+  const [isSubmissionActive, setIsSubmissionActive] = useState(true);
   const [loading, setLoading] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -64,6 +66,11 @@ const Freeze = () => {
   });
 
   const handleSubmit = async (values) => {
+    if (!isSubmissionActive) {
+      toast.error("Submissions for Freeze the Second are currently closed. Entries cannot be submitted or stored in the database.");
+      return;
+    }
+
     if (!values?.photo_title?.trim()) {
       toast.error("Please enter your Photo Title");
       return;
@@ -123,6 +130,11 @@ const Freeze = () => {
         const entryData = await getEntries("freeze");
         if (entryData?.error) console.log(entryData?.error);
         setSubmission(entryData?.submission);
+        if (entryData?.submission_active !== undefined) {
+          setIsSubmissionActive(Boolean(entryData.submission_active));
+        } else if (entryData?.event_status !== undefined) {
+          setIsSubmissionActive(Boolean(entryData.event_status));
+        }
       } catch (e) {
         console.log(e);
       }
@@ -178,13 +190,13 @@ const Freeze = () => {
                     </Text>
                     <Box mt={2}>
                       <Text fontSize="md" fontWeight="semibold" color={primaryColor} mb={1}>
-                        Evaluation Criteria:
+                        Category Guidelines:
                       </Text>
                       <Stack spacing={1.5} pl={4}>
-                        <Text fontSize="sm">• Composition, framing, and visual balance</Text>
-                        <Text fontSize="sm">• Creative perspective and originality</Text>
-                        <Text fontSize="sm">• Lighting, shadows, and color tonality</Text>
-                        <Text fontSize="sm">• Storytelling essence and emotional impact</Text>
+                        <Text fontSize="sm">• Street, Silhouette & Shadow Photography</Text>
+                        <Text fontSize="sm">• Architectural Symmetry & Urban Geometries</Text>
+                        <Text fontSize="sm">• High-Speed Action & Freeze-Frame Moments</Text>
+                        <Text fontSize="sm">• Macro & Micro Perspectives in Nature</Text>
                       </Stack>
                     </Box>
                   </Stack>
@@ -194,7 +206,7 @@ const Freeze = () => {
                 <TabPanel color="hsl(210, 40%, 100%)">
                   <Stack spacing={3}>
                     <Text fontSize="xl" fontWeight="bold" color={textColor} mb={1}>
-                      📸 Freeze the Second &apos;26 — Submission Rules
+                      📸 Freeze the Second — Submission Rules
                     </Text>
 
                     <Stack spacing={2.5} fontSize="md">
@@ -202,22 +214,19 @@ const Freeze = () => {
                         1. <chakra.span fontWeight="bold" color={primaryColor}>Strictly only one photograph</chakra.span> per participant is permitted.
                       </Text>
                       <Text>
-                        2. Photographs must be taken by the submitting individual. Images should not be sourced from the internet or captured by others.
+                        2. The photograph must be in <chakra.span fontWeight="bold" color={primaryColor}>JPG, JPEG, or PNG</chakra.span> format (max 35MB).
                       </Text>
                       <Text>
-                        3. Acceptable formats: strictly <chakra.span fontWeight="bold" color={primaryColor}>JPG, JPEG, or PNG</chakra.span> (max size 35MB).
+                        3. Mention the Camera or Device model accurately in the designated field.
                       </Text>
                       <Text>
-                        4. Provide the photo title, camera/device used, and optional EXIF settings or story.
+                        4. Provide a creative photo title / caption that conveys your story.
                       </Text>
                       <Text>
-                        5. Minor color correction and crop adjustments are permitted; heavy manipulation or AI generation is strictly prohibited.
+                        5. Minor color correction and crop adjustments are permitted; AI-generated images or heavy digital composites will be disqualified.
                       </Text>
                       <Text>
-                        6. Any use of unfair means will result in immediate disqualification.
-                      </Text>
-                      <Text>
-                        7. The organizers&apos; decisions are final and binding for all participants.
+                        6. <chakra.span fontWeight="bold" color={primaryColor}>Submissions once made cannot be replaced or re-submitted.</chakra.span> Please review your photograph carefully before final confirmation.
                       </Text>
                     </Stack>
 
@@ -230,7 +239,7 @@ const Freeze = () => {
                       textAlign="center"
                     >
                       <Text fontSize="md" fontWeight="bold" color={primaryColor} letterSpacing="0.05em">
-                        All the best, Freeze the Second photographers! 📸
+                        All the best, photographers! Capture the extraordinary. 📸
                       </Text>
                     </Box>
                   </Stack>
@@ -343,7 +352,7 @@ const Freeze = () => {
                   {submission.description && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
-                        Description / Story & EXIF Settings
+                        Story & Technical Description
                       </Text>
                       <Text fontSize="sm" color="gray.300" mt={0.5} whiteSpace="pre-wrap">
                         {submission.description}
@@ -351,7 +360,6 @@ const Freeze = () => {
                     </Box>
                   )}
 
-                  {/* Download Original Photo Link */}
                   {submission.submission && (
                     <Box pt={2}>
                       <Link
@@ -398,6 +406,11 @@ const Freeze = () => {
                   </Box>
                 </Stack>
               </Box>
+            </GridItem>
+          ) : !isSubmissionActive ? (
+            /* Submissions Closed Notice */
+            <GridItem>
+              <SubmissionClosedNotice eventName="Freeze the Second" />
             </GridItem>
           ) : (
             /* Submission Form */
@@ -533,4 +546,4 @@ const Freeze = () => {
   );
 };
 
-export default privateUserRoute(Freeze);
+export default privateUserRoute(Freeze, "freeze");

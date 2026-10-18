@@ -3,23 +3,57 @@ import {
   Flex,
   SimpleGrid,
   Text,
+  Badge,
+  Button,
   chakra,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
+import NextLink from "next/link";
 import EventCard from "../components/EventCard";
 import Layout from "../components/Layout";
 import AppContext from "../context/AppContext";
 import privateUserRoute from "../routers/privateUserRoute";
+import { getHackNovaSquadRegistrationStatus } from "../action/hacknovaTeam";
 
 const Dashboard = () => {
   const { contEvents } = useContext(AppContext);
+  const [squadRegistrationActive, setSquadRegistrationActive] = useState(false);
 
   const cardBg = useColorModeValue("background.200", "background.200");
   const textColor = useColorModeValue("foreground.100", "foreground.100");
   const primaryColor = useColorModeValue("primary.400", "primary.400");
 
   const safeContEvents = Array.isArray(contEvents) ? contEvents : [];
+
+  // Check if user is registered for HackNova (Event ID 20 in Pulzion EMS)
+  const hacknovaEvent = safeContEvents.find((event) => {
+    const eventId = Number(event?.event_id || event?.id);
+    const eventName = String(event?.event_name || event?.name || "").toLowerCase();
+    const eventRoute = String(event?.event_route || event?.page || "").toLowerCase();
+    return eventId === 20 || eventName.includes("hacknova") || eventRoute.includes("hacknova");
+  });
+
+  // Check live status specifically for HackNova Squad Registrations (Event ID 200, table hacknova_teams, route /hacknova-team)
+  useEffect(() => {
+    let isMounted = true;
+    const fetchSquadStatus = async () => {
+      if (hacknovaEvent) {
+        try {
+          const res = await getHackNovaSquadRegistrationStatus();
+          if (isMounted) {
+            setSquadRegistrationActive(Boolean(res.status || res.is_active));
+          }
+        } catch (e) {
+          console.error("Failed to fetch squad registration status:", e);
+        }
+      }
+    };
+    fetchSquadStatus();
+    return () => {
+      isMounted = false;
+    };
+  }, [hacknovaEvent]);
 
   return (
     <Layout>
@@ -107,6 +141,91 @@ const Dashboard = () => {
           </chakra.p>
         </Flex>
 
+        {/* HackNova Team Form Notice Banner: Shown ONLY when HackNova is registered AND HackNova Squad Registrations (Event ID 200, /hacknova-team) is active */}
+        {hacknovaEvent && squadRegistrationActive && (
+          <Box
+            mb={8}
+            p={{ base: 4, sm: 5 }}
+            bg="linear-gradient(90deg, rgba(56, 217, 169, 0.15) 0%, rgba(34, 211, 238, 0.1) 100%)"
+            border="1px solid rgba(56, 217, 169, 0.5)"
+            borderRadius="md"
+            boxShadow="0 0 25px rgba(56, 217, 169, 0.2)"
+            position="relative"
+            overflow="hidden"
+          >
+            {/* 4 Corner HUD Brackets */}
+            <Box position="absolute" top="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+            <Box position="absolute" top="4px" right="4px" w="8px" h="8px" borderRight="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+            <Box position="absolute" bottom="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+            <Box position="absolute" bottom="4px" right="4px" w="8px" h="8px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+
+            <Flex
+              direction={{ base: "column", md: "row" }}
+              align={{ base: "flex-start", md: "center" }}
+              justify="space-between"
+              gap={4}
+            >
+              <Box>
+                <Flex align="center" gap={2} mb={1.5}>
+                  <Badge
+                    px={2.5}
+                    py={0.5}
+                    bg="rgba(56, 217, 169, 0.2)"
+                    color="#38D9A9"
+                    border="1px solid #38D9A9"
+                    fontFamily="'Oxanium', sans-serif"
+                    fontSize="xs"
+                    letterSpacing="0.1em"
+                  >
+                    HACKNOVA SQUAD REGISTRATION ACTIVE
+                  </Badge>
+                </Flex>
+                <chakra.h3
+                  fontFamily="'United Colony', sans-serif !important"
+                  fontSize={{ base: "lg", sm: "xl" }}
+                  fontWeight="bold"
+                  color="#FFFFFF"
+                  letterSpacing="0.05em"
+                  textTransform="uppercase"
+                >
+                  PLEASE FILL HACKNOVA TEAM FORM
+                </chakra.h3>
+                <Text
+                  fontFamily="'Oxanium', sans-serif"
+                  fontSize="xs"
+                  color="gray.300"
+                  mt={1}
+                  maxW="2xl"
+                >
+                  You are registered for HackNova. Please assemble your squad (2–4 members) and fill the Team Registration Form before project submission.
+                </Text>
+              </Box>
+
+              <NextLink href="/hacknova-team" passHref>
+                <Button
+                  as="a"
+                  size="md"
+                  bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                  color="#030512"
+                  fontFamily="'Oxanium', sans-serif"
+                  fontSize="xs"
+                  fontWeight="bold"
+                  letterSpacing="0.1em"
+                  textTransform="uppercase"
+                  boxShadow="0 0 15px rgba(56, 217, 169, 0.35)"
+                  _hover={{
+                    bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+                    boxShadow: "0 0 25px rgba(56, 217, 169, 0.55)",
+                  }}
+                  whiteSpace="nowrap"
+                >
+                  Fill Team Form →
+                </Button>
+              </NextLink>
+            </Flex>
+          </Box>
+        )}
+
         {safeContEvents.length === 0 && (
           <Box textAlign="center" py={12}>
             <Text
@@ -145,6 +264,7 @@ const Dashboard = () => {
                   event={eventName}
                   page={eventPage}
                   status={eventStatus}
+                  squadRegistrationActive={squadRegistrationActive}
                   bg={cardBg}
                   textColor={textColor}
                   primaryColor={primaryColor}

@@ -14,6 +14,9 @@ import {
   Textarea,
   FormControl,
   FormLabel,
+  Input,
+  Button,
+  Badge,
   chakra,
   useTheme,
   useColorModeValue,
@@ -30,12 +33,17 @@ import FormField from "../components/FormField";
 import { uploadFile } from "../action/uploadFile";
 import ButtonWithModal from "../components/ButtonWithModal";
 import { getEntries, submitEntries } from "../action/entries";
+import { getHackNovaTeamMe, getHackNovaSquadRegistrationStatus } from "../action/hacknovaTeam";
 import ContentLoader from "../components/ContentLoader";
+import SubmissionClosedNotice from "../components/SubmissionClosedNotice";
 import {
   ChevronLeftIcon,
   CheckCircleIcon,
   ExternalLinkIcon,
   DownloadIcon,
+  LockIcon,
+  WarningIcon,
+  ArrowForwardIcon,
 } from "@chakra-ui/icons";
 
 const Hacknova = () => {
@@ -47,11 +55,14 @@ const Hacknova = () => {
   const primaryGlow = theme.colors.primary[200];
 
   const [submission, setSubmission] = useState(null);
+  const [isSubmissionActive, setIsSubmissionActive] = useState(true);
+  const [isSquadRegistrationActive, setIsSquadRegistrationActive] = useState(false);
+  const [registeredTeam, setRegisteredTeam] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
 
   const initialFormValues = {
-    team_name: "",
+    team_name: registeredTeam?.team_name || "",
     project_title: "",
     github_url: "",
     live_demo_url: "",
@@ -75,8 +86,14 @@ const Hacknova = () => {
   });
 
   const handleSubmit = async (values) => {
-    if (!values?.team_name?.trim()) {
-      toast.error("Please enter your Team Name");
+    if (!isSubmissionActive) {
+      toast.error("Submissions for HackNova are currently closed. Entries cannot be submitted or stored in the database.");
+      return;
+    }
+    const finalTeamName = (registeredTeam?.team_name || values?.team_name || "").trim();
+
+    if (!finalTeamName) {
+      toast.error("Please enter your Team Name or register your squad first");
       return;
     }
     if (!values?.project_title?.trim()) {
@@ -141,7 +158,7 @@ const Hacknova = () => {
       }
 
       const payload = {
-        team_name: values.team_name.trim(),
+        team_name: finalTeamName,
         project_title: values.project_title.trim(),
         github_url: values.github_url.trim(),
         live_demo_url: values.live_demo_url?.trim() || "",
@@ -169,58 +186,160 @@ const Hacknova = () => {
   };
 
   useEffect(() => {
-    const fetchSubmission = async () => {
+    const fetchData = async () => {
       try {
         const entryData = await getEntries("hacknova");
         if (entryData?.error) console.log(entryData?.error);
-        setSubmission(entryData?.submission);
+        if (entryData?.submission) {
+          setSubmission(entryData.submission);
+        }
+        if (entryData?.submission_active !== undefined) {
+          setIsSubmissionActive(Boolean(entryData.submission_active));
+        } else if (entryData?.event_status !== undefined) {
+          setIsSubmissionActive(Boolean(entryData.event_status));
+        }
+
+        // Fetch team registration info quietly to prefill team name if available
+        const teamData = await getHackNovaTeamMe();
+        if (teamData?.team) {
+          setRegisteredTeam(teamData.team);
+        }
+
+        // Fetch squad registration portal status specifically (Event ID 200, table hacknova_teams, route /hacknova-team)
+        const squadStatus = await getHackNovaSquadRegistrationStatus();
+        setIsSquadRegistrationActive(Boolean(squadStatus.status || squadStatus.is_active));
       } catch (e) {
         console.log(e);
       }
       setLoading(false);
     };
-    fetchSubmission();
-  }, [setSubmission]);
+    fetchData();
+  }, []);
 
   return !loading ? (
     <Layout>
-      <Box pt={10} width="full" pb="40px" px={{ base: "16px", md: "48px", lg: "64px" }}>
-        <NextLink href="/dashboard">
-          <chakra.h3
-            fontWeight="bold"
-            fontSize={24}
-            textTransform="uppercase"
-            color={primaryColor}
-            cursor="pointer"
-            display="flex"
-            alignItems="center"
-          >
-            <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
-          </chakra.h3>
-        </NextLink>
+      <Box pt={10} width="full" pb="60px" px={{ base: "16px", md: "48px", lg: "64px" }}>
+        {/* Top Header Navigation */}
+        <Flex justify="space-between" align="center" wrap="wrap" gap={3} mb={2}>
+          <NextLink href="/dashboard" passHref>
+            <chakra.h3
+              fontWeight="bold"
+              fontSize={{ base: 18, sm: 22 }}
+              textTransform="uppercase"
+              color={primaryColor}
+              cursor="pointer"
+              display="flex"
+              alignItems="center"
+              fontFamily="'Oxanium', sans-serif"
+            >
+              <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
+            </chakra.h3>
+          </NextLink>
+
+          {isSquadRegistrationActive === true && (
+            <NextLink href="/hacknova-team" passHref>
+              <Button
+                as="a"
+                size="sm"
+                variant="outline"
+                borderColor="rgba(56, 217, 169, 0.4)"
+                color="#38D9A9"
+                fontFamily="'Oxanium', sans-serif"
+                fontSize="xs"
+                letterSpacing="0.1em"
+                textTransform="uppercase"
+                _hover={{ bg: "rgba(56, 217, 169, 0.15)", borderColor: "#38D9A9" }}
+              >
+                👥 Fill Team Form →
+              </Button>
+            </NextLink>
+          )}
+        </Flex>
 
         <chakra.h1
-          py={5}
+          py={4}
           fontSize={40}
           fontWeight="bold"
           color={textColor}
           textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}
+          fontFamily="'United Colony', sans-serif !important"
+          letterSpacing="0.05em"
+          textTransform="uppercase"
         >
           HackNova
         </chakra.h1>
 
-        <SimpleGrid columns={{ base: 1, lg: 2 }} gap={10}>
+        {/* Squad Registration Notice: Displayed ONLY when HackNova Squad Registrations (Event ID 200, /hacknova-team) is true */}
+        {isSquadRegistrationActive === true && (
+          <Box
+            mb={6}
+            p={4}
+            bg="linear-gradient(90deg, rgba(56, 217, 169, 0.12) 0%, rgba(34, 211, 238, 0.08) 100%)"
+            border="1px solid rgba(56, 217, 169, 0.45)"
+            borderRadius="md"
+            boxShadow="0 0 20px rgba(56, 217, 169, 0.15)"
+          >
+            <Flex
+              direction={{ base: "column", sm: "row" }}
+              align={{ base: "flex-start", sm: "center" }}
+              justify="space-between"
+              gap={3}
+            >
+              <Box>
+                <Text
+                  fontFamily="'Oxanium', sans-serif"
+                  fontSize="xs"
+                  color="#38D9A9"
+                  fontWeight="bold"
+                  letterSpacing="0.1em"
+                  textTransform="uppercase"
+                  mb={0.5}
+                >
+                  ⚡ SQUAD REGISTRATION NOTICE
+                </Text>
+                <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" color="#FFFFFF">
+                  You are registered for HackNova. Please{" "}
+                  <chakra.span fontWeight="bold" color="#38D9A9">
+                    Fill the Team Form
+                  </chakra.span>{" "}
+                  to assemble your 2–4 member squad before submitting your project.
+                </Text>
+              </Box>
+              <NextLink href="/hacknova-team" passHref>
+                <Button
+                  as="a"
+                  size="sm"
+                  bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                  color="#030512"
+                  fontFamily="'Oxanium', sans-serif"
+                  fontSize="xs"
+                  fontWeight="bold"
+                  letterSpacing="0.1em"
+                  textTransform="uppercase"
+                  _hover={{
+                    bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+                  }}
+                  whiteSpace="nowrap"
+                >
+                  Fill Team Form →
+                </Button>
+              </NextLink>
+            </Flex>
+          </Box>
+        )}
+
+        <SimpleGrid columns={{ base: 1, lg: 2 }} gap={10} alignItems="start">
           {/* Left Column: Topics and Instructions */}
           <GridItem>
             <Tabs onChange={(index) => setTabIndex(index)}>
-              <TabList color={textColor}>
-                <Tab fontSize={20}>Topics</Tab>
-                <Tab fontSize={20}>Instructions</Tab>
+              <TabList color={textColor} fontFamily="'Oxanium', sans-serif">
+                <Tab fontSize={18} fontWeight="bold">Topics</Tab>
+                <Tab fontSize={18} fontWeight="bold">Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg}>
                 {/* Tab 1: Problem Statements */}
                 <TabPanel color="hsl(210, 40%, 100%)">
-                  <Stack spacing={3}>
+                  <Stack spacing={3} fontFamily="'Oxanium', sans-serif">
                     <Text fontSize="xl" fontWeight="bold" color={textColor}>
                       Problem Statements:
                     </Text>
@@ -252,44 +371,47 @@ const Hacknova = () => {
                     </Box>
 
                     <Text fontSize="sm" color="gray.400" mt={2}>
-                      Note: You can choose any one problem statement from your respective category
+                      Note: You can choose any one problem statement from your respective category.
                     </Text>
                   </Stack>
                 </TabPanel>
 
                 {/* Tab 2: Submission Rules */}
                 <TabPanel color="hsl(210, 40%, 100%)">
-                  <Stack spacing={3}>
+                  <Stack spacing={3} fontFamily="'Oxanium', sans-serif">
                     <Text fontSize="xl" fontWeight="bold" color={textColor} mb={1}>
-                      🚀 HackNova &apos;26 — Submission Rules
+                      🚀 HackNova &apos;26 — Rules & Workflow
                     </Text>
 
                     <Stack spacing={2.5} fontSize="md">
                       <Text>
-                        1. <chakra.span fontWeight="bold" color={primaryColor}>Only the Team Leader</chakra.span> is allowed to submit the project.
+                        1. <chakra.span fontWeight="bold" color={primaryColor}>Step 1: Team Registration.</chakra.span> Register your squad (2–4 members) on the{" "}
+                        <NextLink href="/hacknova-team" passHref>
+                          <chakra.span color="#38D9A9" textDecoration="underline" cursor="pointer">
+                            HackNova Team Registration Route
+                          </chakra.span>
+                        </NextLink>{" "}
+                        before project submission.
                       </Text>
                       <Text>
-                        2. The Team Leader must be registered for HackNova.
+                        2. <chakra.span fontWeight="bold" color={primaryColor}>Only the Team Leader</chakra.span> (whose payment is accepted on Pulzion EMS) can register the team.
+                      </Text>
+                      <Text>
+                        3. Team details are permanently locked once registered.
                       </Text>
                       <Box>
-                        <Text>3. Submit all of the following:</Text>
+                        <Text>4. For Step 2 Project Submission, upload all of the following:</Text>
                         <Stack spacing={1} pl={6} pt={1}>
                           <Text>• GitHub Repository Link</Text>
-                          <Text>• Project ZIP File</Text>
-                          <Text>• Presentation (PDF/PPT/PPTX)</Text>
+                          <Text>• Project ZIP File (upto 50MB)</Text>
+                          <Text>• Presentation (PDF/PPT/PPTX upto 15MB)</Text>
                         </Stack>
                       </Box>
                       <Text>
-                        4. Provide the correct project title and team name.
+                        5. Provide the correct project title matching your chosen problem statement.
                       </Text>
                       <Text>
-                        5. Live Demo Link and additional notes are optional.
-                      </Text>
-                      <Text>
-                        6. <chakra.span fontWeight="bold" color={primaryColor}>Only one submission per user is allowed.</chakra.span> Review all details carefully before submitting.
-                      </Text>
-                      <Text>
-                        7. Ensure all submitted files and links are valid and accessible.
+                        6. <chakra.span fontWeight="bold" color={primaryColor}>Only one submission per team is allowed.</chakra.span>
                       </Text>
                     </Stack>
 
@@ -311,9 +433,75 @@ const Hacknova = () => {
             </Tabs>
           </GridItem>
 
-          {/* Right Column: Submission Form OR Submission Record */}
-          {submission?.id || submission?.project_title ? (
-            <GridItem>
+          {/* Right Column: Project Submission Deliverables */}
+          <GridItem>
+            {/* Squad Status Banner */}
+            {registeredTeam ? (
+              <Box
+                mb={4}
+                p={3.5}
+                bg="rgba(56, 217, 169, 0.08)"
+                border="1px solid rgba(56, 217, 169, 0.4)"
+                borderRadius="md"
+              >
+                <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
+                  <Flex align="center" gap={2}>
+                    <CheckCircleIcon color="#38D9A9" />
+                    <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#CBD5E1">
+                      Registered Squad:{" "}
+                      <chakra.span fontWeight="bold" color="#38D9A9">
+                        {registeredTeam.team_name}
+                      </chakra.span>
+                    </Text>
+                  </Flex>
+                  <NextLink href="/hacknova-team" passHref>
+                    <Button
+                      as="a"
+                      size="xs"
+                      variant="outline"
+                      borderColor="#38D9A9"
+                      color="#38D9A9"
+                      fontFamily="'Oxanium', sans-serif"
+                      fontSize="2xs"
+                      _hover={{ bg: "rgba(56, 217, 169, 0.15)" }}
+                    >
+                      View Team Dossier →
+                    </Button>
+                  </NextLink>
+                </Flex>
+              </Box>
+            ) : (
+              <Box
+                mb={4}
+                p={3.5}
+                bg="rgba(34, 211, 238, 0.08)"
+                border="1px solid rgba(34, 211, 238, 0.35)"
+                borderRadius="md"
+              >
+                <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
+                  <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#22D3EE">
+                    👥 Need to register or verify your squad roster?
+                  </Text>
+                  <NextLink href="/hacknova-team" passHref>
+                    <Button
+                      as="a"
+                      size="xs"
+                      variant="outline"
+                      borderColor="#22D3EE"
+                      color="#22D3EE"
+                      fontFamily="'Oxanium', sans-serif"
+                      fontSize="2xs"
+                      _hover={{ bg: "rgba(34, 211, 238, 0.2)" }}
+                    >
+                      Go to Team Registration Form →
+                    </Button>
+                  </NextLink>
+                </Flex>
+              </Box>
+            )}
+
+            {submission?.id || submission?.project_title ? (
+              /* Project Already Submitted Card */
               <Box
                 position="relative"
                 p={{ base: 6, md: 8 }}
@@ -323,7 +511,7 @@ const Hacknova = () => {
                 borderRadius="md"
                 overflow="hidden"
               >
-                {/* 4 Corner HUD Brackets */}
+                {/* HUD Brackets */}
                 <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
                 <Box position="absolute" top="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
                 <Box position="absolute" bottom="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
@@ -404,9 +592,8 @@ const Hacknova = () => {
                         display="inline-flex"
                         alignItems="center"
                         gap={1.5}
-                        wordBreak="break-all"
-                        _hover={{ textDecoration: "underline" }}
                         mt={0.5}
+                        _hover={{ textDecoration: "underline", color: "#38D9A9" }}
                       >
                         {submission.github_url} <ExternalLinkIcon mx="2px" />
                       </Link>
@@ -416,7 +603,7 @@ const Hacknova = () => {
                   {submission.live_demo_url && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
-                        Live Demo
+                        Live Demo URL
                       </Text>
                       <Link
                         href={submission.live_demo_url}
@@ -426,82 +613,60 @@ const Hacknova = () => {
                         display="inline-flex"
                         alignItems="center"
                         gap={1.5}
-                        wordBreak="break-all"
-                        _hover={{ textDecoration: "underline" }}
                         mt={0.5}
+                        _hover={{ textDecoration: "underline", color: "#38D9A9" }}
                       >
                         {submission.live_demo_url} <ExternalLinkIcon mx="2px" />
                       </Link>
                     </Box>
                   )}
 
-                  {/* Download Action Links */}
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={3} pt={2}>
-                    {(submission.presentation_url || submission.submission) && (
+                  {submission.presentation_url && (
+                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
+                      <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
+                        Presentation Deck
+                      </Text>
                       <Link
-                        href={submission.presentation_url || submission.submission}
+                        href={submission.presentation_url}
                         isExternal
-                        bg="rgba(56, 217, 169, 0.15)"
-                        border="1px solid rgba(56, 217, 169, 0.5)"
                         color="#38D9A9"
-                        p={3}
-                        rounded="md"
-                        textAlign="center"
-                        fontSize="xs"
-                        fontWeight="bold"
-                        letterSpacing="0.1em"
-                        textTransform="uppercase"
-                        display="flex"
+                        fontSize="sm"
+                        display="inline-flex"
                         alignItems="center"
-                        justifyContent="center"
-                        gap={2}
-                        transition="all 0.2s"
-                        _hover={{
-                          bg: "rgba(56, 217, 169, 0.25)",
-                          borderColor: "#38D9A9",
-                          boxShadow: "0 0 15px rgba(56, 217, 169, 0.3)",
-                          transform: "translateY(-1px)",
-                        }}
+                        gap={1.5}
+                        mt={0.5}
+                        _hover={{ textDecoration: "underline" }}
                       >
-                        <DownloadIcon /> Presentation Deck
+                        <DownloadIcon /> View / Download Presentation
                       </Link>
-                    )}
+                    </Box>
+                  )}
 
-                    {submission.project_zip_url && (
+                  {submission.project_zip_url && (
+                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
+                      <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
+                        Project Archive (ZIP)
+                      </Text>
                       <Link
                         href={submission.project_zip_url}
                         isExternal
-                        bg="rgba(34, 211, 238, 0.15)"
-                        border="1px solid rgba(34, 211, 238, 0.5)"
-                        color="#22D3EE"
-                        p={3}
-                        rounded="md"
-                        textAlign="center"
-                        fontSize="xs"
-                        fontWeight="bold"
-                        letterSpacing="0.1em"
-                        textTransform="uppercase"
-                        display="flex"
+                        color="#38D9A9"
+                        fontSize="sm"
+                        display="inline-flex"
                         alignItems="center"
-                        justifyContent="center"
-                        gap={2}
-                        transition="all 0.2s"
-                        _hover={{
-                          bg: "rgba(34, 211, 238, 0.25)",
-                          borderColor: "#22D3EE",
-                          boxShadow: "0 0 15px rgba(34, 211, 238, 0.3)",
-                          transform: "translateY(-1px)",
-                        }}
+                        gap={1.5}
+                        mt={0.5}
+                        _hover={{ textDecoration: "underline" }}
                       >
-                        <DownloadIcon /> Project ZIP Archive
+                        <DownloadIcon /> Download Project ZIP Archive
                       </Link>
-                    )}
-                  </SimpleGrid>
+                    </Box>
+                  )}
 
                   {submission.notes && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
-                        Notes / Instructions
+                        Evaluator Notes
                       </Text>
                       <Text fontSize="sm" color="gray.300" mt={0.5} whiteSpace="pre-wrap">
                         {submission.notes}
@@ -523,10 +688,11 @@ const Hacknova = () => {
                   </Box>
                 </Stack>
               </Box>
-            </GridItem>
-          ) : (
-            /* Submission Form */
-            <GridItem>
+            ) : !isSubmissionActive ? (
+              /* Submissions Closed Notice */
+              <SubmissionClosedNotice eventName="HackNova" />
+            ) : (
+              /* Submission Form */
               <Box
                 position="relative"
                 p={{ base: 5, md: 7 }}
@@ -566,7 +732,11 @@ const Hacknova = () => {
                 </Box>
 
                 <Formik
-                  initialValues={initialFormValues}
+                  initialValues={{
+                    ...initialFormValues,
+                    team_name: registeredTeam?.team_name || initialFormValues.team_name,
+                  }}
+                  enableReinitialize
                   validationSchema={validationSchema}
                   onSubmit={handleSubmit}
                 >
@@ -674,8 +844,8 @@ const Hacknova = () => {
                   )}
                 </Formik>
               </Box>
-            </GridItem>
-          )}
+            )}
+          </GridItem>
         </SimpleGrid>
       </Box>
     </Layout>
@@ -684,4 +854,4 @@ const Hacknova = () => {
   );
 };
 
-export default privateUserRoute(Hacknova);
+export default privateUserRoute(Hacknova, "hacknova");

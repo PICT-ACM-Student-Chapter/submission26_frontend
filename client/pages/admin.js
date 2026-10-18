@@ -764,6 +764,9 @@ const AdminPage = () => {
                   <MenuItem bg="#071024" color="#FFFFFF" _hover={{ bg: "rgba(56, 217, 169, 0.15)", color: "#38D9A9" }} onClick={() => route.push('/result')}>
                     Download Results CSV
                   </MenuItem>
+                  <MenuItem bg="#071024" color="#FFFFFF" _hover={{ bg: "rgba(56, 217, 169, 0.15)", color: "#38D9A9" }} onClick={() => window.open(`${apiConfig.url}/admin/portal`, '_blank')}>
+                    Admin Submissions &amp; CSV Portal ↗
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Flex>

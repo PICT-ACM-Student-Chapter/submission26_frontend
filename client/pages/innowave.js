@@ -29,6 +29,7 @@ import { uploadFile } from "../action/uploadFile";
 import ButtonWithModal from "../components/ButtonWithModal";
 import { getEntries, submitEntries } from "../action/entries";
 import ContentLoader from "../components/ContentLoader";
+import SubmissionClosedNotice from "../components/SubmissionClosedNotice";
 import {
   ChevronLeftIcon,
   CheckCircleIcon,
@@ -45,6 +46,7 @@ const Innowave = () => {
   const primaryGlow = theme.colors.primary[200];
 
   const [submission, setSubmission] = useState(null);
+  const [isSubmissionActive, setIsSubmissionActive] = useState(true);
   const [loading, setLoading] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -75,6 +77,11 @@ const Innowave = () => {
   });
 
   const handleSubmit = async (values) => {
+    if (!isSubmissionActive) {
+      toast.error("Submissions for Innowave are currently closed. Entries cannot be submitted or stored in the database.");
+      return;
+    }
+
     if (!values?.team_name?.trim()) {
       toast.error("Please enter your Team Name");
       return;
@@ -135,6 +142,11 @@ const Innowave = () => {
         const entryData = await getEntries("innowave");
         if (entryData?.error) console.log(entryData?.error);
         setSubmission(entryData?.submission);
+        if (entryData?.submission_active !== undefined) {
+          setIsSubmissionActive(Boolean(entryData.submission_active));
+        } else if (entryData?.event_status !== undefined) {
+          setIsSubmissionActive(Boolean(entryData.event_status));
+        }
       } catch (e) {
         console.log(e);
       }
@@ -179,49 +191,35 @@ const Innowave = () => {
                 <Tab fontSize={20}>Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg}>
-                {/* Tab 1: Event Tracks */}
+                {/* Tab 1: Tracks */}
                 <TabPanel color="hsl(210, 40%, 100%)">
                   <Stack spacing={3}>
                     <Text fontSize="xl" fontWeight="bold" color={textColor}>
-                      Event Tracks:
+                      Tracks:
                     </Text>
-                    <Box pl={2}>
-                      <Stack spacing={3}>
-                        <Box>
-                          <Text fontSize="md" fontWeight="bold" color={primaryColor}>
-                            1. Open Innovation (General Track)
-                          </Text>
-                          <Text fontSize="sm" color="gray.300">
-                            Disruptive, cross-industry solutions addressing emerging challenges.
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Text fontSize="md" fontWeight="bold" color={primaryColor}>
-                            2. Climate Change Mitigation & Sustainability
-                          </Text>
-                          <Text fontSize="sm" color="gray.300">
-                            Clean energy, circular economy, waste reduction, and carbon capture initiatives.
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Text fontSize="md" fontWeight="bold" color={primaryColor}>
-                            3. Healthcare & Wellbeing
-                          </Text>
-                          <Text fontSize="sm" color="gray.300">
-                            Digital health platforms, predictive diagnostics, and accessibility innovations.
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Text fontSize="md" fontWeight="bold" color={primaryColor}>
-                            4. Trust in the Age of AI
-                          </Text>
-                          <Text fontSize="sm" color="gray.300">
-                            AI governance, ethical tech, fraud detection, and explainable models.
-                          </Text>
-                        </Box>
-                      </Stack>
-                    </Box>
+                    <Stack spacing={2} pl={4}>
+                      <Text fontSize="md">
+                        1. Climate Change Mitigation & Sustainability:
+                      </Text>
+                      <Text fontSize="sm" color="gray.300" pl={4}>
+                        Ideas focusing on renewable energy, carbon capture, waste management, or sustainable urban ecosystems.
+                      </Text>
 
+                      <Text fontSize="md">2. Healthcare & Wellbeing:</Text>
+                      <Text fontSize="sm" color="gray.300" pl={4}>
+                        Digital health, medical devices, mental wellness solutions, accessibility technologies, and preventative care.
+                      </Text>
+
+                      <Text fontSize="md">3. Trust in the Age of AI:</Text>
+                      <Text fontSize="sm" color="gray.300" pl={4}>
+                        AI ethics, deepfake detection, privacy-preserving machine learning, transparent decision systems, and algorithmic fairness.
+                      </Text>
+
+                      <Text fontSize="md">4. Open Innovation:</Text>
+                      <Text fontSize="sm" color="gray.300" pl={4}>
+                        Disruptive tech ideas across FinTech, EdTech, Smart Mobility, AgriTech, or IoT that do not fit the above categories.
+                      </Text>
+                    </Stack>
                     <Text fontSize="sm" color="gray.400" mt={2}>
                       Note: Each team must pick a single track to present their idea in.
                     </Text>
@@ -232,7 +230,7 @@ const Innowave = () => {
                 <TabPanel color="hsl(210, 40%, 100%)">
                   <Stack spacing={3}>
                     <Text fontSize="xl" fontWeight="bold" color={textColor} mb={1}>
-                      💡 Innowave &apos;26 — Submission Rules
+                      💡 Innowave &apos;26 — Round 1 Submission Rules
                     </Text>
 
                     <Stack spacing={2.5} fontSize="md">
@@ -246,7 +244,7 @@ const Innowave = () => {
                         3. Modification of team post registration will not be allowed.
                       </Text>
                       <Text>
-                        4. Submit presentation pitch deck strictly in <chakra.span fontWeight="bold" color={primaryColor}>PPT, PPTX, or PDF</chakra.span> format (max 50MB).
+                        4. All the team members must be present during the final presentation; otherwise, their entry will be disqualified.
                       </Text>
                       <Text>
                         5. Each team must pick a single track to present their idea in.
@@ -255,10 +253,10 @@ const Innowave = () => {
                         6. <chakra.span fontWeight="bold" color={primaryColor}>Only the Team Leader</chakra.span> must submit for the team.
                       </Text>
                       <Text>
-                        7. Unlisted video pitch link (YouTube / Loom / Google Drive) is optional but recommended.
+                        7. Upload your pitch deck in <chakra.span fontWeight="bold" color={primaryColor}>PPT, PPTX, or PDF</chakra.span> format (max 50MB).
                       </Text>
                       <Text>
-                        8. The decision of the judges will be considered final and binding on all participants.
+                        8. Video pitch link (YouTube / Loom) is optional but recommended.
                       </Text>
                     </Stack>
 
@@ -349,14 +347,35 @@ const Innowave = () => {
                     </Box>
                   )}
 
-                  {(submission.Innowave_type || submission.track) && (
+                  {(submission.track || submission.innowave_type) && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
-                        Event Track
+                        Selected Track
                       </Text>
                       <Text fontSize="md" color="#FFFFFF" fontWeight="semibold" mt={0.5}>
-                        {submission.Innowave_type || submission.track}
+                        {submission.track || submission.innowave_type}
                       </Text>
+                    </Box>
+                  )}
+
+                  {submission.submission && (
+                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
+                      <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
+                        Uploaded Pitch Deck
+                      </Text>
+                      <Link
+                        href={submission.submission}
+                        isExternal
+                        color="#38D9A9"
+                        fontSize="sm"
+                        display="inline-flex"
+                        alignItems="center"
+                        gap={1.5}
+                        mt={0.5}
+                        _hover={{ textDecoration: "underline" }}
+                      >
+                        <DownloadIcon /> Download Pitch Deck File
+                      </Link>
                     </Box>
                   )}
 
@@ -372,45 +391,11 @@ const Innowave = () => {
                         fontSize="sm"
                         display="inline-flex"
                         alignItems="center"
-                        gap={1.5}
-                        wordBreak="break-all"
-                        _hover={{ textDecoration: "underline" }}
+                        gap={1}
                         mt={0.5}
+                        _hover={{ textDecoration: "underline", color: "#38D9A9" }}
                       >
                         {submission.video_pitch_url} <ExternalLinkIcon mx="2px" />
-                      </Link>
-                    </Box>
-                  )}
-
-                  {/* Download Pitch Deck Link */}
-                  {(submission.submission || submission.deck_url) && (
-                    <Box pt={2}>
-                      <Link
-                        href={submission.submission || submission.deck_url}
-                        isExternal
-                        bg="rgba(56, 217, 169, 0.15)"
-                        border="1px solid rgba(56, 217, 169, 0.5)"
-                        color="#38D9A9"
-                        p={3}
-                        rounded="md"
-                        textAlign="center"
-                        fontSize="xs"
-                        fontWeight="bold"
-                        letterSpacing="0.1em"
-                        textTransform="uppercase"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        gap={2}
-                        transition="all 0.2s"
-                        _hover={{
-                          bg: "rgba(56, 217, 169, 0.25)",
-                          borderColor: "#38D9A9",
-                          boxShadow: "0 0 15px rgba(56, 217, 169, 0.3)",
-                          transform: "translateY(-1px)",
-                        }}
-                      >
-                        <DownloadIcon /> Download Pitch Deck (PPT / PDF)
                       </Link>
                     </Box>
                   )}
@@ -418,7 +403,7 @@ const Innowave = () => {
                   {submission.changelog && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
-                        Round 2 Changelog
+                        Changelog / Updates
                       </Text>
                       <Text fontSize="sm" color="gray.300" mt={0.5} whiteSpace="pre-wrap">
                         {submission.changelog}
@@ -440,6 +425,11 @@ const Innowave = () => {
                   </Box>
                 </Stack>
               </Box>
+            </GridItem>
+          ) : !isSubmissionActive ? (
+            /* Submissions Closed Notice */
+            <GridItem>
+              <SubmissionClosedNotice eventName="Innowave" />
             </GridItem>
           ) : (
             /* Submission Form */
@@ -520,7 +510,7 @@ const Innowave = () => {
 
                         <FileInput
                           accept=".ppt,.pptx,.pdf"
-                          label="Presentation Pitch Deck (PPT, PPTX, PDF upto 50MB) *"
+                          label="Presentation Pitch Deck (PPTX/PDF upto 50MB) *"
                           name="ppt"
                           onBlur={handleBlur}
                         />
@@ -547,4 +537,4 @@ const Innowave = () => {
   );
 };
 
-export default privateUserRoute(Innowave);
+export default privateUserRoute(Innowave, "innowave");

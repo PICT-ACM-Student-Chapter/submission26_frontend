@@ -31,6 +31,7 @@ import { uploadFile } from "../action/uploadFile";
 import ButtonWithModal from "../components/ButtonWithModal";
 import { getEntries, submitEntries } from "../action/entries";
 import ContentLoader from "../components/ContentLoader";
+import SubmissionClosedNotice from "../components/SubmissionClosedNotice";
 import {
   ChevronLeftIcon,
   CheckCircleIcon,
@@ -47,6 +48,7 @@ const Rootcause = () => {
   const primaryGlow = theme.colors.primary[200];
 
   const [submission, setSubmission] = useState(null);
+  const [isSubmissionActive, setIsSubmissionActive] = useState(true);
   const [loading, setLoading] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -72,6 +74,10 @@ const Rootcause = () => {
   });
 
   const handleSubmit = async (values) => {
+    if (!isSubmissionActive) {
+      toast.error("Submissions for Root Cause are currently closed. Entries cannot be submitted or stored in the database.");
+      return;
+    }
     if (!values?.team_name?.trim()) {
       toast.error("Please enter your Team Name");
       return;
@@ -138,6 +144,11 @@ const Rootcause = () => {
         const entryData = await getEntries("rootcause");
         if (entryData?.error) console.log(entryData?.error);
         setSubmission(entryData?.submission);
+        if (entryData?.submission_active !== undefined) {
+          setIsSubmissionActive(Boolean(entryData.submission_active));
+        } else if (entryData?.event_status !== undefined) {
+          setIsSubmissionActive(Boolean(entryData.event_status));
+        }
       } catch (e) {
         console.log(e);
       }
@@ -442,6 +453,11 @@ const Rootcause = () => {
                 </Stack>
               </Box>
             </GridItem>
+          ) : !isSubmissionActive ? (
+            /* Submissions Closed Notice */
+            <GridItem>
+              <SubmissionClosedNotice eventName="Root Cause" />
+            </GridItem>
           ) : (
             /* Submission Form */
             <GridItem>
@@ -584,4 +600,4 @@ const Rootcause = () => {
   );
 };
 
-export default privateUserRoute(Rootcause);
+export default privateUserRoute(Rootcause, "rootcause");

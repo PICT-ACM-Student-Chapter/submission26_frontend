@@ -159,7 +159,7 @@ const privateUserRoute = (Component, explicitEvent = null) => {
     const [isAllowed, setIsAllowed] = useState(false);
     const [registeredEvents, setRegisteredEvents] = useState([]);
     const [targetEvent, setTargetEvent] = useState(null);
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || apiConfig.url;
+    const backendUrl = apiConfig.url;
 
     const verifyAccess = async (target) => {
       const submission =

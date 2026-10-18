@@ -2,12 +2,15 @@ const rawEnvUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || "").trim();
 let sanitizedUrl = rawEnvUrl ? rawEnvUrl.replace(/\/+$/, "") : "";
 
 // In browser environments:
-// If the app is served over HTTPS (e.g. Vercel deployment) and the backend URL is plain HTTP (e.g. http://13.200.56.216),
+// When BACKEND_PROXY_URL is configured (Option B), or when the app is served over HTTPS
+// and the backend URL is plain HTTP (e.g. http://13.200.56.216),
 // browsers block the requests due to Mixed Content policy.
-// We automatically route through Next.js reverse proxy (/backend-api) to guarantee seamless HTTPS-to-HTTP communication.
+// We automatically route through the Next.js reverse proxy (/backend-api) to guarantee seamless HTTPS-to-HTTP communication.
 if (typeof window !== "undefined") {
   const isHttps = window.location.protocol === "https:";
-  if (isHttps && sanitizedUrl.startsWith("http://")) {
+  const isProxyConfigured = process.env.NEXT_PUBLIC_PROXY_ENABLED === "true";
+
+  if (isProxyConfigured || (isHttps && sanitizedUrl.startsWith("http://"))) {
     sanitizedUrl = "/backend-api";
   }
 }

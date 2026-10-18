@@ -7,6 +7,10 @@ const targetBackend = rawBackend.trim().replace(/\/+$/, "");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  env: {
+    // Expose proxy status to client bundle when BACKEND_PROXY_URL is configured
+    NEXT_PUBLIC_PROXY_ENABLED: process.env.BACKEND_PROXY_URL ? "true" : "",
+  },
   async rewrites() {
     return [
       {

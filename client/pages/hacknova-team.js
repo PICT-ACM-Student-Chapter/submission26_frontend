@@ -214,19 +214,25 @@ const HacknovaTeamPage = () => {
                   as="a"
                   size="sm"
                   w={{ base: "full", sm: "auto" }}
+                  h="auto"
+                  minH="36px"
+                  py={{ base: 2, sm: 2 }}
+                  px={{ base: 3, sm: 4 }}
                   bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                   color="#030512"
                   fontFamily="'Oxanium', sans-serif"
                   fontSize="xs"
                   fontWeight="bold"
-                  letterSpacing="0.1em"
+                  letterSpacing="0.08em"
                   textTransform="uppercase"
                   boxShadow="0 0 15px rgba(56, 217, 169, 0.35)"
                   _hover={{
                     bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
                   }}
-                  whiteSpace="nowrap"
-                  rightIcon={<ArrowForwardIcon />}
+                  whiteSpace="normal"
+                  textAlign="center"
+                  wordBreak="break-word"
+                  rightIcon={<ArrowForwardIcon flexShrink={0} />}
                 >
                   Proceed to Project Submission →
                 </Button>

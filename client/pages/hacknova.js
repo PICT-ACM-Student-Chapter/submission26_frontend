@@ -637,45 +637,52 @@ const Hacknova = () => {
               /* SQUAD REGISTRATION REQUIRED NOTICE */
               <Box
                 position="relative"
-                p={{ base: 6, sm: 8 }}
+                p={{ base: 3.5, sm: 6, md: 8 }}
                 bg="linear-gradient(180deg, rgba(11, 21, 46, 0.95) 0%, rgba(7, 16, 36, 0.95) 100%)"
                 border="1px solid rgba(245, 158, 11, 0.45)"
                 boxShadow="0 0 35px rgba(245, 158, 11, 0.15), 0 12px 32px rgba(0, 0, 0, 0.85)"
                 borderRadius="md"
                 overflow="hidden"
+                maxW="100%"
+                boxSizing="border-box"
               >
                 {/* 4 Corner HUD Brackets */}
-                <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #F59E0B" borderTop="2px solid #F59E0B" pointerEvents="none" />
-                <Box position="absolute" top="6px" right="6px" w="10px" h="10px" borderRight="2px solid #F59E0B" borderTop="2px solid #F59E0B" pointerEvents="none" />
-                <Box position="absolute" bottom="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #F59E0B" borderBottom="2px solid #F59E0B" pointerEvents="none" />
-                <Box position="absolute" bottom="6px" right="6px" w="10px" h="10px" borderRight="2px solid #F59E0B" borderBottom="2px solid #F59E0B" pointerEvents="none" />
+                <Box position="absolute" top={{ base: "4px", sm: "6px" }} left={{ base: "4px", sm: "6px" }} w={{ base: "8px", sm: "10px" }} h={{ base: "8px", sm: "10px" }} borderLeft="2px solid #F59E0B" borderTop="2px solid #F59E0B" pointerEvents="none" />
+                <Box position="absolute" top={{ base: "4px", sm: "6px" }} right={{ base: "4px", sm: "6px" }} w={{ base: "8px", sm: "10px" }} h={{ base: "8px", sm: "10px" }} borderRight="2px solid #F59E0B" borderTop="2px solid #F59E0B" pointerEvents="none" />
+                <Box position="absolute" bottom={{ base: "4px", sm: "6px" }} left={{ base: "4px", sm: "6px" }} w={{ base: "8px", sm: "10px" }} h={{ base: "8px", sm: "10px" }} borderLeft="2px solid #F59E0B" borderBottom="2px solid #F59E0B" pointerEvents="none" />
+                <Box position="absolute" bottom={{ base: "4px", sm: "6px" }} right={{ base: "4px", sm: "6px" }} w={{ base: "8px", sm: "10px" }} h={{ base: "8px", sm: "10px" }} borderRight="2px solid #F59E0B" borderBottom="2px solid #F59E0B" pointerEvents="none" />
 
-                <Flex direction="column" align="center" textAlign="center" mb={6}>
+                <Flex direction="column" align="center" textAlign="center" mb={{ base: 4, sm: 6 }} px={{ base: 1, sm: 2 }}>
                   <Flex
                     align="center"
                     justify="center"
-                    w="56px"
-                    h="56px"
+                    w={{ base: "48px", sm: "56px" }}
+                    h={{ base: "48px", sm: "56px" }}
                     rounded="full"
                     bg="rgba(245, 158, 11, 0.15)"
                     border="1px solid #F59E0B"
                     color="#F59E0B"
-                    mb={3.5}
+                    mb={{ base: 2.5, sm: 3.5 }}
                     boxShadow="0 0 25px rgba(245, 158, 11, 0.35)"
+                    flexShrink={0}
                   >
-                    <LockIcon w={6} h={6} />
+                    <LockIcon w={{ base: 5, sm: 6 }} h={{ base: 5, sm: 6 }} />
                   </Flex>
 
                   <Badge
-                    px={3}
-                    py={1}
+                    px={{ base: 2.5, sm: 3 }}
+                    py={{ base: 0.5, sm: 1 }}
                     bg="rgba(245, 158, 11, 0.2)"
                     color="#F59E0B"
                     border="1px solid rgba(245, 158, 11, 0.5)"
                     fontFamily="'Oxanium', sans-serif"
-                    fontSize="2xs"
-                    letterSpacing="0.15em"
-                    mb={2}
+                    fontSize={{ base: "3xs", sm: "2xs" }}
+                    letterSpacing={{ base: "0.06em", sm: "0.15em" }}
+                    whiteSpace="normal"
+                    textAlign="center"
+                    maxW="100%"
+                    lineHeight="shorter"
+                    mb={{ base: 2, sm: 2.5 }}
                     borderRadius="full"
                   >
                     STEP 1 INCOMPLETE &bull; SQUAD REGISTRATION REQUIRED
@@ -683,102 +690,122 @@ const Hacknova = () => {
 
                   <chakra.h2
                     fontFamily="'United Colony', sans-serif !important"
-                    fontSize={{ base: "xl", sm: "2xl" }}
+                    fontSize={{ base: "md", sm: "xl", md: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
-                    letterSpacing="0.08em"
+                    letterSpacing={{ base: "0.04em", sm: "0.08em" }}
                     textTransform="uppercase"
+                    lineHeight={{ base: "short", sm: "shorter" }}
+                    wordBreak="break-word"
+                    maxW="100%"
                   >
                     TEAM REGISTRATION REQUIRED
                   </chakra.h2>
 
                   <chakra.p
                     fontFamily="'Oxanium', sans-serif"
-                    fontSize="xs"
+                    fontSize={{ base: "2xs", sm: "xs" }}
+                    fontWeight="semibold"
                     color="#FCD34D"
-                    letterSpacing="0.1em"
+                    letterSpacing={{ base: "0.04em", sm: "0.1em" }}
                     textTransform="uppercase"
-                    mt={1}
+                    lineHeight={{ base: "short", sm: "normal" }}
+                    wordBreak="break-word"
+                    maxW="100%"
+                    mt={{ base: 1.5, sm: 1 }}
                   >
                     SUBMISSION WILL BE UNLOCKED AFTER SQUAD REGISTRATION
                   </chakra.p>
                 </Flex>
 
-                <Stack spacing={4} fontFamily="'Oxanium', sans-serif">
+                <Stack spacing={{ base: 3, sm: 4 }} fontFamily="'Oxanium', sans-serif">
                   <Box
-                    p={4}
+                    p={{ base: 3, sm: 4 }}
                     rounded="md"
                     bg="rgba(7, 16, 36, 0.75)"
                     border="1px solid rgba(245, 158, 11, 0.25)"
                   >
-                    <Text fontSize="sm" color="#E2E8F0" lineHeight="tall">
+                    <Text fontSize={{ base: "xs", sm: "sm" }} color="#E2E8F0" lineHeight="tall" wordBreak="break-word">
                       According to HackNova regulations, you must register your team squad (2 to 4 members) before submitting your project deliverables. Submissions are only recorded for verified, registered teams.
                     </Text>
                   </Box>
 
                   {/* Two-step visual progression */}
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={3} my={1}>
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={{ base: 2.5, sm: 3 }} my={1} w="full">
                     <Box
-                      p={3.5}
+                      p={{ base: 3, sm: 3.5 }}
                       rounded="md"
                       bg="rgba(245, 158, 11, 0.1)"
                       border="1px solid rgba(245, 158, 11, 0.5)"
+                      minW={0}
+                      maxW="100%"
+                      boxSizing="border-box"
                     >
-                      <Flex align="center" gap={2} mb={1}>
-                        <Badge bg="#F59E0B" color="#030512" fontSize="2xs" fontWeight="bold">
+                      <Flex align="center" gap={2} mb={1.5} wrap="wrap">
+                        <Badge bg="#F59E0B" color="#030512" fontSize={{ base: "3xs", sm: "2xs" }} fontWeight="bold" flexShrink={0}>
                           STEP 1
                         </Badge>
-                        <Text fontSize="xs" fontWeight="bold" color="#FCD34D" textTransform="uppercase">
+                        <Text fontSize={{ base: "2xs", sm: "xs" }} fontWeight="bold" color="#FCD34D" textTransform="uppercase" wordBreak="break-word">
                           Squad Registration
                         </Text>
                       </Flex>
-                      <Text fontSize="2xs" color="gray.300">
+                      <Text fontSize={{ base: "2xs", sm: "2xs" }} color="gray.300" lineHeight="tall" wordBreak="break-word">
                         Form your 2–4 member roster on the HackNova Team portal.
                       </Text>
                     </Box>
 
                     <Box
-                      p={3.5}
+                      p={{ base: 3, sm: 3.5 }}
                       rounded="md"
                       bg="rgba(255, 255, 255, 0.03)"
                       border="1px dashed rgba(255, 255, 255, 0.2)"
                       opacity={0.7}
+                      minW={0}
+                      maxW="100%"
+                      boxSizing="border-box"
                     >
-                      <Flex align="center" gap={2} mb={1}>
-                        <Badge bg="gray.600" color="gray.300" fontSize="2xs" fontWeight="bold">
+                      <Flex align="center" gap={2} mb={1.5} wrap="wrap">
+                        <Badge bg="gray.600" color="gray.300" fontSize={{ base: "3xs", sm: "2xs" }} fontWeight="bold" flexShrink={0}>
                           STEP 2
                         </Badge>
-                        <Text fontSize="xs" fontWeight="bold" color="gray.400" textTransform="uppercase">
+                        <Text fontSize={{ base: "2xs", sm: "xs" }} fontWeight="bold" color="gray.400" textTransform="uppercase" wordBreak="break-word">
                           Project Submission
                         </Text>
                       </Flex>
-                      <Text fontSize="2xs" color="gray.400">
+                      <Text fontSize={{ base: "2xs", sm: "2xs" }} color="gray.400" lineHeight="tall" wordBreak="break-word">
                         Submit GitHub repo, presentation (PPT/PDF), and ZIP archive.
                       </Text>
                     </Box>
                   </SimpleGrid>
 
                   {/* Actions */}
-                  <Flex direction="column" gap={3} pt={2}>
+                  <Flex direction="column" gap={{ base: 2.5, sm: 3 }} pt={{ base: 1, sm: 2 }}>
                     {isSquadRegistrationActive ? (
                       <NextLink href="/hacknova-team" passHref>
                         <Button
                           as="a"
                           w="full"
-                          h="46px"
+                          h="auto"
+                          minH={{ base: "44px", sm: "46px" }}
+                          py={{ base: 2.5, sm: 3 }}
+                          px={{ base: 3, sm: 4 }}
                           bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                           color="#030512"
                           fontFamily="'Oxanium', sans-serif"
-                          fontSize="sm"
+                          fontSize={{ base: "xs", sm: "sm" }}
                           fontWeight="bold"
-                          letterSpacing="0.1em"
+                          letterSpacing={{ base: "0.04em", sm: "0.1em" }}
                           textTransform="uppercase"
                           boxShadow="0 0 20px rgba(56, 217, 169, 0.35)"
+                          whiteSpace="normal"
+                          textAlign="center"
+                          wordBreak="break-word"
+                          lineHeight="short"
                           _hover={{
                             bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
                             boxShadow: "0 0 30px rgba(56, 217, 169, 0.6)",
                           }}
-                          rightIcon={<ArrowForwardIcon />}
+                          rightIcon={<ArrowForwardIcon flexShrink={0} />}
                         >
                           Register Your Squad Now →
                         </Button>
@@ -793,21 +820,28 @@ const Hacknova = () => {
 
                     <Button
                       w="full"
-                      h="38px"
+                      h="auto"
+                      minH={{ base: "40px", sm: "42px" }}
+                      py={{ base: 2, sm: 2.5 }}
+                      px={{ base: 3, sm: 4 }}
                       variant="outline"
                       borderColor="rgba(245, 158, 11, 0.4)"
                       color="#FCD34D"
                       fontFamily="'Oxanium', sans-serif"
-                      fontSize="xs"
-                      letterSpacing="0.08em"
+                      fontSize={{ base: "2xs", sm: "xs" }}
+                      letterSpacing={{ base: "0.04em", sm: "0.08em" }}
                       textTransform="uppercase"
+                      whiteSpace="normal"
+                      textAlign="center"
+                      wordBreak="break-word"
+                      lineHeight="short"
                       _hover={{
                         bg: "rgba(245, 158, 11, 0.15)",
                         borderColor: "#F59E0B",
                       }}
                       onClick={handleRefreshStatus}
                       isLoading={refreshingStatus}
-                      leftIcon={<RepeatIcon />}
+                      leftIcon={<RepeatIcon flexShrink={0} />}
                     >
                       Re-check Squad Registration Status
                     </Button>

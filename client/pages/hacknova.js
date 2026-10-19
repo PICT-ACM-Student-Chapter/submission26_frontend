@@ -46,6 +46,7 @@ import {
   WarningIcon,
   ArrowForwardIcon,
   RepeatIcon,
+  TimeIcon,
 } from "@chakra-ui/icons";
 
 const Hacknova = () => {
@@ -285,46 +286,87 @@ const Hacknova = () => {
           <GridItem minW={0}>
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={textColor} fontFamily="'Inter', sans-serif">
-                <Tab fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} px={{ base: 3, sm: 4 }} fontWeight="bold" fontFamily="'Inter', sans-serif">Topics</Tab>
+                <Tab fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} px={{ base: 3, sm: 4 }} fontWeight="bold" fontFamily="'Inter', sans-serif">Problem Statements</Tab>
                 <Tab fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} px={{ base: 3, sm: 4 }} fontWeight="bold" fontFamily="'Inter', sans-serif">Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg} borderRadius="md" overflow="hidden">
                 {/* Tab 1: Problem Statements */}
                 <TabPanel p={{ base: 3, sm: 4, md: 5 }} color="hsl(210, 40%, 100%)">
-                  <Stack spacing={3} fontFamily="'Inter', sans-serif">
+                  <Stack spacing={4} fontFamily="'Inter', sans-serif">
                     <Text fontSize={{ base: "md", sm: "lg", md: "xl" }} fontWeight="bold" color={textColor}>
                       Problem Statements:
                     </Text>
 
-                    {/* FE-SE Category */}
-                    <Box>
-                      <Text fontSize={{ base: "sm", sm: "md", md: "lg" }} fontWeight="semibold" color={primaryColor} mb={1.5}>
-                        FE-SE Category:
-                      </Text>
-                      <Stack spacing={2} pl={{ base: 2, sm: 4 }}>
-                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">1. Weather Storyboard – Dynamic Weather Visualization App</Text>
-                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">2. NewsPulse – Trending Headlines Analyzer</Text>
-                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">3. YouTube Trend Analyzer</Text>
-                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">4. FocusFlow – Smart Pomodoro Timer for Productivity</Text>
-                      </Stack>
-                    </Box>
+                    <Box
+                      position="relative"
+                      p={{ base: 5, sm: 7 }}
+                      rounded="md"
+                      bg="linear-gradient(180deg, rgba(11, 21, 46, 0.75) 0%, rgba(7, 16, 36, 0.85) 100%)"
+                      border="1px dashed rgba(56, 217, 169, 0.45)"
+                      boxShadow="0 0 25px rgba(56, 217, 169, 0.1)"
+                      textAlign="center"
+                      overflow="hidden"
+                    >
+                      {/* HUD Corner Accent Marks */}
+                      <Box position="absolute" top="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+                      <Box position="absolute" top="4px" right="4px" w="8px" h="8px" borderRight="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+                      <Box position="absolute" bottom="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+                      <Box position="absolute" bottom="4px" right="4px" w="8px" h="8px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
 
-                    {/* TE-BE Category */}
-                    <Box>
-                      <Text fontSize={{ base: "sm", sm: "md", md: "lg" }} fontWeight="semibold" color={primaryColor} mb={1.5}>
-                        TE-BE Category:
-                      </Text>
-                      <Stack spacing={2} pl={{ base: 2, sm: 4 }}>
-                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">• Notification System as a SaaS</Text>
-                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">• End-to-End AI SQL Assistant</Text>
-                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">• Live Code Collaboration Platform</Text>
-                        <Text fontSize={{ base: "xs", sm: "sm", md: "md" }} wordBreak="break-word">• KnowledgeGraphX – AI-Powered Knowledge Insights SaaS</Text>
-                      </Stack>
-                    </Box>
+                      <Flex
+                        align="center"
+                        justify="center"
+                        w={{ base: "46px", sm: "52px" }}
+                        h={{ base: "46px", sm: "52px" }}
+                        rounded="full"
+                        bg="rgba(56, 217, 169, 0.12)"
+                        border="1px solid rgba(56, 217, 169, 0.5)"
+                        color="#38D9A9"
+                        mx="auto"
+                        mb={3}
+                        boxShadow="0 0 20px rgba(56, 217, 169, 0.3)"
+                      >
+                        <TimeIcon w={{ base: 5, sm: 6 }} h={{ base: 5, sm: 6 }} />
+                      </Flex>
 
-                    <Text fontSize={{ base: "2xs", sm: "xs", md: "sm" }} color="gray.400" mt={1}>
-                      Note: You can choose any one problem statement from your respective category.
-                    </Text>
+                      <Badge
+                        px={3}
+                        py={1}
+                        bg="rgba(56, 217, 169, 0.15)"
+                        color="#38D9A9"
+                        border="1px solid rgba(56, 217, 169, 0.4)"
+                        fontFamily="'Inter', sans-serif"
+                        fontSize={{ base: "3xs", sm: "2xs" }}
+                        letterSpacing="0.15em"
+                        borderRadius="full"
+                        mb={2.5}
+                        textTransform="uppercase"
+                      >
+                        ANNOUNCEMENT &bull; COMING SOON
+                      </Badge>
+
+                      <chakra.h2
+                        fontFamily="'Orbitron', sans-serif !important"
+                        fontSize={{ base: "lg", sm: "xl", md: "2xl" }}
+                        fontWeight="bold"
+                        color="#FFFFFF"
+                        letterSpacing="0.06em"
+                        textTransform="uppercase"
+                        mb={2}
+                      >
+                        PS Will Be Released Soon
+                      </chakra.h2>
+
+                      <Text
+                        fontSize={{ base: "xs", sm: "sm" }}
+                        color="gray.300"
+                        maxW="420px"
+                        mx="auto"
+                        lineHeight="tall"
+                      >
+                        Problem statements (PS) for HackNova &apos;26 will be released soon. Assemble your squad, complete team registration, and stay tuned!
+                      </Text>
+                    </Box>
                   </Stack>
                 </TabPanel>
 

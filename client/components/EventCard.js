@@ -5,7 +5,7 @@ import React, { useContext } from "react";
 import { toast } from "react-toastify";
 import AppContext from "../context/AppContext";
 
-const EventCard = ({ id, event, page, status, squadRegistrationActive = false }) => {
+const EventCard = ({ id, event, page, status, squadRegistrationActive = false, innoWaveTeamRegistrationActive = false }) => {
   const router = useRouter();
   const { user } = useContext(AppContext);
 
@@ -13,6 +13,11 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false })
     Number(id) === 20 ||
     String(event || "").toLowerCase().includes("hacknova") ||
     String(page || "").toLowerCase().includes("hacknova");
+
+  const isInnoWave =
+    Number(id) === 12 ||
+    String(event || "").toLowerCase().includes("innowave") ||
+    String(page || "").toLowerCase().includes("innowave");
 
   const handleNavigate = () => {
     if (status === true) {
@@ -306,6 +311,37 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false })
             leftIcon={<InfoOutlineIcon w={3} h={3} />}
           >
             Fill Team Form
+          </Button>
+        )}
+
+        {/* If InnoWave and InnoWave Team Registration is active, show direct Register Team CTA */}
+        {isInnoWave && innoWaveTeamRegistrationActive === true && (
+          <Button
+            size="xs"
+            w="full"
+            variant="outline"
+            borderColor="rgba(56, 217, 169, 0.6)"
+            color="#38D9A9"
+            bg="rgba(56, 217, 169, 0.12)"
+            fontFamily="'Oxanium', sans-serif"
+            fontSize="xs"
+            fontWeight="bold"
+            letterSpacing="0.08em"
+            textTransform="uppercase"
+            boxShadow="0 0 10px rgba(56, 217, 169, 0.2)"
+            _hover={{
+              bg: "rgba(56, 217, 169, 0.25)",
+              borderColor: "#38D9A9",
+              color: "#FFFFFF",
+              boxShadow: "0 0 15px rgba(56, 217, 169, 0.4)",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push("/innowave-team");
+            }}
+            leftIcon={<InfoOutlineIcon w={3} h={3} />}
+          >
+            Register Team
           </Button>
         )}
 

@@ -22,6 +22,14 @@ const nextConfig = {
         destination: "/hacknova-team",
       },
       {
+        source: "/innowave/team",
+        destination: "/innowave-team",
+      },
+      {
+        source: "/innowave-team-registration",
+        destination: "/innowave-team",
+      },
+      {
         source: "/backend-api/:path*",
         destination: `${targetBackend}/:path*`,
       },

@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Flex,
   GridItem,
   Link,
@@ -30,6 +31,7 @@ import ButtonWithModal from "../components/ButtonWithModal";
 import { getEntries, submitEntries } from "../action/entries";
 import ContentLoader from "../components/ContentLoader";
 import SubmissionClosedNotice from "../components/SubmissionClosedNotice";
+import { getInnoWaveTeamMe, getInnoWaveTeamRegistrationStatus } from "../action/innowaveTeam";
 import {
   ChevronLeftIcon,
   CheckCircleIcon,
@@ -47,6 +49,8 @@ const Innowave = () => {
 
   const [submission, setSubmission] = useState(null);
   const [isSubmissionActive, setIsSubmissionActive] = useState(true);
+  const [isTeamRegistrationActive, setIsTeamRegistrationActive] = useState(false);
+  const [registeredTeam, setRegisteredTeam] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -137,7 +141,7 @@ const Innowave = () => {
   };
 
   useEffect(() => {
-    const fetchSubmission = async () => {
+    const fetchData = async () => {
       try {
         const entryData = await getEntries("innowave");
         if (entryData?.error) console.log(entryData?.error);
@@ -147,48 +151,131 @@ const Innowave = () => {
         } else if (entryData?.event_status !== undefined) {
           setIsSubmissionActive(Boolean(entryData.event_status));
         }
+
+        // Fetch team registration info quietly to prefill team name if available
+        const teamData = await getInnoWaveTeamMe();
+        if (teamData?.team) {
+          setRegisteredTeam(teamData.team);
+        }
+
+        // Fetch InnoWave team registration portal status (Event ID 201, route /innowave-team)
+        const teamRegStatus = await getInnoWaveTeamRegistrationStatus();
+        setIsTeamRegistrationActive(Boolean(teamRegStatus.status || teamRegStatus.is_active));
       } catch (e) {
         console.log(e);
       }
       setLoading(false);
     };
-    fetchSubmission();
-  }, [setSubmission]);
+    fetchData();
+  }, []);
 
   return !loading ? (
     <Layout>
       <Box pt={10} width="full" pb="40px" px={{ base: 4, sm: 6, md: 12, lg: 16 }}>
-        <NextLink href="/dashboard">
-          <chakra.h3
-            fontWeight="bold"
-            fontSize={{ base: 'sm', md: 'md' }}
-            fontFamily="'Oxanium', sans-serif"
-            textTransform="uppercase"
-            color={primaryColor}
-            cursor="pointer"
-            display="flex"
-            alignItems="center"
-          >
-            <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
-          </chakra.h3>
-        </NextLink>
+        {/* Top Header Navigation */}
+        <Flex justify="space-between" align="center" wrap="wrap" gap={3} mb={2}>
+          <NextLink href="/dashboard" passHref>
+            <chakra.h3
+              fontWeight="bold"
+              fontSize={{ base: 18, sm: 22 }}
+              textTransform="uppercase"
+              color={primaryColor}
+              cursor="pointer"
+              display="flex"
+              alignItems="center"
+              fontFamily="'Oxanium', sans-serif"
+            >
+              <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
+            </chakra.h3>
+          </NextLink>
+        </Flex>
 
         <chakra.h1
-          py={5}
+          py={4}
           fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
-          fontFamily="'United Colony', sans-serif !important"
-          letterSpacing="0.05em"
-          textTransform="uppercase"
           fontWeight="bold"
           color={textColor}
           textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}
+          fontFamily="'United Colony', sans-serif !important"
+          letterSpacing="0.05em"
+          textTransform="uppercase"
         >
           Innowave
         </chakra.h1>
 
-        <SimpleGrid columns={{ base: 1, lg: 2 }} gap={10}>
+        <SimpleGrid columns={{ base: 1, lg: 2 }} gap={10} alignItems="start">
           {/* Left Column: Tracks and Instructions */}
           <GridItem>
+            {/* Squad Status Banner */}
+            {registeredTeam ? (
+              <Box
+                mb={4}
+                p={3.5}
+                bg="rgba(56, 217, 169, 0.08)"
+                border="1px solid rgba(56, 217, 169, 0.4)"
+                borderRadius="md"
+              >
+                <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
+                  <Flex align="center" gap={2}>
+                    <CheckCircleIcon color="#38D9A9" />
+                    <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#CBD5E1">
+                      Registered Team:{" "}
+                      <chakra.span fontWeight="bold" color="#38D9A9">
+                        {registeredTeam.team_name}
+                      </chakra.span>
+                    </Text>
+                  </Flex>
+                  <NextLink href="/innowave-team" passHref>
+                    <Button
+                      as="a"
+                      size="xs"
+                      variant="outline"
+                      borderColor="#38D9A9"
+                      color="#38D9A9"
+                      fontFamily="'Oxanium', sans-serif"
+                      fontSize="2xs"
+                      _hover={{ bg: "rgba(56, 217, 169, 0.15)" }}
+                    >
+                      View Team Dossier →
+                    </Button>
+                  </NextLink>
+                </Flex>
+              </Box>
+            ) : isTeamRegistrationActive ? (
+              <Box
+                mb={4}
+                p={3.5}
+                bg="rgba(34, 211, 238, 0.08)"
+                border="1px solid rgba(34, 211, 238, 0.35)"
+                borderRadius="md"
+              >
+                <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
+                  <Text fontFamily="'Oxanium', sans-serif" fontSize="s" color="#ebf1f2">
+                    Need to register or verify your team?
+                  </Text>
+                  <NextLink href="/innowave-team" passHref>
+                    <Button
+                      as="a"
+                      size="sm"
+                      bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                      color="#030512"
+                      fontFamily="'Oxanium', sans-serif"
+                      fontSize="xs"
+                      fontWeight="bold"
+                      letterSpacing="0.1em"
+                      textTransform="uppercase"
+                      _hover={{
+                        bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+                      }}
+                      whiteSpace="nowrap"
+                    >
+                      Register Team →
+                    </Button>
+                  </NextLink>
+                </Flex>
+              </Box>
+            ) : null}
+
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={textColor}>
                 <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Tracks</Tab>

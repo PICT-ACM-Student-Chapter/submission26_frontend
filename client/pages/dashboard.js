@@ -353,6 +353,7 @@ const Dashboard = () => {
         )}
 
 
+
         {safeContEvents.length === 0 && (
           <Box
             textAlign="center"

@@ -50,6 +50,7 @@ const Freeze = () => {
   const [submission, setSubmission] = useState(null);
   const [isSubmissionActive, setIsSubmissionActive] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [loadingText, setLoadingText] = useState("INITIALIZING FREEZE THE SECOND...");
   const [tabIndex, setTabIndex] = useState(0);
 
   const initialFormValues = {
@@ -90,6 +91,7 @@ const Freeze = () => {
     }
 
     try {
+      setLoadingText("UPLOADING PHOTOGRAPH & SUBMITTING ENTRY...");
       setLoading(true);
       toast.info("Uploading photograph to S3...");
       const photoData = await uploadFile(values.file);
@@ -531,6 +533,8 @@ const Freeze = () => {
                         <Box pt={2}>
                           <ButtonWithModal
                             handleSubmit={() => handleSubmit(values)}
+                            isLoading={loading}
+                            loadingText="Submitting Photo..."
                             bg={primaryColor}
                             hoverBg={primaryGlow}
                           />
@@ -546,7 +550,7 @@ const Freeze = () => {
       </Box>
     </Layout>
   ) : (
-    <ContentLoader />
+    <ContentLoader text={loadingText} />
   );
 };
 

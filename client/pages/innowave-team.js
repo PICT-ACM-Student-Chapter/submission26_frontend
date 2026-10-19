@@ -19,6 +19,7 @@ import { ChevronRightIcon, CheckCircleIcon, ArrowForwardIcon } from "@chakra-ui/
 import InnoWaveTeamRegistration from "../components/InnoWaveTeamRegistration";
 import SubmissionClosedNotice from "../components/SubmissionClosedNotice";
 import { getInnoWaveTeamRegistrationStatus } from "../action/innowaveTeam";
+import ContentLoader from "../components/ContentLoader";
 
 const InnoWaveTeamPage = () => {
   const theme = useTheme();
@@ -27,6 +28,7 @@ const InnoWaveTeamPage = () => {
   const primaryGlow = theme.colors.primary[200];
   const [registeredTeam, setRegisteredTeam] = useState(null);
   const [teamRegistrationActive, setTeamRegistrationActive] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   // Check live status specifically for InnoWave Team Registrations (Event ID 201, route /innowave-team)
   useEffect(() => {
@@ -39,6 +41,10 @@ const InnoWaveTeamPage = () => {
         }
       } catch (e) {
         console.error("Failed to check InnoWave team registration status:", e);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
     fetchTeamStatus();
@@ -47,7 +53,7 @@ const InnoWaveTeamPage = () => {
     };
   }, []);
 
-  return (
+  return !loading ? (
     <Layout>
       <Box
         pt={{ base: 6, md: 10 }}
@@ -259,6 +265,8 @@ const InnoWaveTeamPage = () => {
         )}
       </Box>
     </Layout>
+  ) : (
+    <ContentLoader text="VERIFYING INNOWAVE REGISTRATION STATUS..." />
   );
 };
 

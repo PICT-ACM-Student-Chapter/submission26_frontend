@@ -1,37 +1,27 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Box, Flex, Text, Spinner } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
+import animationData from "../lotties/final.json";
 
-const ContentLoader = () => {
-  const [animationData, setAnimationData] = useState(null);
-  const [Lottie, setLottie] = useState(null);
+// SSR-safe dynamic import for Lottie with cyber glow fallback
+const Lottie = dynamic(() => import("lottie-react"), {
+  ssr: false,
+  loading: () => (
+    <Spinner
+      thickness="3px"
+      speed="0.8s"
+      emptyColor="rgba(56, 217, 169, 0.15)"
+      color="#38D9A9"
+      w="64px"
+      h="64px"
+      borderRadius="50%"
+      style={{ borderRadius: "50%" }}
+      boxShadow="0 0 25px rgba(56, 217, 169, 0.45)"
+    />
+  ),
+});
 
-  useEffect(() => {
-    import("lottie-react").then((mod) => setLottie(() => mod.default));
-    import("../lotties/final.json").then((mod) => setAnimationData(mod.default || mod));
-  }, []);
-
-  if (!Lottie || !animationData) {
-    return (
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        w="100vw"
-        h="100vh"
-        bg="#030512"
-      >
-        <Box
-          w="50px"
-          h="50px"
-          rounded="full"
-          border="2px solid rgba(56, 217, 169, 0.2)"
-          borderTopColor="#38D9A9"
-          className="animate-spin"
-        />
-      </Flex>
-    );
-  }
-
+const ContentLoader = ({ text = "INITIALIZING MISSION INTERFACE..." }) => {
   return (
     <Flex
       flexDirection="column"
@@ -43,21 +33,37 @@ const ContentLoader = () => {
       position="relative"
       overflow="hidden"
     >
+      {/* Background cyber radial glow */}
       <Box
         position="absolute"
-        w="250px"
-        h="250px"
+        w="280px"
+        h="280px"
         bg="#38D9A9"
         opacity={0.15}
-        rounded="full"
+        borderRadius="50%"
+        style={{ borderRadius: "50%" }}
         filter="blur(80px)"
         pointerEvents="none"
       />
-      <Lottie
-        animationData={animationData}
-        loop={true}
-        style={{ height: 220, width: 220, position: "relative", zIndex: 10 }}
-      />
+
+      {/* Lottie Animation or glowing Spinner fallback */}
+      <Box
+        w="220px"
+        h="220px"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        position="relative"
+        zIndex={10}
+      >
+        <Lottie
+          animationData={animationData}
+          loop={true}
+          style={{ height: 220, width: 220 }}
+        />
+      </Box>
+
+      {/* Mission Text */}
       <Text
         fontFamily="'Oxanium', sans-serif"
         fontSize="xs"
@@ -65,11 +71,13 @@ const ContentLoader = () => {
         letterSpacing="0.25em"
         color="#38D9A9"
         textTransform="uppercase"
-        mt={4}
+        mt={3}
         position="relative"
         zIndex={10}
+        textAlign="center"
+        px={4}
       >
-        INITIALIZING MISSION INTERFACE...
+        {text}
       </Text>
     </Flex>
   );

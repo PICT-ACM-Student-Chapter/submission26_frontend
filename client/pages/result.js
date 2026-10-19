@@ -297,6 +297,7 @@ import {
   Flex,
   chakra,
 } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { getResults } from "../action/entries.js";
 import privateAdminRoute from "../routers/privateAdminRoute";
 import Layout from "../components/Layout";
@@ -313,16 +314,17 @@ const submissionEvents = [
 
 const Result = () => {
   const toast = useToast();
+  const [downloading, setDownloading] = useState({});
 
   const bgCard = useColorModeValue("background.200", "background.200");
   const textColor = useColorModeValue("foreground.100", "foreground.100");
   const primaryColor = useColorModeValue("primary.400", "primary.400");
   const primaryHover = useColorModeValue("primary.300", "primary.300");
 
-
- const handleSubmit = async (event) => {
-  try {
-    const res = await getResults(event.route);
+  const handleSubmit = async (event) => {
+    try {
+      setDownloading((prev) => ({ ...prev, [event.route]: true }));
+      const res = await getResults(event.route);
     console.log('API Response:', res); // Debug log
     
     // Check if response contains error
@@ -363,17 +365,19 @@ const Result = () => {
       isClosable: true,
     });
     
-  } catch (err) {
-    console.log(err);
-    toast({
-      title: "Error",
-      description: "Failed to get result.",
-      status: "error",
-      duration: 5000,
-      isClosable: true,
-    });
-  }
-};
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Error",
+        description: "Failed to get result.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setDownloading((prev) => ({ ...prev, [event.route]: false }));
+    }
+  };
  
   const convertToCSV = (data) => {
   // Add null/undefined check and ensure it's an array
@@ -527,6 +531,8 @@ const Result = () => {
                           bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
                           boxShadow: "0 0 20px rgba(56, 217, 169, 0.45)",
                         }}
+                        isLoading={Boolean(downloading[event.route])}
+                        loadingText="Fetching..."
                         onClick={() => handleSubmit(event)}
                       >
                         Download CSV

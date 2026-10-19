@@ -50,6 +50,7 @@ const Rootcause = () => {
   const [submission, setSubmission] = useState(null);
   const [isSubmissionActive, setIsSubmissionActive] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [loadingText, setLoadingText] = useState("INITIALIZING ROOT CAUSE MISSION...");
   const [tabIndex, setTabIndex] = useState(0);
 
   const initialFormValues = {
@@ -97,6 +98,7 @@ const Rootcause = () => {
     }
 
     try {
+      setLoadingText("UPLOADING FIX & SUBMITTING ROOT CAUSE ENTRY...");
       setLoading(true);
       let submission_file_url = null;
 
@@ -585,6 +587,8 @@ const Rootcause = () => {
                         <Box pt={2}>
                           <ButtonWithModal
                             handleSubmit={() => handleSubmit(values)}
+                            isLoading={loading}
+                            loadingText="Submitting Fix..."
                             bg={primaryColor}
                             hoverBg={primaryGlow}
                           />
@@ -600,7 +604,7 @@ const Rootcause = () => {
       </Box>
     </Layout>
   ) : (
-    <ContentLoader />
+    <ContentLoader text={loadingText} />
   );
 };
 

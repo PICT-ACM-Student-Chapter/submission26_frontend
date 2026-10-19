@@ -10,14 +10,27 @@ import { loadUser } from "../action/user";
 
 import "react-toastify/dist/ReactToastify.css";
 import "react-quill/dist/quill.snow.css";
+import "../styles/globals.css";
 import ContentLoader from "../components/ContentLoader";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
   const [user, dispatchUser] = useReducer(userReducer, {});
   const [contEvents, dispatchEvents] = useReducer(eventsReducer, []);
   const [loading, setLoading] = useState(true);
+  const [routeLoading, setRouteLoading] = useState(false);
 
   useEffect(() => {
+    // If no active session token exists in localStorage, skip initial load screen immediately
+    const submission =
+      typeof window !== "undefined" ? localStorage.getItem("submission") : null;
+
+    if (!submission) {
+      setLoading(false);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         const userData = await loadUser(dispatchUser, dispatchEvents);
@@ -26,15 +39,35 @@ function MyApp({ Component, pageProps }) {
         }
       } catch (e) {
         console.log(e);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchData();
   }, []);
 
-  return loading ? (
-    <ContentLoader />
-  ) : (
+  useEffect(() => {
+    const handleStart = (url, { shallow }) => {
+      if (!shallow && url !== router.asPath) {
+        setRouteLoading(true);
+      }
+    };
+    const handleComplete = () => {
+      setRouteLoading(false);
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleComplete);
+      router.events.off("routeChangeError", handleComplete);
+    };
+  }, [router]);
+
+  return (
     <AppContext.Provider
       value={{
         user,
@@ -60,7 +93,17 @@ function MyApp({ Component, pageProps }) {
           <title>Pulzion 26 | Submission</title>
         </Head>
         <ToastContainer />
-        <Component {...pageProps} />
+        {loading || routeLoading ? (
+          <ContentLoader
+            text={
+              routeLoading
+                ? "NAVIGATING MISSION SECTOR..."
+                : "INITIALIZING MISSION INTERFACE..."
+            }
+          />
+        ) : (
+          <Component {...pageProps} />
+        )}
       </ChakraProvider>
     </AppContext.Provider>
   );

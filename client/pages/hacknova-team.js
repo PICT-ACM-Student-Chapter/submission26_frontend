@@ -21,6 +21,7 @@ import SubmissionClosedNotice from "../components/SubmissionClosedNotice";
 import AppContext from "../context/AppContext";
 import { useRouter } from "next/router";
 import { getHackNovaSquadRegistrationStatus } from "../action/hacknovaTeam";
+import ContentLoader from "../components/ContentLoader";
 
 const HacknovaTeamPage = () => {
   const theme = useTheme();
@@ -31,6 +32,7 @@ const HacknovaTeamPage = () => {
   const { contEvents } = useContext(AppContext);
   const [registeredTeam, setRegisteredTeam] = useState(null);
   const [squadRegistrationActive, setSquadRegistrationActive] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   // Check live status specifically for HackNova Squad Registrations (Event ID 200, table hacknova_teams, route /hacknova-team)
   useEffect(() => {
@@ -43,6 +45,10 @@ const HacknovaTeamPage = () => {
         }
       } catch (e) {
         console.error("Failed to check squad registration status:", e);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
     fetchSquadStatus();
@@ -51,7 +57,7 @@ const HacknovaTeamPage = () => {
     };
   }, []);
 
-  return (
+  return !loading ? (
     <Layout>
       <Box
         pt={{ base: 4, sm: 6, md: 10 }}
@@ -261,6 +267,8 @@ const HacknovaTeamPage = () => {
         )}
       </Box>
     </Layout>
+  ) : (
+    <ContentLoader text="VERIFYING SQUAD REGISTRATION STATUS..." />
   );
 };
 

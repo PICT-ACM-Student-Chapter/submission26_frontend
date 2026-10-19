@@ -136,7 +136,7 @@
 
 // export default login;
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   chakra,
   Box,
@@ -154,8 +154,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import FormField from "../components/FormField";
-import { useEffect } from "react";
 import apiConfig from "../configs/api";
+import ContentLoader from "../components/ContentLoader";
 
 const validateSchema = Yup.object({
   username: Yup.string().required("Required"),
@@ -216,20 +216,7 @@ const AdminLogin = () => {
   const primaryColor = "#38D9A9";
 
   if (checkingAuth) {
-    return (
-      <Layout>
-        <Flex
-          align="center"
-          justify="center"
-          px={{ base: "16px", md: "48px", lg: "64px" }}
-          py="6vh"
-          w="100%"
-          minH="70vh"
-        >
-          <Text color={textColor} fontFamily="'Oxanium', sans-serif">Checking authentication...</Text>
-        </Flex>
-      </Layout>
-    );
+    return <ContentLoader text="AUTHENTICATING ADMIN ACCESS..." />;
   }
 
   return (

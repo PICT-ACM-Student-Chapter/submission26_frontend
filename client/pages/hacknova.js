@@ -61,6 +61,7 @@ const Hacknova = () => {
   const [isSquadRegistrationActive, setIsSquadRegistrationActive] = useState(false);
   const [registeredTeam, setRegisteredTeam] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loadingText, setLoadingText] = useState("INITIALIZING HACKNOVA MISSION...");
   const [refreshingStatus, setRefreshingStatus] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const router = useRouter();
@@ -157,6 +158,7 @@ const Hacknova = () => {
     }
 
     try {
+      setLoadingText("UPLOADING DELIVERABLES & SUBMITTING PROJECT...");
       setLoading(true);
       let presentation_url = null;
       let project_zip_url = null;
@@ -1000,6 +1002,8 @@ const Hacknova = () => {
                         <Box pt={2}>
                           <ButtonWithModal
                             handleSubmit={() => handleSubmit(values)}
+                            isLoading={loading}
+                            loadingText="Submitting Project..."
                             bg={primaryColor}
                             hoverBg={primaryGlow}
                           />
@@ -1015,7 +1019,7 @@ const Hacknova = () => {
       </Box>
     </Layout>
   ) : (
-    <ContentLoader />
+    <ContentLoader text={loadingText} />
   );
 };
 

@@ -52,6 +52,7 @@ const Innowave = () => {
   const [isTeamRegistrationActive, setIsTeamRegistrationActive] = useState(false);
   const [registeredTeam, setRegisteredTeam] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loadingText, setLoadingText] = useState("INITIALIZING INNOWAVE PORTAL...");
   const [tabIndex, setTabIndex] = useState(0);
 
    const trackOptions = [
@@ -104,6 +105,7 @@ const Innowave = () => {
     }
 
     try {
+      setLoadingText("UPLOADING PITCH DECK & SUBMITTING ENTRY...");
       setLoading(true);
       toast.info("Uploading pitch deck to S3...");
       const deckData = await uploadFile(values.ppt);
@@ -606,6 +608,8 @@ const Innowave = () => {
                         <Box pt={2}>
                           <ButtonWithModal
                             handleSubmit={() => handleSubmit(values)}
+                            isLoading={loading}
+                            loadingText="Submitting Entry..."
                             bg={primaryColor}
                             hoverBg={primaryGlow}
                           />
@@ -621,7 +625,7 @@ const Innowave = () => {
       </Box>
     </Layout>
   ) : (
-    <ContentLoader />
+    <ContentLoader text={loadingText} />
   );
 };
 

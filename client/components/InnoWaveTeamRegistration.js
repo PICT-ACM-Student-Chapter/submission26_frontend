@@ -328,6 +328,8 @@ const InnoWaveTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
 
           <Button
             onClick={loadTeamData}
+            isLoading={loading}
+            loadingText="Checking..."
             bg="linear-gradient(90deg, #EF4444 0%, #F97316 100%)"
             color="#FFFFFF"
             fontFamily="'Oxanium', sans-serif"
@@ -1232,6 +1234,7 @@ const InnoWaveTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
               letterSpacing="0.1em"
               textTransform="uppercase"
               onClick={onClose}
+              isDisabled={submitting}
             >
               Cancel
             </Button>
@@ -1251,6 +1254,8 @@ const InnoWaveTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                 boxShadow: "0 0 25px rgba(56, 217, 169, 0.5)",
               }}
               onClick={handleConfirmSubmit}
+              isLoading={submitting}
+              loadingText="Locking Team..."
             >
               Confirm &amp; Lock Team
             </Button>

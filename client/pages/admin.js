@@ -460,6 +460,7 @@ import { useRouter } from "next/router";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import privateAdminRoute from "../routers/privateAdminRoute";
 import Layout from "../components/Layout";
+import ContentLoader from "../components/ContentLoader";
 
 const INITIAL_GET_API = `${apiConfig.url}/allevents/events`;
 const SAVED_GET_API = `${apiConfig.url}/submission/get`;
@@ -469,6 +470,7 @@ const UPDATE_PATCH_API = `${apiConfig.url}/submission/update`;
 const AdminPage = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const [saving, setSaving] = useState({});
   const [submissionevents, setSubmissionevents] = useState([]);
   const route = useRouter();
@@ -666,6 +668,7 @@ const AdminPage = () => {
 
   const handleLogout = async () => {
     if (admin) {
+      setLoggingOut(true);
       try {
         await axios.post(`${apiConfig.url}/admin/signout`, {}, {
           headers: { Authorization: `Bearer ${admin.token}` },
@@ -690,18 +693,14 @@ const AdminPage = () => {
           duration: 5000,
           isClosable: true,
         });
+      } finally {
+        setLoggingOut(false);
       }
     }
   }
 
   if (loading) {
-    return (
-      <Layout>
-        <Flex justify="center" align="center" minHeight="70vh">
-          <Spinner size="xl" color="#38D9A9" thickness="3px" />
-        </Flex>
-      </Layout>
-    );
+    return <ContentLoader text="SYNCHRONIZING MISSION CONTROL EVENTS..." />;
   }
 
   return (
@@ -741,6 +740,8 @@ const AdminPage = () => {
                 textTransform="uppercase"
                 _hover={{ bg: "whiteAlpha.100", color: "#FFFFFF" }}
                 onClick={handleLogout}
+                isLoading={loggingOut}
+                loadingText="Logging out..."
               >
                 Logout
               </Button>

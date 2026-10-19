@@ -12,7 +12,12 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-const ButtonWithModal = ({ handleSubmit }) => {
+const ButtonWithModal = ({
+  handleSubmit,
+  isLoading = false,
+  loadingText = "Submitting...",
+  buttonText = "Submit Entry",
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -31,6 +36,8 @@ const ButtonWithModal = ({ handleSubmit }) => {
         h="44px"
         type="button"
         onClick={onOpen}
+        isLoading={isLoading}
+        loadingText={loadingText}
         fontFamily="'Oxanium', sans-serif"
         fontWeight="extrabold"
         letterSpacing="0.12em"
@@ -39,7 +46,7 @@ const ButtonWithModal = ({ handleSubmit }) => {
         rounded="md"
         boxShadow="0 0 15px rgba(56, 217, 169, 0.3)"
       >
-        Submit Entry
+        {buttonText}
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay bg="rgba(3, 5, 18, 0.8)" backdropFilter="blur(8px)" />
@@ -102,6 +109,7 @@ const ButtonWithModal = ({ handleSubmit }) => {
                 color: "#FFFFFF",
               }}
               onClick={onClose}
+              isDisabled={isLoading}
             >
               Cancel
             </Button>
@@ -120,6 +128,8 @@ const ButtonWithModal = ({ handleSubmit }) => {
                 bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
                 boxShadow: "0 0 25px rgba(56, 217, 169, 0.5)",
               }}
+              isLoading={isLoading}
+              loadingText={loadingText}
               onClick={() => {
                 onClose();
                 handleSubmit();

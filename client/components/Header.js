@@ -5,22 +5,26 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import AppContext from "../context/AppContext";
 import { logout } from "../action/user";
 
 const Header = () => {
   const { user, dispatchUser, dispatchEvents } = useContext(AppContext);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const handleLogout = async () => {
     try {
+      setLoggingOut(true);
       const data = await logout(dispatchUser, dispatchEvents);
       if (data?.error) {
         console.log(data.error);
       }
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoggingOut(false);
     }
   };
 
@@ -106,6 +110,8 @@ const Header = () => {
           {user?.id && (
             <Button
               onClick={handleLogout}
+              isLoading={loggingOut}
+              loadingText="Logging Out..."
               fontFamily="'Oxanium', sans-serif"
               fontSize="xs"
               fontWeight="extrabold"

@@ -26,7 +26,7 @@ const Leaderboard = ({ submissions, senior }) => {
           <Tr borderBottom="2px solid rgba(56, 217, 169, 0.4)">
             <Th
               textAlign="center"
-              fontFamily="'United Colony', sans-serif !important"
+              fontFamily="'Orbitron', sans-serif !important"
               color="#38D9A9"
               fontSize="sm"
               letterSpacing="0.1em"
@@ -37,7 +37,7 @@ const Leaderboard = ({ submissions, senior }) => {
             </Th>
             <Th
               textAlign="center"
-              fontFamily="'United Colony', sans-serif !important"
+              fontFamily="'Orbitron', sans-serif !important"
               color="#38D9A9"
               fontSize="sm"
               letterSpacing="0.1em"
@@ -48,7 +48,7 @@ const Leaderboard = ({ submissions, senior }) => {
             </Th>
             <Th
               textAlign="center"
-              fontFamily="'United Colony', sans-serif !important"
+              fontFamily="'Orbitron', sans-serif !important"
               color="#38D9A9"
               fontSize="sm"
               letterSpacing="0.1em"
@@ -59,7 +59,7 @@ const Leaderboard = ({ submissions, senior }) => {
             </Th>
             <Th
               textAlign="center"
-              fontFamily="'United Colony', sans-serif !important"
+              fontFamily="'Orbitron', sans-serif !important"
               color="#38D9A9"
               fontSize="sm"
               letterSpacing="0.1em"
@@ -70,7 +70,7 @@ const Leaderboard = ({ submissions, senior }) => {
             </Th>
             <Th
               textAlign="center"
-              fontFamily="'United Colony', sans-serif !important"
+              fontFamily="'Orbitron', sans-serif !important"
               color="#38D9A9"
               fontSize="sm"
               letterSpacing="0.1em"
@@ -81,7 +81,7 @@ const Leaderboard = ({ submissions, senior }) => {
             </Th>
           </Tr>
         </Thead>
-        <Tbody fontFamily="'Oxanium', sans-serif">
+        <Tbody fontFamily="'Inter', sans-serif">
           {submissions?.map((submission, index) => {
             const isTop3 = index < 3;
             const rankColor =

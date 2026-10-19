@@ -1,7 +1,7 @@
 export const Select = {
   baseStyle: {
     field: {
-      fontFamily: "'Oxanium', sans-serif",
+      fontFamily: "'Inter', sans-serif",
       color: "#FFFFFF",
       borderRadius: "md",
       bg: "rgba(7, 16, 36, 0.85)",

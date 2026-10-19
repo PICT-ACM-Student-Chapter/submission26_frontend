@@ -16,7 +16,7 @@ const FileInput = ({ label, name, accept, ...otherProps }) => {
     <Box>
       <FormControl id={name}>
         <FormLabel
-          fontFamily="'Oxanium', sans-serif"
+          fontFamily="'Inter', sans-serif"
           fontSize="xs"
           fontWeight="bold"
           letterSpacing="0.1em"
@@ -37,7 +37,7 @@ const FileInput = ({ label, name, accept, ...otherProps }) => {
           py={{ base: "8px", sm: "10px" }}
           px={{ base: 2.5, sm: 3 }}
           color="#FFFFFF"
-          fontFamily="'Oxanium', sans-serif"
+          fontFamily="'Inter', sans-serif"
           fontSize={{ base: "xs", sm: "sm" }}
           bg="rgba(7, 16, 36, 0.85)"
           border="1px dashed rgba(56, 217, 169, 0.5)"
@@ -52,7 +52,7 @@ const FileInput = ({ label, name, accept, ...otherProps }) => {
           {...otherProps}
         />
         {errors[name] && touched[name] && (
-          <Text color="#F87171" fontSize="xs" fontFamily="'Oxanium', sans-serif" mt={1}>
+          <Text color="#F87171" fontSize="xs" fontFamily="'Inter', sans-serif" mt={1}>
             {errors[name]}
           </Text>
         )}

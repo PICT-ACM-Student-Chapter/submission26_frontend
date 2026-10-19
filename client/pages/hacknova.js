@@ -260,7 +260,7 @@ const Hacknova = () => {
               cursor="pointer"
               display="flex"
               alignItems="center"
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
             >
               <ChevronLeftIcon w={5} h={5} /> <span>Back to all events</span>
             </chakra.h3>
@@ -273,7 +273,7 @@ const Hacknova = () => {
           fontWeight="bold"
           color={textColor}
           textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}
-          fontFamily="'United Colony', sans-serif !important"
+          fontFamily="'Orbitron', sans-serif !important"
           letterSpacing="0.05em"
           textTransform="uppercase"
         >
@@ -284,14 +284,14 @@ const Hacknova = () => {
           {/* Left Column: Topics and Instructions */}
           <GridItem minW={0}>
             <Tabs onChange={(index) => setTabIndex(index)}>
-              <TabList color={textColor} fontFamily="'Oxanium', sans-serif">
-                <Tab fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} px={{ base: 3, sm: 4 }} fontWeight="bold" fontFamily="'Oxanium', sans-serif">Topics</Tab>
-                <Tab fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} px={{ base: 3, sm: 4 }} fontWeight="bold" fontFamily="'Oxanium', sans-serif">Instructions</Tab>
+              <TabList color={textColor} fontFamily="'Inter', sans-serif">
+                <Tab fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} px={{ base: 3, sm: 4 }} fontWeight="bold" fontFamily="'Inter', sans-serif">Topics</Tab>
+                <Tab fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} px={{ base: 3, sm: 4 }} fontWeight="bold" fontFamily="'Inter', sans-serif">Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg} borderRadius="md" overflow="hidden">
                 {/* Tab 1: Problem Statements */}
                 <TabPanel p={{ base: 3, sm: 4, md: 5 }} color="hsl(210, 40%, 100%)">
-                  <Stack spacing={3} fontFamily="'Oxanium', sans-serif">
+                  <Stack spacing={3} fontFamily="'Inter', sans-serif">
                     <Text fontSize={{ base: "md", sm: "lg", md: "xl" }} fontWeight="bold" color={textColor}>
                       Problem Statements:
                     </Text>
@@ -330,7 +330,7 @@ const Hacknova = () => {
 
                 {/* Tab 2: Submission Rules */}
                 <TabPanel p={{ base: 3, sm: 4, md: 5 }} color="hsl(210, 40%, 100%)">
-                  <Stack spacing={3} fontFamily="'Oxanium', sans-serif">
+                  <Stack spacing={3} fontFamily="'Inter', sans-serif">
                     <Text fontSize={{ base: "md", sm: "lg", md: "xl" }} fontWeight="bold" color={textColor} mb={1}>
                       HackNova &apos;26 — Rules & Workflow
                     </Text>
@@ -405,7 +405,7 @@ const Hacknova = () => {
                 >
                   <Flex align="center" gap={2} minW={0} maxW="100%">
                     <CheckCircleIcon color="#38D9A9" flexShrink={0} />
-                    <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#CBD5E1" wordBreak="break-word">
+                    <Text fontFamily="'Inter', sans-serif" fontSize="xs" color="#CBD5E1" wordBreak="break-word">
                       Registered Squad:{" "}
                       <chakra.span fontWeight="bold" color="#38D9A9">
                         {registeredTeam.team_name}
@@ -420,7 +420,7 @@ const Hacknova = () => {
                       variant="outline"
                       borderColor="#38D9A9"
                       color="#38D9A9"
-                      fontFamily="'Oxanium', sans-serif"
+                      fontFamily="'Inter', sans-serif"
                       fontSize="2xs"
                       _hover={{ bg: "rgba(56, 217, 169, 0.15)" }}
                     >
@@ -466,7 +466,7 @@ const Hacknova = () => {
                     <CheckCircleIcon w={6} h={6} />
                   </Flex>
                   <chakra.h2
-                    fontFamily="'United Colony', sans-serif !important"
+                    fontFamily="'Orbitron', sans-serif !important"
                     fontSize={{ base: "xl", sm: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
@@ -476,7 +476,7 @@ const Hacknova = () => {
                     ENTRY SUBMITTED SUCCESSFULLY
                   </chakra.h2>
                   <chakra.p
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize="xs"
                     color="gray.400"
                     letterSpacing="0.15em"
@@ -488,7 +488,7 @@ const Hacknova = () => {
                 </Flex>
 
                 {/* Submission Details */}
-                <Stack spacing={4} fontFamily="'Oxanium', sans-serif">
+                <Stack spacing={4} fontFamily="'Inter', sans-serif">
                   {submission.team_name && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
@@ -677,7 +677,7 @@ const Hacknova = () => {
                     bg="rgba(245, 158, 11, 0.2)"
                     color="#F59E0B"
                     border="1px solid rgba(245, 158, 11, 0.5)"
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize={{ base: "3xs", sm: "2xs" }}
                     letterSpacing={{ base: "0.06em", sm: "0.15em" }}
                     whiteSpace="normal"
@@ -691,7 +691,7 @@ const Hacknova = () => {
                   </Badge>
 
                   <chakra.h2
-                    fontFamily="'United Colony', sans-serif !important"
+                    fontFamily="'Orbitron', sans-serif !important"
                     fontSize={{ base: "md", sm: "xl", md: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
@@ -705,7 +705,7 @@ const Hacknova = () => {
                   </chakra.h2>
 
                   <chakra.p
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize={{ base: "2xs", sm: "xs" }}
                     fontWeight="semibold"
                     color="#FCD34D"
@@ -720,7 +720,7 @@ const Hacknova = () => {
                   </chakra.p>
                 </Flex>
 
-                <Stack spacing={{ base: 3, sm: 4 }} fontFamily="'Oxanium', sans-serif">
+                <Stack spacing={{ base: 3, sm: 4 }} fontFamily="'Inter', sans-serif">
                   <Box
                     p={{ base: 3, sm: 4 }}
                     rounded="md"
@@ -793,7 +793,7 @@ const Hacknova = () => {
                           px={{ base: 3, sm: 4 }}
                           bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                           color="#030512"
-                          fontFamily="'Oxanium', sans-serif"
+                          fontFamily="'Inter', sans-serif"
                           fontSize={{ base: "xs", sm: "sm" }}
                           fontWeight="bold"
                           letterSpacing={{ base: "0.04em", sm: "0.1em" }}
@@ -829,7 +829,7 @@ const Hacknova = () => {
                       variant="outline"
                       borderColor="rgba(245, 158, 11, 0.4)"
                       color="#FCD34D"
-                      fontFamily="'Oxanium', sans-serif"
+                      fontFamily="'Inter', sans-serif"
                       fontSize={{ base: "2xs", sm: "xs" }}
                       letterSpacing={{ base: "0.04em", sm: "0.08em" }}
                       textTransform="uppercase"
@@ -870,7 +870,7 @@ const Hacknova = () => {
 
                 <Box mb={{ base: 3, sm: 5 }}>
                   <chakra.h2
-                    fontFamily="'United Colony', sans-serif !important"
+                    fontFamily="'Orbitron', sans-serif !important"
                     fontSize={{ base: "lg", sm: "xl", md: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
@@ -880,7 +880,7 @@ const Hacknova = () => {
                     PROJECT SUBMISSION PORTAL
                   </chakra.h2>
                   <chakra.p
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize="xs"
                     color="#22D3EE"
                     letterSpacing="0.12em"
@@ -915,7 +915,7 @@ const Hacknova = () => {
                               cursor="not-allowed"
                               opacity={0.9}
                             />
-                            <Text fontFamily="'Oxanium', sans-serif" fontSize="2xs" color="#38D9A9" mt={1}>
+                            <Text fontFamily="'Inter', sans-serif" fontSize="2xs" color="#38D9A9" mt={1}>
                               ✓ Locked to registered squad: {registeredTeam.team_name}
                             </Text>
                           </Box>
@@ -964,7 +964,7 @@ const Hacknova = () => {
 
                         <FormControl id="notes">
                           <FormLabel
-                            fontFamily="'Oxanium', sans-serif"
+                            fontFamily="'Inter', sans-serif"
                             fontSize="xs"
                             fontWeight="bold"
                             letterSpacing="0.1em"
@@ -978,7 +978,7 @@ const Hacknova = () => {
                             name="notes"
                             placeholder="Any special setup instructions, test credentials, or notes for the evaluators"
                             rows={3}
-                            fontFamily="'Oxanium', sans-serif"
+                            fontFamily="'Inter', sans-serif"
                             fontSize="sm"
                             color="#FFFFFF"
                             bg="rgba(7, 16, 36, 0.85)"

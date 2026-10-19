@@ -257,7 +257,7 @@ const AdminLogin = () => {
 
           <Stack spacing={6} align="center" mb={6} position="relative" zIndex={10}>
             <Heading
-              fontFamily="'United Colony', sans-serif !important"
+              fontFamily="'Orbitron', sans-serif !important"
               fontSize={{ base: "3xl", md: "4xl" }}
               color="#FFFFFF"
               textAlign="center"
@@ -267,7 +267,7 @@ const AdminLogin = () => {
               ADMIN <chakra.span color="#38D9A9" textShadow="0 0 15px rgba(56, 217, 169, 0.6)">SIGN IN</chakra.span>
             </Heading>
             <chakra.p
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
               fontSize="xs"
               color="gray.400"
               letterSpacing="0.2em"
@@ -285,7 +285,7 @@ const AdminLogin = () => {
           >
             {({ handleBlur, handleChange, values, handleSubmit }) => (
               <form onSubmit={handleSubmit} style={{ position: "relative", zIndex: 10 }}>
-                <Stack spacing={5} fontFamily="'Oxanium', sans-serif">
+                <Stack spacing={5} fontFamily="'Inter', sans-serif">
                   <FormField
                     type="text"
                     placeholder="Enter admin username"
@@ -313,7 +313,7 @@ const AdminLogin = () => {
                     isLoading={loading}
                     bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                     color="#030512"
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontWeight="extrabold"
                     letterSpacing="0.15em"
                     fontSize="md"

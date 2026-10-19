@@ -7,7 +7,7 @@ const SelectField = ({ name, placeholder, label, options, ...otherProps }) => {
   return (
     <FormControl id={name}>
       <FormLabel
-        fontFamily="'Oxanium', sans-serif"
+        fontFamily="'Inter', sans-serif"
         fontSize="xs"
         fontWeight="bold"
         letterSpacing="0.1em"
@@ -22,7 +22,7 @@ const SelectField = ({ name, placeholder, label, options, ...otherProps }) => {
         name={name}
         w="100%"
         h="44px"
-        fontFamily="'Oxanium', sans-serif"
+        fontFamily="'Inter', sans-serif"
         color="#FFFFFF"
         bg="rgba(7, 16, 36, 0.85)"
         border="1px solid rgba(56, 217, 169, 0.35)"
@@ -47,7 +47,7 @@ const SelectField = ({ name, placeholder, label, options, ...otherProps }) => {
         ))}
       </Select>
       {errors[name] && touched[name] && (
-        <Text color="#F87171" fontSize="xs" fontFamily="'Oxanium', sans-serif" mt={1}>
+        <Text color="#F87171" fontSize="xs" fontFamily="'Inter', sans-serif" mt={1}>
           {errors[name]}
         </Text>
       )}

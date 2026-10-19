@@ -4,7 +4,7 @@
   width: 100%;
   height: 100%;
   background-color: #030512;
-  font-family: 'Oxanium', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .header {
@@ -46,7 +46,7 @@
   background: rgba(5, 11, 29, 0.85);
   border-radius: 8px;
   font-size: 1rem;
-  font-family: 'Oxanium', sans-serif;
+  font-family: 'Inter', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,7 +73,7 @@
   min-width: 150px;
   padding: 14px 18px;
   z-index: 100;
-  font-family: 'Oxanium', sans-serif;
+  font-family: 'Inter', sans-serif;
   transition: all 0.3s ease;
 }
 
@@ -82,7 +82,7 @@
 }
 
 .container {
-  font-family: 'Oxanium', sans-serif;
+  font-family: 'Inter', sans-serif;
   width: 80%;
   margin: 40px auto;
   display: flex;
@@ -125,7 +125,7 @@
 .heading {
   font-size: 2rem;
   color: #FFFFFF;
-  font-family: 'United Colony', sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-weight: bolder;
   letter-spacing: 0.08em;
   margin: 25px 0 15px 0;
@@ -135,7 +135,7 @@
 .p {
   font-size: 0.9rem;
   color: #CBD5E1;
-  font-family: 'Oxanium', sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1.8;
 }
 
@@ -154,7 +154,7 @@
   color: #030512;
   transition: all 0.3s ease;
   font-size: 0.95rem;
-  font-family: 'Oxanium', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;

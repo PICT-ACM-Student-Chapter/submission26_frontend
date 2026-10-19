@@ -1,54 +1,38 @@
-/* United Colony Font Declarations */
-@font-face {
-  font-family: 'United Colony';
-  src: url('/fonts/unitedcolony.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'United Colony';
-  src: url('/fonts/unitedcolonycond.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'United Colony';
-  src: url('/fonts/unitedcolony3d.ttf') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'United Colony';
-  src: url('/fonts/unitedcolonyital.ttf') format('truetype');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-
 html,
 body {
   padding: 0;
   margin: 0;
   background-color: #030512;
   color: #F8FAFC;
-  font-family: 'Oxanium', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
+/* Big titles -> Orbitron (matches Pulzion '26 .font-origin) */
 h1, h2, h3, h4, h5, h6, .font-title {
-  font-family: 'United Colony', sans-serif !important;
+  font-family: 'Orbitron', sans-serif !important;
   letter-spacing: 0.06em;
 }
 
-p, span, a, button, input, select, textarea, div, label {
-  font-family: 'Oxanium', sans-serif;
+/* Body / content -> Inter (matches Pulzion '26 .font-inter) */
+p, a, input, select, textarea {
+  font-family: 'Inter', sans-serif;
+}
+
+/* UI chrome: nav, buttons, labels, badges -> Chakra Petch (matches .font-bdsuper) */
+button, .chakra-button, [role="button"], [role="tab"],
+label, .chakra-form__label, .chakra-badge {
+  font-family: 'Chakra Petch', sans-serif !important;
+}
+
+button span, .chakra-button span {
+  font-family: inherit !important;
+}
+
+/* Numbers / monospace -> Share Tech Mono (matches .font-tech-mono) */
+code, pre, .font-mono, .font-tech-mono {
+  font-family: 'Share Tech Mono', monospace !important;
 }
 
 a {
@@ -101,7 +85,7 @@ a {
 
 /* Toast container overrides for Pulzion 26 theme */
 .Toastify__toast {
-  font-family: 'Oxanium', sans-serif !important;
+  font-family: 'Inter', sans-serif !important;
   background: #071024 !important;
   border: 1px solid rgba(56, 217, 169, 0.35) !important;
   color: #F8FAFC !important;

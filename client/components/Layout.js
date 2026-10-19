@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
       width="100%"
       position="relative"
       overflowX="hidden"
-      fontFamily="'Oxanium', sans-serif"
+      fontFamily="'Inter', sans-serif"
       color="#F8FAFC"
     >
       {/* Pulzion 26 Background: Nebula glows and subtle sci-fi grid */}

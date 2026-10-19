@@ -64,7 +64,7 @@ const Leader = () => {
 
                     <NextLink href='/dataquest1'>
                         <chakra.h3
-                            fontFamily="'Oxanium', sans-serif"
+                            fontFamily="'Inter', sans-serif"
                             fontWeight={"bold"}
                             fontSize={{ base: "sm", sm: "md" }}
                             textTransform={"uppercase"}
@@ -83,7 +83,7 @@ const Leader = () => {
                     </NextLink>
 
                     <chakra.h1
-                        fontFamily="'United Colony', sans-serif !important"
+                        fontFamily="'Orbitron', sans-serif !important"
                         fontSize={{
                             base: "2xl",
                             sm: "3xl",
@@ -102,7 +102,7 @@ const Leader = () => {
                             <Leaderboard submissions={submissions} senior={senior} />
                         ) : (
                             <chakra.h3
-                                fontFamily="'Oxanium', sans-serif"
+                                fontFamily="'Inter', sans-serif"
                                 fontWeight={"bold"}
                                 fontSize="lg"
                                 color="#94A3B8"

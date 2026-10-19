@@ -96,7 +96,7 @@ const Header = () => {
             >
               <Box w="6px" h="6px" rounded="full" bg="#38D9A9" boxShadow="0 0 8px #38D9A9" />
               <Text
-                fontFamily="'Oxanium', sans-serif"
+                fontFamily="'Inter', sans-serif"
                 fontSize="xs"
                 fontWeight="semibold"
                 color="#CBD5E1"
@@ -112,7 +112,7 @@ const Header = () => {
               onClick={handleLogout}
               isLoading={loggingOut}
               loadingText="Logging Out..."
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
               fontSize="xs"
               fontWeight="extrabold"
               letterSpacing="0.15em"

@@ -1,6 +1,6 @@
 export const Button = {
   baseStyle: {
-    fontFamily: "'Oxanium', sans-serif",
+    fontFamily: "'Chakra Petch', sans-serif",
     fontWeight: "bold",
     letterSpacing: "0.1em",
     textTransform: "uppercase",

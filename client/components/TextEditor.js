@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 const QuillNoSSRWrapper = dynamic(import("react-quill"), {
   ssr: false,
   loading: () => (
-    <Box p={4} color="#38D9A9" fontFamily="'Oxanium', sans-serif">
+    <Box p={4} color="#38D9A9" fontFamily="'Inter', sans-serif">
       Loading Editor...
     </Box>
   ),
@@ -57,7 +57,7 @@ export default function TextEditor({ label, name, placeholder, ...otherProps }) 
   return (
     <FormControl id={name}>
       <FormLabel
-        fontFamily="'Oxanium', sans-serif"
+        fontFamily="'Inter', sans-serif"
         fontSize="xs"
         fontWeight="bold"
         letterSpacing="0.1em"
@@ -76,14 +76,14 @@ export default function TextEditor({ label, name, placeholder, ...otherProps }) 
           ".ql-toolbar": {
             bg: "rgba(5, 11, 29, 0.9)",
             borderColor: "rgba(56, 217, 169, 0.25) !important",
-            fontFamily: "'Oxanium', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             ".ql-stroke": { stroke: "#CBD5E1 !important" },
             ".ql-fill": { fill: "#CBD5E1 !important" },
             ".ql-picker": { color: "#CBD5E1 !important" },
           },
           ".ql-container": {
             borderColor: "transparent !important",
-            fontFamily: "'Oxanium', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             minHeight: "160px",
             color: "#FFFFFF",
           },
@@ -100,7 +100,7 @@ export default function TextEditor({ label, name, placeholder, ...otherProps }) 
         />
       </Box>
       {errors[name] && touched[name] && (
-        <Text color="#F87171" fontSize="xs" fontFamily="'Oxanium', sans-serif" mt={1}>
+        <Text color="#F87171" fontSize="xs" fontFamily="'Inter', sans-serif" mt={1}>
           {errors[name]}
         </Text>
       )}

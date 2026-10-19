@@ -12,7 +12,7 @@ const FormField = ({ label, name, placeholder, ...otherProps }) => {
   return (
     <FormControl id={name}>
       <FormLabel
-        fontFamily="'Oxanium', sans-serif"
+        fontFamily="'Inter', sans-serif"
         fontSize="xs"
         fontWeight="bold"
         letterSpacing="0.1em"
@@ -29,7 +29,7 @@ const FormField = ({ label, name, placeholder, ...otherProps }) => {
         maxW="100%"
         boxSizing="border-box"
         h={{ base: "42px", sm: "44px" }}
-        fontFamily="'Oxanium', sans-serif"
+        fontFamily="'Inter', sans-serif"
         fontSize={{ base: "xs", sm: "sm" }}
         px={{ base: 3, sm: 4 }}
         color="#FFFFFF"
@@ -50,7 +50,7 @@ const FormField = ({ label, name, placeholder, ...otherProps }) => {
         {...otherProps}
       />
       {errors[name] && touched[name] && (
-        <Text color="#F87171" fontSize="xs" fontFamily="'Oxanium', sans-serif" mt={1}>
+        <Text color="#F87171" fontSize="xs" fontFamily="'Inter', sans-serif" mt={1}>
           {errors[name]}
         </Text>
       )}

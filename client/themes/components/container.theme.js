@@ -1,6 +1,6 @@
 export const Container = {
   baseStyle: {
-    fontFamily: "'Oxanium', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     borderRadius: "lg",
     maxW: "container.xl",
   },

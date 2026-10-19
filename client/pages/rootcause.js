@@ -166,7 +166,7 @@ const Rootcause = () => {
           <chakra.h3
             fontWeight="bold"
             fontSize={{ base: 'sm', md: 'md' }}
-            fontFamily="'Oxanium', sans-serif"
+            fontFamily="'Inter', sans-serif"
             textTransform="uppercase"
             color={primaryColor}
             cursor="pointer"
@@ -180,7 +180,7 @@ const Rootcause = () => {
         <chakra.h1
           py={5}
           fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
-          fontFamily="'United Colony', sans-serif !important"
+          fontFamily="'Orbitron', sans-serif !important"
           fontWeight="bold"
           letterSpacing="0.05em"
           textTransform="uppercase"
@@ -195,8 +195,8 @@ const Rootcause = () => {
           <GridItem>
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={textColor}>
-                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Topics</Tab>
-                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Instructions</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Inter', sans-serif">Topics</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Inter', sans-serif">Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg}>
                 {/* Tab 1: Problem Statements */}
@@ -322,7 +322,7 @@ const Rootcause = () => {
                     <CheckCircleIcon w={6} h={6} />
                   </Flex>
                   <chakra.h2
-                    fontFamily="'United Colony', sans-serif !important"
+                    fontFamily="'Orbitron', sans-serif !important"
                     fontSize={{ base: "xl", sm: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
@@ -332,7 +332,7 @@ const Rootcause = () => {
                     ENTRY SUBMITTED SUCCESSFULLY
                   </chakra.h2>
                   <chakra.p
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize="xs"
                     color="gray.400"
                     letterSpacing="0.15em"
@@ -344,7 +344,7 @@ const Rootcause = () => {
                 </Flex>
 
                 {/* Submission Details from Backend Controller */}
-                <Stack spacing={4} fontFamily="'Oxanium', sans-serif">
+                <Stack spacing={4} fontFamily="'Inter', sans-serif">
                   {submission.team_name && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
@@ -484,7 +484,7 @@ const Rootcause = () => {
 
                 <Box mb={5}>
                   <chakra.h2
-                    fontFamily="'United Colony', sans-serif !important"
+                    fontFamily="'Orbitron', sans-serif !important"
                     fontSize={{ base: "xl", sm: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
@@ -494,7 +494,7 @@ const Rootcause = () => {
                     BUG FIX SUBMISSION PORTAL
                   </chakra.h2>
                   <chakra.p
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize="xs"
                     color="#22D3EE"
                     letterSpacing="0.12em"
@@ -549,7 +549,7 @@ const Rootcause = () => {
 
                         <FormControl id="notes">
                           <FormLabel
-                            fontFamily="'Oxanium', sans-serif"
+                            fontFamily="'Inter', sans-serif"
                             fontSize="xs"
                             fontWeight="bold"
                             letterSpacing="0.1em"
@@ -563,7 +563,7 @@ const Rootcause = () => {
                             name="notes"
                             placeholder="Detailed explanation of the root cause identified, performance improvements, and fix summary"
                             rows={3}
-                            fontFamily="'Oxanium', sans-serif"
+                            fontFamily="'Inter', sans-serif"
                             fontSize="sm"
                             color="#FFFFFF"
                             bg="rgba(7, 16, 36, 0.85)"

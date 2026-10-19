@@ -38,7 +38,7 @@ const ButtonWithModal = ({
         onClick={onOpen}
         isLoading={isLoading}
         loadingText={loadingText}
-        fontFamily="'Oxanium', sans-serif"
+        fontFamily="'Inter', sans-serif"
         fontWeight="extrabold"
         letterSpacing="0.12em"
         fontSize="sm"
@@ -68,7 +68,7 @@ const ButtonWithModal = ({
           <Box position="absolute" bottom="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
 
           <ModalHeader
-            fontFamily="'United Colony', sans-serif !important"
+            fontFamily="'Orbitron', sans-serif !important"
             color="#FFFFFF"
             fontSize={{ base: "lg", sm: "xl" }}
             letterSpacing="0.08em"
@@ -79,7 +79,7 @@ const ButtonWithModal = ({
           </ModalHeader>
           <ModalCloseButton color="#38D9A9" _hover={{ color: "#22D3EE" }} />
           <ModalBody
-            fontFamily="'Oxanium', sans-serif"
+            fontFamily="'Inter', sans-serif"
             color="#CBD5E1"
             fontSize="sm"
             lineHeight="tall"
@@ -99,7 +99,7 @@ const ButtonWithModal = ({
               variant="outline"
               borderColor="rgba(255, 255, 255, 0.2)"
               color="#94A3B8"
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
               fontSize="xs"
               fontWeight="bold"
               letterSpacing="0.1em"
@@ -118,7 +118,7 @@ const ButtonWithModal = ({
               minH="42px"
               bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
               color="#030512"
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
               fontSize="xs"
               fontWeight="extrabold"
               letterSpacing="0.12em"

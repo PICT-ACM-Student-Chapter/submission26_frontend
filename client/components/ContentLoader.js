@@ -65,7 +65,7 @@ const ContentLoader = ({ text = "INITIALIZING MISSION INTERFACE..." }) => {
 
       {/* Mission Text */}
       <Text
-        fontFamily="'Oxanium', sans-serif"
+        fontFamily="'Inter', sans-serif"
         fontSize="xs"
         fontWeight="bold"
         letterSpacing="0.25em"

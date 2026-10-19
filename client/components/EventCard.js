@@ -169,9 +169,9 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false, i
           />
         </Flex>
 
-        {/* Title in United Colony Font */}
+        {/* Title in Orbitron Font */}
         <chakra.h3
-          fontFamily="'United Colony', sans-serif !important"
+          fontFamily="'Orbitron', sans-serif !important"
           fontSize={{ base: "md", sm: "lg" }}
           fontWeight="bold"
           color="#FFFFFF"
@@ -188,9 +188,9 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false, i
           {event}
         </chakra.h3>
 
-        {/* Subtitle / Mode text in Oxanium Font */}
+        {/* Subtitle / Mode text in Inter Font */}
         <chakra.p
-          fontFamily="'Oxanium', sans-serif"
+          fontFamily="'Inter', sans-serif"
           fontSize="xs"
           opacity={0.75}
           textAlign="center"
@@ -213,7 +213,7 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false, i
         flexDirection="column"
         gap={3}
       >
-        <SimpleGrid columns={2} spacing={2} fontFamily="'Oxanium', sans-serif">
+        <SimpleGrid columns={2} spacing={2} fontFamily="'Inter', sans-serif">
           {/* Mode Badge */}
           <Flex
             direction="column"
@@ -292,7 +292,7 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false, i
             borderColor="rgba(56, 217, 169, 0.6)"
             color="#38D9A9"
             bg="rgba(56, 217, 169, 0.12)"
-            fontFamily="'Oxanium', sans-serif"
+            fontFamily="'Inter', sans-serif"
             fontSize="xs"
             fontWeight="bold"
             letterSpacing="0.08em"
@@ -323,7 +323,7 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false, i
             borderColor="rgba(56, 217, 169, 0.6)"
             color="#38D9A9"
             bg="rgba(56, 217, 169, 0.12)"
-            fontFamily="'Oxanium', sans-serif"
+            fontFamily="'Inter', sans-serif"
             fontSize="xs"
             fontWeight="bold"
             letterSpacing="0.08em"
@@ -356,7 +356,7 @@ const EventCard = ({ id, event, page, status, squadRegistrationActive = false, i
           <Flex
             alignItems="center"
             gap={1.5}
-            fontFamily="'Oxanium', sans-serif"
+            fontFamily="'Inter', sans-serif"
             fontSize="xs"
             color="#38D9A9"
             textTransform="uppercase"

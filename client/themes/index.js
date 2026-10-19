@@ -65,7 +65,7 @@ export const customTheme = extendTheme(
         "html, body": {
           bg: "#030512",
           color: "#F8FAFC",
-          fontFamily: "'Oxanium', sans-serif",
+          fontFamily: "'Inter', sans-serif",
           minHeight: "100vh",
           backgroundImage: `
             radial-gradient(ellipse 60% 40% at 20% 10%, rgba(34, 211, 238, 0.08) 0%, transparent 70%),
@@ -75,7 +75,7 @@ export const customTheme = extendTheme(
           backgroundRepeat: "no-repeat",
         },
         "h1, h2, h3, h4, h5, h6": {
-          fontFamily: "'United Colony', sans-serif !important",
+          fontFamily: "'Orbitron', sans-serif !important",
           letterSpacing: "0.06em",
         },
         "*::placeholder": {
@@ -88,8 +88,8 @@ export const customTheme = extendTheme(
     },
 
     fonts: {
-      heading: `'United Colony', -apple-system, sans-serif`,
-      body: `'Oxanium', -apple-system, sans-serif`,
+      heading: `'Orbitron', -apple-system, sans-serif`,
+      body: `'Inter', -apple-system, sans-serif`,
     },
 
     components: {

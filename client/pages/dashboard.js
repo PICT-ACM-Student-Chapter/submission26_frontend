@@ -111,14 +111,14 @@ const Dashboard = () => {
             fontSize="xs"
             fontWeight="bold"
             letterSpacing="0.2em"
-            fontFamily="'Oxanium', sans-serif"
+            fontFamily="'Inter', sans-serif"
             boxShadow="0 0 15px rgba(56, 217, 169, 0.2)"
           >
             <Box w="6px" h="6px" rounded="full" bg="#38D9A9" boxShadow="0 0 8px #38D9A9" />
             MISSION CONTROL
           </Box>
 
-          {/* Heading with United Colony Font */}
+          {/* Heading with Orbitron Font */}
           <Flex align="center" justify="center" gap={{ base: 2, sm: 4 }} w="full">
             <Box
               h="2px"
@@ -126,7 +126,7 @@ const Dashboard = () => {
               bgGradient="linear(to-l, rgba(56, 217, 169, 0.8), transparent)"
             />
             <chakra.h1
-              fontFamily="'United Colony', sans-serif !important"
+              fontFamily="'Orbitron', sans-serif !important"
               fontSize={{ base: "2xl", sm: "4xl", md: "5xl" }}
               fontWeight="black"
               color="#FFFFFF"
@@ -150,9 +150,9 @@ const Dashboard = () => {
             />
           </Flex>
 
-          {/* Subtitle with Oxanium Font */}
+          {/* Subtitle with Inter Font */}
           <chakra.p
-            fontFamily="'Oxanium', sans-serif"
+            fontFamily="'Inter', sans-serif"
             fontSize={{ base: "xs", sm: "sm" }}
             color="gray.400"
             letterSpacing="0.25em"
@@ -194,7 +194,7 @@ const Dashboard = () => {
                     bg="rgba(56, 217, 169, 0.2)"
                     color="#38D9A9"
                     border="1px solid #38D9A9"
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize="xs"
                     letterSpacing="0.1em"
                   >
@@ -202,7 +202,7 @@ const Dashboard = () => {
                   </Badge>
                 </Flex>
                 <chakra.h3
-                  fontFamily="'United Colony', sans-serif !important"
+                  fontFamily="'Orbitron', sans-serif !important"
                   fontSize={{ base: "lg", sm: "xl" }}
                   fontWeight="bold"
                   color="#FFFFFF"
@@ -212,7 +212,7 @@ const Dashboard = () => {
                   PLEASE FILL HACKNOVA TEAM FORM
                 </chakra.h3>
                 <Text
-                  fontFamily="'Oxanium', sans-serif"
+                  fontFamily="'Inter', sans-serif"
                   fontSize="xs"
                   color="gray.300"
                   mt={1}
@@ -228,7 +228,7 @@ const Dashboard = () => {
                   size="md"
                   bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                   color="#030512"
-                  fontFamily="'Oxanium', sans-serif"
+                  fontFamily="'Inter', sans-serif"
                   fontSize="xs"
                   fontWeight="bold"
                   letterSpacing="0.1em"
@@ -279,7 +279,7 @@ const Dashboard = () => {
                     bg="rgba(56, 217, 169, 0.2)"
                     color="#38D9A9"
                     border="1px solid #38D9A9"
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize="xs"
                     letterSpacing="0.1em"
                   >
@@ -287,7 +287,7 @@ const Dashboard = () => {
                   </Badge>
                 </Flex>
                 <chakra.h3
-                  fontFamily="'United Colony', sans-serif !important"
+                  fontFamily="'Orbitron', sans-serif !important"
                   fontSize={{ base: "lg", sm: "xl" }}
                   fontWeight="bold"
                   color="#FFFFFF"
@@ -297,7 +297,7 @@ const Dashboard = () => {
                   PLEASE FILL INNOWAVE TEAM FORM
                 </chakra.h3>
                 <Text
-                  fontFamily="'Oxanium', sans-serif"
+                  fontFamily="'Inter', sans-serif"
                   fontSize="xs"
                   color="gray.300"
                   mt={1}
@@ -313,7 +313,7 @@ const Dashboard = () => {
                   size="md"
                   bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                   color="#030512"
-                  fontFamily="'Oxanium', sans-serif"
+                  fontFamily="'Inter', sans-serif"
                   fontSize="xs"
                   fontWeight="bold"
                   letterSpacing="0.1em"
@@ -361,7 +361,7 @@ const Dashboard = () => {
               </svg>
             </Flex>
             <chakra.p
-              fontFamily="'United Colony', sans-serif !important"
+              fontFamily="'Orbitron', sans-serif !important"
               fontSize={{ base: "lg", md: "xl" }}
               color="#FFFFFF"
               letterSpacing="0.08em"
@@ -371,7 +371,7 @@ const Dashboard = () => {
               No Events Registered
             </chakra.p>
             <Text
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
               fontSize={{ base: "xs", sm: "sm" }}
               color="gray.400"
               letterSpacing="0.1em"

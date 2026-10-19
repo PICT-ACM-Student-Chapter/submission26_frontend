@@ -152,7 +152,7 @@ const Freeze = () => {
           <chakra.h3
             fontWeight="bold"
             fontSize={{ base: 'sm', md: 'md' }}
-            fontFamily="'Oxanium', sans-serif"
+            fontFamily="'Inter', sans-serif"
             textTransform="uppercase"
             color={primaryColor}
             cursor="pointer"
@@ -166,7 +166,7 @@ const Freeze = () => {
         <chakra.h1
           py={5}
           fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
-          fontFamily="'United Colony', sans-serif !important"
+          fontFamily="'Orbitron', sans-serif !important"
           letterSpacing="0.05em"
           textTransform="uppercase"
           fontWeight="bold"
@@ -181,8 +181,8 @@ const Freeze = () => {
           <GridItem>
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={textColor}>
-                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Theme</Tab>
-                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Instructions</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Inter', sans-serif">Theme</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Inter', sans-serif">Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg}>
                 {/* Tab 1: Theme Details */}
@@ -289,7 +289,7 @@ const Freeze = () => {
                     <CheckCircleIcon w={6} h={6} />
                   </Flex>
                   <chakra.h2
-                    fontFamily="'United Colony', sans-serif !important"
+                    fontFamily="'Orbitron', sans-serif !important"
                     fontSize={{ base: "xl", sm: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
@@ -299,7 +299,7 @@ const Freeze = () => {
                     PHOTO SUBMITTED SUCCESSFULLY
                   </chakra.h2>
                   <chakra.p
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize="xs"
                     color="gray.400"
                     letterSpacing="0.15em"
@@ -311,7 +311,7 @@ const Freeze = () => {
                 </Flex>
 
                 {/* Submission Details from Backend Controller */}
-                <Stack spacing={4} fontFamily="'Oxanium', sans-serif">
+                <Stack spacing={4} fontFamily="'Inter', sans-serif">
                   {/* Photo Preview */}
                   {submission.submission && (
                     <Box
@@ -438,7 +438,7 @@ const Freeze = () => {
 
                 <Box mb={5}>
                   <chakra.h2
-                    fontFamily="'United Colony', sans-serif !important"
+                    fontFamily="'Orbitron', sans-serif !important"
                     fontSize={{ base: "xl", sm: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
@@ -448,7 +448,7 @@ const Freeze = () => {
                     PHOTO SUBMISSION PORTAL
                   </chakra.h2>
                   <chakra.p
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize="xs"
                     color="#22D3EE"
                     letterSpacing="0.12em"
@@ -495,7 +495,7 @@ const Freeze = () => {
 
                         <FormControl id="description">
                           <FormLabel
-                            fontFamily="'Oxanium', sans-serif"
+                            fontFamily="'Inter', sans-serif"
                             fontSize="xs"
                             fontWeight="bold"
                             letterSpacing="0.1em"
@@ -509,7 +509,7 @@ const Freeze = () => {
                             name="description"
                             placeholder="Camera settings (ISO, Shutter speed, Aperture), story behind the shot, or lighting notes"
                             rows={3}
-                            fontFamily="'Oxanium', sans-serif"
+                            fontFamily="'Inter', sans-serif"
                             fontSize="sm"
                             color="#FFFFFF"
                             bg="rgba(7, 16, 36, 0.85)"

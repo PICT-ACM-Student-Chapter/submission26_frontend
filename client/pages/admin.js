@@ -733,7 +733,7 @@ const AdminPage = () => {
                 variant="outline"
                 borderColor="rgba(255, 255, 255, 0.2)"
                 color="#94A3B8"
-                fontFamily="'Oxanium', sans-serif"
+                fontFamily="'Inter', sans-serif"
                 fontSize="xs"
                 fontWeight="bold"
                 letterSpacing="0.1em"
@@ -752,7 +752,7 @@ const AdminPage = () => {
                   rightIcon={<ChevronDownIcon />}
                   bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                   color="#030512"
-                  fontFamily="'Oxanium', sans-serif"
+                  fontFamily="'Inter', sans-serif"
                   fontSize="xs"
                   fontWeight="bold"
                   letterSpacing="0.1em"
@@ -761,7 +761,7 @@ const AdminPage = () => {
                 >
                   Results &amp; Data
                 </MenuButton>
-                <MenuList bg="#071024" borderColor="rgba(56, 217, 169, 0.3)" fontFamily="'Oxanium', sans-serif">
+                <MenuList bg="#071024" borderColor="rgba(56, 217, 169, 0.3)" fontFamily="'Inter', sans-serif">
                   <MenuItem bg="#071024" color="#FFFFFF" _hover={{ bg: "rgba(56, 217, 169, 0.15)", color: "#38D9A9" }} onClick={() => route.push('/result')}>
                     Download Results CSV
                   </MenuItem>
@@ -787,7 +787,7 @@ const AdminPage = () => {
           </Flex>
 
           <Text
-            fontFamily="'United Colony', sans-serif !important"
+            fontFamily="'Orbitron', sans-serif !important"
             fontSize={{ base: "2xl", md: "3xl" }}
             mb={2}
             fontWeight="bold"
@@ -800,14 +800,14 @@ const AdminPage = () => {
           </Text>
           <Divider mb={6} borderColor="rgba(56, 217, 169, 0.3)" />
 
-          <VStack spacing={6} align="stretch" fontFamily="'Oxanium', sans-serif">
+          <VStack spacing={6} align="stretch" fontFamily="'Inter', sans-serif">
             <Table variant="simple" size="md">
               <Thead bg="rgba(56, 217, 169, 0.1)">
                 <Tr borderBottom="2px solid rgba(56, 217, 169, 0.4)">
-                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Event Name</Th>
-                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Status</Th>
-                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Route</Th>
-                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Action</Th>
+                  <Th fontFamily="'Orbitron', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Event Name</Th>
+                  <Th fontFamily="'Orbitron', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Status</Th>
+                  <Th fontFamily="'Orbitron', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Route</Th>
+                  <Th fontFamily="'Orbitron', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Action</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -839,7 +839,7 @@ const AdminPage = () => {
                         size="sm"
                         bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                         color="#030512"
-                        fontFamily="'Oxanium', sans-serif"
+                        fontFamily="'Inter', sans-serif"
                         fontSize="xs"
                         fontWeight="bold"
                         letterSpacing="0.1em"
@@ -880,7 +880,7 @@ const AdminPage = () => {
           <Box position="absolute" bottom="6px" right="6px" w="10px" h="10px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
 
           <Text
-            fontFamily="'United Colony', sans-serif !important"
+            fontFamily="'Orbitron', sans-serif !important"
             fontSize={{ base: "2xl", md: "3xl" }}
             mb={2}
             fontWeight="bold"
@@ -893,14 +893,14 @@ const AdminPage = () => {
           </Text>
           <Divider mb={6} borderColor="rgba(56, 217, 169, 0.3)" />
 
-          <VStack spacing={6} align="stretch" fontFamily="'Oxanium', sans-serif">
+          <VStack spacing={6} align="stretch" fontFamily="'Inter', sans-serif">
             <Table variant="simple" size="md">
               <Thead bg="rgba(56, 217, 169, 0.1)">
                 <Tr borderBottom="2px solid rgba(56, 217, 169, 0.4)">
-                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Event Name</Th>
-                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Status</Th>
-                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Route</Th>
-                  <Th fontFamily="'United Colony', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Action</Th>
+                  <Th fontFamily="'Orbitron', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Event Name</Th>
+                  <Th fontFamily="'Orbitron', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Status</Th>
+                  <Th fontFamily="'Orbitron', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Route</Th>
+                  <Th fontFamily="'Orbitron', sans-serif !important" color={headerColor} letterSpacing="0.1em" textTransform="uppercase">Action</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -932,7 +932,7 @@ const AdminPage = () => {
                         size="sm"
                         bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                         color="#030512"
-                        fontFamily="'Oxanium', sans-serif"
+                        fontFamily="'Inter', sans-serif"
                         fontSize="xs"
                         fontWeight="bold"
                         letterSpacing="0.1em"

@@ -323,7 +323,7 @@ const privateUserRoute = (Component, explicitEvent = null) => {
               bg="rgba(239, 68, 68, 0.15)"
               color="#EF4444"
               border="1px solid rgba(239, 68, 68, 0.4)"
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
               fontSize="xs"
               letterSpacing="0.15em"
               mb={3}
@@ -332,7 +332,7 @@ const privateUserRoute = (Component, explicitEvent = null) => {
             </Badge>
 
             <chakra.h2
-              fontFamily="'United Colony', sans-serif !important"
+              fontFamily="'Orbitron', sans-serif !important"
               fontSize={{ base: "xl", sm: "2xl", md: "3xl" }}
               fontWeight="bold"
               color="#FFFFFF"
@@ -344,7 +344,7 @@ const privateUserRoute = (Component, explicitEvent = null) => {
             </chakra.h2>
 
             <Text
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
               fontSize="sm"
               color="gray.300"
               lineHeight="tall"
@@ -353,7 +353,7 @@ const privateUserRoute = (Component, explicitEvent = null) => {
               mx="auto"
             >
               We verified your registration from{" "}
-              <chakra.span color="#38D9A9" fontFamily="'JetBrains Mono', monospace">
+              <chakra.span color="#38D9A9" fontFamily="'Share Tech Mono', monospace">
                 {backendUrl}/user/user_events
               </chakra.span>
               . You have not checked or registered for{" "}
@@ -380,7 +380,7 @@ const privateUserRoute = (Component, explicitEvent = null) => {
                 textAlign="left"
               >
                 <Text
-                  fontFamily="'Oxanium', sans-serif"
+                  fontFamily="'Inter', sans-serif"
                   fontSize="xs"
                   color="#38D9A9"
                   fontWeight="bold"
@@ -402,7 +402,7 @@ const privateUserRoute = (Component, explicitEvent = null) => {
                           variant="outline"
                           borderColor="rgba(56, 217, 169, 0.4)"
                           color="#FFFFFF"
-                          fontFamily="'Oxanium', sans-serif"
+                          fontFamily="'Inter', sans-serif"
                           fontSize="xs"
                           justifyContent="space-between"
                           _hover={{
@@ -427,7 +427,7 @@ const privateUserRoute = (Component, explicitEvent = null) => {
                 border="1px solid rgba(239, 68, 68, 0.25)"
                 borderRadius="md"
               >
-                <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#FCA5A5">
+                <Text fontFamily="'Inter', sans-serif" fontSize="xs" color="#FCA5A5">
                   You currently have no checked or registered events with accepted payment. Please register and complete payment on Pulzion EMS.
                 </Text>
               </Box>
@@ -442,7 +442,7 @@ const privateUserRoute = (Component, explicitEvent = null) => {
                   leftIcon={<ChevronLeftIcon />}
                   bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                   color="#030512"
-                  fontFamily="'Oxanium', sans-serif"
+                  fontFamily="'Inter', sans-serif"
                   fontSize="xs"
                   fontWeight="bold"
                   letterSpacing="0.1em"
@@ -463,7 +463,7 @@ const privateUserRoute = (Component, explicitEvent = null) => {
                 variant="outline"
                 borderColor="rgba(255, 255, 255, 0.2)"
                 color="#CBD5E1"
-                fontFamily="'Oxanium', sans-serif"
+                fontFamily="'Inter', sans-serif"
                 fontSize="xs"
                 letterSpacing="0.1em"
                 textTransform="uppercase"

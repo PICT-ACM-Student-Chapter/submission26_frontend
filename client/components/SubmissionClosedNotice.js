@@ -44,7 +44,7 @@ const SubmissionClosedNotice = ({ eventName = "this event" }) => {
         </Flex>
 
         <chakra.h2
-          fontFamily="'United Colony', sans-serif !important"
+          fontFamily="'Orbitron', sans-serif !important"
           fontSize={{ base: "xl", sm: "2xl" }}
           fontWeight="bold"
           color="#FFFFFF"
@@ -54,7 +54,7 @@ const SubmissionClosedNotice = ({ eventName = "this event" }) => {
           SUBMISSIONS CURRENTLY CLOSED
         </chakra.h2>
 
-        <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" color="#CBD5E1" maxW="md" lineHeight="tall">
+        <Text fontFamily="'Inter', sans-serif" fontSize="sm" color="#CBD5E1" maxW="md" lineHeight="tall">
           Submissions for <chakra.span color="#EF4444" fontWeight="bold">{eventName}</chakra.span> are closed by administrators. New entries will not be accepted or stored in the database.
         </Text>
 
@@ -65,7 +65,7 @@ const SubmissionClosedNotice = ({ eventName = "this event" }) => {
           borderRadius="md"
           maxW="md"
         >
-          <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#FCA5A5">
+          <Text fontFamily="'Inter', sans-serif" fontSize="xs" color="#FCA5A5">
             🛑 Form input and file uploads are disabled for this competition. If you require any assistance, please contact the Pulzion coordinators.
           </Text>
         </Box>
@@ -77,7 +77,7 @@ const SubmissionClosedNotice = ({ eventName = "this event" }) => {
             variant="outline"
             borderColor="#38D9A9"
             color="#38D9A9"
-            fontFamily="'Oxanium', sans-serif"
+            fontFamily="'Inter', sans-serif"
             fontSize="xs"
             letterSpacing="0.1em"
             textTransform="uppercase"

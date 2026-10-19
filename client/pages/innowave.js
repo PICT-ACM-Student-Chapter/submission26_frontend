@@ -184,7 +184,7 @@ const Innowave = () => {
               cursor="pointer"
               display="flex"
               alignItems="center"
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
             >
               <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
             </chakra.h3>
@@ -197,7 +197,7 @@ const Innowave = () => {
           fontWeight="bold"
           color={textColor}
           textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}
-          fontFamily="'United Colony', sans-serif !important"
+          fontFamily="'Orbitron', sans-serif !important"
           letterSpacing="0.05em"
           textTransform="uppercase"
         >
@@ -219,7 +219,7 @@ const Innowave = () => {
                 <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
                   <Flex align="center" gap={2}>
                     <CheckCircleIcon color="#38D9A9" />
-                    <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="#CBD5E1">
+                    <Text fontFamily="'Inter', sans-serif" fontSize="xs" color="#CBD5E1">
                       Registered Team:{" "}
                       <chakra.span fontWeight="bold" color="#38D9A9">
                         {registeredTeam.team_name}
@@ -233,7 +233,7 @@ const Innowave = () => {
                       variant="outline"
                       borderColor="#38D9A9"
                       color="#38D9A9"
-                      fontFamily="'Oxanium', sans-serif"
+                      fontFamily="'Inter', sans-serif"
                       fontSize="2xs"
                       _hover={{ bg: "rgba(56, 217, 169, 0.15)" }}
                     >
@@ -251,7 +251,7 @@ const Innowave = () => {
                 borderRadius="md"
               >
                 <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
-                  <Text fontFamily="'Oxanium', sans-serif" fontSize="s" color="#ebf1f2">
+                  <Text fontFamily="'Inter', sans-serif" fontSize="s" color="#ebf1f2">
                     Need to register or verify your team?
                   </Text>
                   <NextLink href="/innowave-team" passHref>
@@ -260,7 +260,7 @@ const Innowave = () => {
                       size="sm"
                       bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                       color="#030512"
-                      fontFamily="'Oxanium', sans-serif"
+                      fontFamily="'Inter', sans-serif"
                       fontSize="xs"
                       fontWeight="bold"
                       letterSpacing="0.1em"
@@ -279,8 +279,8 @@ const Innowave = () => {
 
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={textColor}>
-                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Tracks</Tab>
-                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Oxanium', sans-serif">Instructions</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Inter', sans-serif">Tracks</Tab>
+                <Tab fontSize={{ base: 'sm', sm: 'md' }} fontFamily="'Inter', sans-serif">Instructions</Tab>
               </TabList>
               <TabPanels bg={tabBg}>
                 {/* Tab 1: Tracks */}
@@ -403,7 +403,7 @@ const Innowave = () => {
                     <CheckCircleIcon w={6} h={6} />
                   </Flex>
                   <chakra.h2
-                    fontFamily="'United Colony', sans-serif !important"
+                    fontFamily="'Orbitron', sans-serif !important"
                     fontSize={{ base: "xl", sm: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
@@ -413,7 +413,7 @@ const Innowave = () => {
                     IDEA DECK SUBMITTED SUCCESSFULLY
                   </chakra.h2>
                   <chakra.p
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize="xs"
                     color="gray.400"
                     letterSpacing="0.15em"
@@ -425,7 +425,7 @@ const Innowave = () => {
                 </Flex>
 
                 {/* Submission Details from Backend Controller */}
-                <Stack spacing={4} fontFamily="'Oxanium', sans-serif">
+                <Stack spacing={4} fontFamily="'Inter', sans-serif">
                   {submission.team_name && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
@@ -541,7 +541,7 @@ const Innowave = () => {
 
                 <Box mb={5}>
                   <chakra.h2
-                    fontFamily="'United Colony', sans-serif !important"
+                    fontFamily="'Orbitron', sans-serif !important"
                     fontSize={{ base: "xl", sm: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
@@ -551,7 +551,7 @@ const Innowave = () => {
                     IDEA DECK SUBMISSION PORTAL
                   </chakra.h2>
                   <chakra.p
-                    fontFamily="'Oxanium', sans-serif"
+                    fontFamily="'Inter', sans-serif"
                     fontSize="xs"
                     color="#22D3EE"
                     letterSpacing="0.12em"

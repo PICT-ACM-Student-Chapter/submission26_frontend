@@ -74,7 +74,7 @@ const InnoWaveTeamPage = () => {
           <Breadcrumb
             spacing="8px"
             separator={<ChevronRightIcon color="#38D9A9" />}
-            fontFamily="'Oxanium', sans-serif"
+            fontFamily="'Inter', sans-serif"
             fontSize="xs"
             color="gray.400"
           >
@@ -103,10 +103,11 @@ const InnoWaveTeamPage = () => {
             <Button
               as="a"
               size="sm"
+              w={{ base: "full", sm: "auto" }}
               variant="outline"
               borderColor="rgba(56, 217, 169, 0.4)"
               color="#38D9A9"
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
               fontSize="xs"
               letterSpacing="0.1em"
               textTransform="uppercase"
@@ -126,7 +127,7 @@ const InnoWaveTeamPage = () => {
             mb={2}
             maxW="100%"
           >
-            <Badge
+            {/* <Badge
               maxW="100%"
               whiteSpace="normal"
               wordBreak="break-word"
@@ -139,12 +140,12 @@ const InnoWaveTeamPage = () => {
               fontSize="xs"
               fontWeight="bold"
               letterSpacing="0.2em"
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
               boxShadow="0 0 15px rgba(56, 217, 169, 0.2)"
             >
               <Box as="span" display="inline-block" w="6px" h="6px" rounded="full" bg="#38D9A9" mr={2} boxShadow="0 0 8px #38D9A9" />
               PULZION &apos;26 &bull; INNOWAVE
-            </Badge>
+            </Badge> */}
 
             <Badge
               maxW="100%"
@@ -159,18 +160,18 @@ const InnoWaveTeamPage = () => {
               fontSize="xs"
               fontWeight="bold"
               letterSpacing="0.15em"
-              fontFamily="'Oxanium', sans-serif"
+              fontFamily="'Inter', sans-serif"
             >
               TEAM REGISTRATION ONLY
             </Badge>
           </Flex>
 
           <chakra.h1
-            fontSize={{ base: 28, sm: 40 }}
+            fontSize={{ base: "16px", sm: "40px", md: "48px" }}
             fontWeight="bold"
             color={textColor}
             textShadow={`0 0 4px ${primaryGlow}, 0 0 6px ${primaryGlow}`}
-            fontFamily="'United Colony', sans-serif !important"
+            fontFamily="'Orbitron', sans-serif !important"
             letterSpacing="0.05em"
             textTransform="uppercase"
             lineHeight="shorter"
@@ -179,8 +180,8 @@ const InnoWaveTeamPage = () => {
           </chakra.h1>
 
           <chakra.p
-            fontFamily="'Oxanium', sans-serif"
-            fontSize={{ base: "xs", sm: "sm" }}
+            fontFamily="'Inter', sans-serif"
+            fontSize={{ base: "8px", sm: "12px" }}
             color="gray.400"
             letterSpacing="0.15em"
             textTransform="uppercase"
@@ -191,7 +192,7 @@ const InnoWaveTeamPage = () => {
         </Box>
 
         {/* Post-Registration Status Banner (if team registered) */}
-        {registeredTeam && (
+        {/* {registeredTeam && (
           <Box
             mb={6}
             p={4}
@@ -204,10 +205,10 @@ const InnoWaveTeamPage = () => {
               <Flex align="center" gap={3} minW={0} maxW="100%">
                 <CheckCircleIcon color="#38D9A9" w={5} h={5} flexShrink={0} />
                 <Box minW={0}>
-                  <Text fontFamily="'Oxanium', sans-serif" fontSize="sm" color="#FFFFFF" fontWeight="bold" wordBreak="break-word">
+                  <Text fontFamily="'Inter', sans-serif" fontSize="sm" color="#FFFFFF" fontWeight="bold" wordBreak="break-word">
                     Team Roster Confirmed: <chakra.span color="#38D9A9">{registeredTeam.team_name}</chakra.span>
                   </Text>
-                  <Text fontFamily="'Oxanium', sans-serif" fontSize="xs" color="gray.300">
+                  <Text fontFamily="'Inter', sans-serif" fontSize="xs" color="gray.300">
                     Your team details are locked and permanently recorded. You can now submit your idea deck.
                   </Text>
                 </Box>
@@ -224,7 +225,7 @@ const InnoWaveTeamPage = () => {
                   px={{ base: 3, sm: 4 }}
                   bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                   color="#030512"
-                  fontFamily="'Oxanium', sans-serif"
+                  fontFamily="'Inter', sans-serif"
                   fontSize="xs"
                   fontWeight="bold"
                   letterSpacing="0.08em"
@@ -243,7 +244,7 @@ const InnoWaveTeamPage = () => {
               </NextLink>
             </Flex>
           </Box>
-        )}
+        )} */}
 
         {/* If InnoWave Team Registration status is false, show SubmissionClosedNotice */}
         {!teamRegistrationActive ? (

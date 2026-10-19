@@ -299,13 +299,16 @@ const Hacknova = () => {
 
                     <Box
                       position="relative"
-                      p={{ base: 5, sm: 7 }}
+                      p={{ base: 4, sm: 6, md: 7 }}
                       rounded="md"
                       bg="linear-gradient(180deg, rgba(11, 21, 46, 0.75) 0%, rgba(7, 16, 36, 0.85) 100%)"
                       border="1px dashed rgba(56, 217, 169, 0.45)"
                       boxShadow="0 0 25px rgba(56, 217, 169, 0.1)"
                       textAlign="center"
                       overflow="hidden"
+                      w="full"
+                      maxW="100%"
+                      boxSizing="border-box"
                     >
                       {/* HUD Corner Accent Marks */}
                       <Box position="absolute" top="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
@@ -316,43 +319,52 @@ const Hacknova = () => {
                       <Flex
                         align="center"
                         justify="center"
-                        w={{ base: "46px", sm: "52px" }}
-                        h={{ base: "46px", sm: "52px" }}
+                        w={{ base: "40px", sm: "48px", md: "52px" }}
+                        h={{ base: "40px", sm: "48px", md: "52px" }}
                         rounded="full"
                         bg="rgba(56, 217, 169, 0.12)"
                         border="1px solid rgba(56, 217, 169, 0.5)"
                         color="#38D9A9"
                         mx="auto"
-                        mb={3}
+                        mb={{ base: 2.5, sm: 3 }}
                         boxShadow="0 0 20px rgba(56, 217, 169, 0.3)"
                       >
-                        <TimeIcon w={{ base: 5, sm: 6 }} h={{ base: 5, sm: 6 }} />
+                        <TimeIcon w={{ base: 4, sm: 5, md: 6 }} h={{ base: 4, sm: 5, md: 6 }} />
                       </Flex>
 
                       <Badge
-                        px={3}
-                        py={1}
+                        display="inline-flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        px={{ base: 2.5, sm: 3.5 }}
+                        py={{ base: 0.8, sm: 1 }}
+                        maxW="100%"
+                        whiteSpace="normal"
+                        textAlign="center"
                         bg="rgba(56, 217, 169, 0.15)"
                         color="#38D9A9"
                         border="1px solid rgba(56, 217, 169, 0.4)"
                         fontFamily="'Inter', sans-serif"
-                        fontSize={{ base: "3xs", sm: "2xs" }}
-                        letterSpacing="0.15em"
+                        fontSize={{ base: "10px", sm: "11px", md: "xs" }}
+                        letterSpacing={{ base: "0.08em", sm: "0.15em" }}
                         borderRadius="full"
-                        mb={2.5}
+                        mb={{ base: 2, sm: 2.5 }}
                         textTransform="uppercase"
+                        lineHeight="short"
                       >
                         ANNOUNCEMENT &bull; COMING SOON
                       </Badge>
 
                       <chakra.h2
                         fontFamily="'Orbitron', sans-serif !important"
-                        fontSize={{ base: "lg", sm: "xl", md: "2xl" }}
+                        fontSize={{ base: "md", sm: "xl", md: "2xl" }}
                         fontWeight="bold"
                         color="#FFFFFF"
-                        letterSpacing="0.06em"
+                        letterSpacing={{ base: "0.03em", sm: "0.06em" }}
                         textTransform="uppercase"
                         mb={2}
+                        lineHeight={{ base: "1.35", sm: "1.3" }}
+                        wordBreak="break-word"
                       >
                         PS Will Be Released Soon
                       </chakra.h2>
@@ -360,9 +372,11 @@ const Hacknova = () => {
                       <Text
                         fontSize={{ base: "xs", sm: "sm" }}
                         color="gray.300"
-                        maxW="420px"
+                        maxW={{ base: "100%", sm: "420px" }}
                         mx="auto"
-                        lineHeight="tall"
+                        px={{ base: 1, sm: 2 }}
+                        lineHeight={{ base: "1.6", sm: "tall" }}
+                        wordBreak="break-word"
                       >
                         Problem statements (PS) for HackNova &apos;26 will be released soon. Assemble your squad, complete team registration, and stay tuned!
                       </Text>

@@ -633,7 +633,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
           <Box p={{ base: 3, sm: 4 }} minW={0} bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(56, 217, 169, 0.2)" borderRadius="md">
             <FormControl id="teamName" isRequired minW={0} maxW="100%">
               <FormLabel fontFamily="'Inter', sans-serif" fontSize="xs" fontWeight="bold" letterSpacing="0.1em" textTransform="uppercase" color="#38D9A9" mb={1.5}>
-                Team Name *
+                Team Name
               </FormLabel>
               <Input
                 name="teamName"
@@ -760,7 +760,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
             <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={3} minW={0}>
               <FormControl isRequired minW={0} maxW="100%">
                 <FormLabel fontFamily="'Inter', sans-serif" fontSize="2xs" color="#38D9A9" mb={1}>
-                  FULL NAME *
+                  FULL NAME
                 </FormLabel>
                 <Input
                   placeholder="e.g. Alex Smith"
@@ -784,7 +784,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
 
               <FormControl isRequired minW={0} maxW="100%">
                 <FormLabel fontFamily="'Inter', sans-serif" fontSize="2xs" color="#38D9A9" mb={1}>
-                  EMAIL ADDRESS *
+                  EMAIL ADDRESS
                 </FormLabel>
                
                 <Input
@@ -813,7 +813,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
 
               <FormControl isRequired minW={0} maxW="100%">
                 <FormLabel fontFamily="'Inter', sans-serif" fontSize="2xs" color="#38D9A9" mb={1}>
-                  PHONE NUMBER *
+                  PHONE NUMBER
                 </FormLabel>
                 <Input
                   placeholder="9876543210"

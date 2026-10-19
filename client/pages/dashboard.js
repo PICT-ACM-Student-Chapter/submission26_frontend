@@ -166,13 +166,16 @@ const Dashboard = () => {
         {hacknovaEvent && squadRegistrationActive && (
           <Box
             mb={8}
-            p={{ base: 4, sm: 5 }}
+            p={{ base: 3.5, sm: 5 }}
             bg="linear-gradient(90deg, rgba(56, 217, 169, 0.15) 0%, rgba(34, 211, 238, 0.1) 100%)"
             border="1px solid rgba(56, 217, 169, 0.5)"
             borderRadius="md"
             boxShadow="0 0 25px rgba(56, 217, 169, 0.2)"
             position="relative"
             overflow="hidden"
+            w="full"
+            maxW="100%"
+            boxSizing="border-box"
           >
             {/* 4 Corner HUD Brackets */}
             <Box position="absolute" top="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
@@ -182,11 +185,11 @@ const Dashboard = () => {
 
             <Flex
               direction={{ base: "column", md: "row" }}
-              align={{ base: "flex-start", md: "center" }}
+              align={{ base: "stretch", md: "center" }}
               justify="space-between"
               gap={4}
             >
-              <Box>
+              <Box minW={0}>
                 <Flex align="center" gap={2} mb={1.5}>
                   <Badge
                     px={2.5}
@@ -195,19 +198,22 @@ const Dashboard = () => {
                     color="#38D9A9"
                     border="1px solid #38D9A9"
                     fontFamily="'Inter', sans-serif"
-                    fontSize="xs"
-                    letterSpacing="0.1em"
+                    fontSize={{ base: "2xs", sm: "xs" }}
+                    letterSpacing="0.08em"
+                    maxW="100%"
+                    whiteSpace="normal"
                   >
                     HACKNOVA SQUAD REGISTRATION ACTIVE
                   </Badge>
                 </Flex>
                 <chakra.h3
                   fontFamily="'Orbitron', sans-serif !important"
-                  fontSize={{ base: "lg", sm: "xl" }}
+                  fontSize={{ base: "md", sm: "lg", md: "xl" }}
                   fontWeight="bold"
                   color="#FFFFFF"
                   letterSpacing="0.05em"
                   textTransform="uppercase"
+                  wordBreak="break-word"
                 >
                   PLEASE FILL HACKNOVA TEAM FORM
                 </chakra.h3>
@@ -217,6 +223,7 @@ const Dashboard = () => {
                   color="gray.300"
                   mt={1}
                   maxW="2xl"
+                  lineHeight={{ base: "1.5", sm: "normal" }}
                 >
                   You are registered for HackNova. Please assemble your squad (2–4 members) and fill the Team Registration Form before project submission.
                 </Text>
@@ -226,6 +233,7 @@ const Dashboard = () => {
                 <Button
                   as="a"
                   size="md"
+                  w={{ base: "full", md: "auto" }}
                   bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                   color="#030512"
                   fontFamily="'Inter', sans-serif"
@@ -239,6 +247,8 @@ const Dashboard = () => {
                     boxShadow: "0 0 25px rgba(56, 217, 169, 0.55)",
                   }}
                   whiteSpace="nowrap"
+                  textAlign="center"
+                  justifyContent="center"
                 >
                   Fill Team Form →
                 </Button>
@@ -251,13 +261,16 @@ const Dashboard = () => {
         {innowaveEvent && innoWaveTeamRegistrationActive && (
           <Box
             mb={8}
-            p={{ base: 4, sm: 5 }}
+            p={{ base: 3.5, sm: 5 }}
             bg="linear-gradient(90deg, rgba(56, 217, 169, 0.15) 0%, rgba(34, 211, 238, 0.1) 100%)"
             border="1px solid rgba(56, 217, 169, 0.5)"
             borderRadius="md"
             boxShadow="0 0 25px rgba(56, 217, 169, 0.2)"
             position="relative"
             overflow="hidden"
+            w="full"
+            maxW="100%"
+            boxSizing="border-box"
           >
             {/* 4 Corner HUD Brackets */}
             <Box position="absolute" top="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
@@ -267,11 +280,11 @@ const Dashboard = () => {
 
             <Flex
               direction={{ base: "column", md: "row" }}
-              align={{ base: "flex-start", md: "center" }}
+              align={{ base: "stretch", md: "center" }}
               justify="space-between"
               gap={4}
             >
-              <Box>
+              <Box minW={0}>
                 <Flex align="center" gap={2} mb={1.5}>
                   <Badge
                     px={2.5}
@@ -280,19 +293,22 @@ const Dashboard = () => {
                     color="#38D9A9"
                     border="1px solid #38D9A9"
                     fontFamily="'Inter', sans-serif"
-                    fontSize="xs"
-                    letterSpacing="0.1em"
+                    fontSize={{ base: "2xs", sm: "xs" }}
+                    letterSpacing="0.08em"
+                    maxW="100%"
+                    whiteSpace="normal"
                   >
                     INNOWAVE TEAM REGISTRATION ACTIVE
                   </Badge>
                 </Flex>
                 <chakra.h3
                   fontFamily="'Orbitron', sans-serif !important"
-                  fontSize={{ base: "lg", sm: "xl" }}
+                  fontSize={{ base: "md", sm: "lg", md: "xl" }}
                   fontWeight="bold"
                   color="#FFFFFF"
                   letterSpacing="0.05em"
                   textTransform="uppercase"
+                  wordBreak="break-word"
                 >
                   PLEASE FILL INNOWAVE TEAM FORM
                 </chakra.h3>
@@ -302,6 +318,7 @@ const Dashboard = () => {
                   color="gray.300"
                   mt={1}
                   maxW="2xl"
+                  lineHeight={{ base: "1.5", sm: "normal" }}
                 >
                   You are registered for InnoWave. Please assemble your team (2–4 members) and fill the Team Registration Form before idea deck submission.
                 </Text>
@@ -311,6 +328,7 @@ const Dashboard = () => {
                 <Button
                   as="a"
                   size="md"
+                  w={{ base: "full", md: "auto" }}
                   bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
                   color="#030512"
                   fontFamily="'Inter', sans-serif"
@@ -324,6 +342,8 @@ const Dashboard = () => {
                     boxShadow: "0 0 25px rgba(56, 217, 169, 0.55)",
                   }}
                   whiteSpace="nowrap"
+                  textAlign="center"
+                  justifyContent="center"
                 >
                   Fill Team Form →
                 </Button>

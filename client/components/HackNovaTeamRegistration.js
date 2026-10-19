@@ -44,7 +44,7 @@ const isValidEmail = (email) => {
 const isValidPhone = (phone) => {
   if (!phone) return false;
   const digits = String(phone).replace(/\D/g, "");
-  return digits.length >= 7 && digits.length <= 15;
+  return digits.length === 10;
 };
 
 const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
@@ -107,7 +107,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
     if (!member2.phone.trim()) {
       errors.m2Phone = "Member 2 phone is required.";
     } else if (!isValidPhone(member2.phone)) {
-      errors.m2Phone = "Enter a valid 7-15 digit phone number.";
+      errors.m2Phone = "Enter a valid 10-digit phone number.";
     }
 
     // Member 3 (if active)
@@ -121,7 +121,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
       if (!member3.phone.trim()) {
         errors.m3Phone = "Member 3 phone is required.";
       } else if (!isValidPhone(member3.phone)) {
-        errors.m3Phone = "Enter a valid 7-15 digit phone number.";
+        errors.m3Phone = "Enter a valid 10-digit phone number.";
       }
     }
 
@@ -139,7 +139,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
       if (!member4.phone.trim()) {
         errors.m4Phone = "Member 4 phone is required.";
       } else if (!isValidPhone(member4.phone)) {
-        errors.m4Phone = "Enter a valid 7-15 digit phone number.";
+        errors.m4Phone = "Enter a valid 10-digit phone number.";
       }
     }
 
@@ -817,6 +817,8 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                 </FormLabel>
                 <Input
                   placeholder="9876543210"
+                  type="tel"
+                  maxLength={10}
                   w="full"
                   maxW="100%"
                   boxSizing="border-box"
@@ -826,7 +828,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                   bg="rgba(7, 16, 36, 0.85)"
                   border="1px solid rgba(56, 217, 169, 0.35)"
                   value={member2.phone}
-                  onChange={(e) => setMember2({ ...member2, phone: e.target.value })}
+                  onChange={(e) => setMember2({ ...member2, phone: e.target.value.replace(/\D/g, "").slice(0, 10) })}
                 />
                 {formErrors.m2Phone && (
                   <Text color="#F87171" fontSize="2xs" fontFamily="'Inter', sans-serif" mt={1}>
@@ -959,6 +961,8 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                   </FormLabel>
                   <Input
                     placeholder="9876543211"
+                    type="tel"
+                    maxLength={10}
                     w="full"
                     maxW="100%"
                     boxSizing="border-box"
@@ -968,7 +972,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                     bg="rgba(7, 16, 36, 0.85)"
                     border="1px solid rgba(255, 255, 255, 0.2)"
                     value={member3.phone}
-                    onChange={(e) => setMember3({ ...member3, phone: e.target.value })}
+                    onChange={(e) => setMember3({ ...member3, phone: e.target.value.replace(/\D/g, "").slice(0, 10) })}
                   />
                   {formErrors.m3Phone && (
                     <Text color="#F87171" fontSize="2xs" fontFamily="'Inter', sans-serif" mt={1}>
@@ -1107,6 +1111,8 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                   </FormLabel>
                   <Input
                     placeholder="9876543212"
+                    type="tel"
+                    maxLength={10}
                     w="full"
                     maxW="100%"
                     boxSizing="border-box"
@@ -1116,7 +1122,7 @@ const HackNovaTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                     bg="rgba(7, 16, 36, 0.85)"
                     border="1px solid rgba(255, 255, 255, 0.2)"
                     value={member4.phone}
-                    onChange={(e) => setMember4({ ...member4, phone: e.target.value })}
+                    onChange={(e) => setMember4({ ...member4, phone: e.target.value.replace(/\D/g, "").slice(0, 10) })}
                   />
                   {formErrors.m4Phone && (
                     <Text color="#F87171" fontSize="2xs" fontFamily="'Inter', sans-serif" mt={1}>

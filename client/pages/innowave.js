@@ -54,30 +54,29 @@ const Innowave = () => {
   const [loading, setLoading] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
 
-  const trackOptions = [
+   const trackOptions = [
     { label: "Open Innovation (General Track)", value: "Open Innovation" },
     {
-      label: "Climate Change Mitigation & Sustainability",
-      value: "Climate Change Mitigation & Sustainability",
+      label: " Future Tech (2026 Edition)",
+      value: "Future Tech (2026 Edition)",
     },
-    { label: "Healthcare & Wellbeing", value: "Healthcare & Wellbeing" },
-    { label: "Trust in the Age of AI", value: "Trust in the Age of AI" },
+    { label: "Industry & Enterprise", value: "Industry & Enterprise" },
+    { label: "Social Impact", value: "Social Impact" },
   ];
 
   const initialFormValues = {
     team_name: "",
     track: "Open Innovation",
-    video_pitch_url: "",
     ppt: {},
   };
 
   const validationSchema = Yup.object().shape({
     team_name: Yup.string().trim().required("Team name is required"),
     track: Yup.string().trim().required("Track selection is required"),
-    video_pitch_url: Yup.string()
-      .trim()
-      .url("Enter a valid URL (e.g. https://youtu.be/... or Loom link)")
-      .nullable(),
+    // video_pitch_url: Yup.string()
+    //   .trim()
+    //   .url("Enter a valid URL (e.g. https://youtu.be/... or Loom link)")
+    //   .nullable(),
   });
 
   const handleSubmit = async (values) => {
@@ -120,7 +119,7 @@ const Innowave = () => {
         team_name: values.team_name.trim(),
         track: values.track || "Open Innovation",
         Innowave_type: values.track || "Open Innovation",
-        video_pitch_url: values.video_pitch_url?.trim() || "",
+        // video_pitch_url: values.video_pitch_url?.trim() || "",
       };
 
       toast.info("Submitting Innowave entry...");
@@ -290,25 +289,25 @@ const Innowave = () => {
                     </Text>
                     <Stack spacing={2} pl={4}>
                       <Text fontSize="md">
-                        1. Climate Change Mitigation & Sustainability:
+                        1.  Future Tech (2026 Edition):
                       </Text>
                       <Text fontSize="sm" color="gray.300" pl={4}>
-                        Ideas focusing on renewable energy, carbon capture, waste management, or sustainable urban ecosystems.
-                      </Text>
-
-                      <Text fontSize="md">2. Healthcare & Wellbeing:</Text>
-                      <Text fontSize="sm" color="gray.300" pl={4}>
-                        Digital health, medical devices, mental wellness solutions, accessibility technologies, and preventative care.
+                        Ideas where an emerging technology is central to the innovation, including AI agents, multimodal and on-device AI, robotics, AI + hardware, AR/VR, drones and other frontier technologies.
                       </Text>
 
-                      <Text fontSize="md">3. Trust in the Age of AI:</Text>
+                      <Text fontSize="md">2. Industry & Enterprise:</Text>
                       <Text fontSize="sm" color="gray.300" pl={4}>
-                        AI ethics, deepfake detection, privacy-preserving machine learning, transparent decision systems, and algorithmic fairness.
+                        Solutions built for businesses rather than individuals - B2B SaaS, enterprise software, manufacturing, logistics, supply chain, cybersecurity, FinTech and business automation. 
+                      </Text>
+
+                      <Text fontSize="md">3. Social Impact:</Text>
+                      <Text fontSize="sm" color="gray.300" pl={4}>
+                        Solutions addressing human, societal or environmental problems, healthcare, agriculture, sustainability, accessibility, education, climate, public welfare and NGOs.
                       </Text>
 
                       <Text fontSize="md">4. Open Innovation:</Text>
                       <Text fontSize="sm" color="gray.300" pl={4}>
-                        Disruptive tech ideas across FinTech, EdTech, Smart Mobility, AgriTech, or IoT that do not fit the above categories.
+                        Anything that does not fit neatly elsewhere, consumer apps, gaming, the creator economy, sports, entertainment, travel, lifestyle and genuinely unusual ideas.
                       </Text>
                     </Stack>
                     <Text fontSize="sm" color="gray.400" mt={2}>
@@ -321,35 +320,33 @@ const Innowave = () => {
                 <TabPanel color="hsl(210, 40%, 100%)">
                   <Stack spacing={3}>
                     <Text fontSize="xl" fontWeight="bold" color={textColor} mb={1}>
-                      Innowave &apos;26 — Round 1 Submission Rules
+                      Innowave — Round 1 Submission Rules
                     </Text>
 
                     <Stack spacing={2.5} fontSize="md">
                       <Text>
-                        1. All team members must be from the same organization or institute, but they can be from different academic years.
+                        1. Team members can be from different academic years and branches.
                       </Text>
                       <Text>
-                        2. Interdisciplinary teams can participate.
+                        2. Team composition cannot be changed after registration. 
                       </Text>
                       <Text>
-                        3. Modification of team post registration will not be allowed.
+                        3. Only the Team Leader submits on behalf of the team. One submission per team. 
                       </Text>
                       <Text>
-                        4. All the team members must be present during the final presentation; otherwise, their entry will be disqualified.
+                        4. Your deck must use the <chakra.span fontWeight="bold" color={primaryColor}>official Innowave template</chakra.span> — 10 slides maximum, including the title slide. Submissions in other formats may not be evaluated. 
                       </Text>
                       <Text>
-                        5. Each team must pick a single track to present their idea in.
+                        5. Upload the deck as PPT, PPTX or PDF (max 50MB).
                       </Text>
                       <Text>
-                        6. <chakra.span fontWeight="bold" color={primaryColor}>Only the Team Leader</chakra.span> must submit for the team.
+                        6. All the team members must be present during the final presentation; otherwise, their entry will be disqualified. 
                       </Text>
                       <Text>
-                        7. Upload your pitch deck in <chakra.span fontWeight="bold" color={primaryColor}>PPT, PPTX, or PDF</chakra.span> format (max 50MB).
-                      </Text>
-                      <Text>
-                        8. Video pitch link (YouTube / Loom) is optional but recommended.
+                        7. Late or incomplete submissions will not be considered. 
                       </Text>
                     </Stack>
+                    
 
                     <Box
                       mt={3}
@@ -470,7 +467,7 @@ const Innowave = () => {
                     </Box>
                   )}
 
-                  {submission.video_pitch_url && (
+                  {/* {submission.video_pitch_url && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
                         Video Pitch Link
@@ -489,7 +486,7 @@ const Innowave = () => {
                         {submission.video_pitch_url} <ExternalLinkIcon mx="2px" />
                       </Link>
                     </Box>
-                  )}
+                  )} */}
 
                   {submission.changelog && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
@@ -590,14 +587,14 @@ const Innowave = () => {
                           />
                         </SimpleGrid>
 
-                        <FormField
+                        {/* <FormField
                           label="Video Pitch Link (Optional)"
                           name="video_pitch_url"
                           placeholder="https://youtu.be/... or Loom URL"
                           value={values.video_pitch_url}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                        />
+                        /> */}
 
                         <FileInput
                           accept=".ppt,.pptx,.pdf"

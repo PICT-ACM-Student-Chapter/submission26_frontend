@@ -189,20 +189,28 @@ const Freeze = () => {
                 <TabPanel color="hsl(210, 40%, 100%)">
                   <Stack spacing={3}>
                     <Text fontSize="xl" fontWeight="bold" color={textColor}>
-                      Theme: Capture What Others Miss
+                      Theme: Candid Canvas
                     </Text>
                     <Text fontSize="md" lineHeight="tall">
-                      Freeze the Second is an online photography contest celebrating visual storytelling. Showcase stunning moments, dynamic lighting, and creative perspectives through your lens.
+                      Capture human emotions, expressions, and interactions through candid photography of campus life.
                     </Text>
                     <Box mt={2}>
                       <Text fontSize="md" fontWeight="semibold" color={primaryColor} mb={1}>
                         Category Guidelines:
                       </Text>
                       <Stack spacing={1.5} pl={4}>
-                        <Text fontSize="sm">• Street, Silhouette & Shadow Photography</Text>
-                        <Text fontSize="sm">• Architectural Symmetry & Urban Geometries</Text>
-                        <Text fontSize="sm">• High-Speed Action & Freeze-Frame Moments</Text>
-                        <Text fontSize="sm">• Macro & Micro Perspectives in Nature</Text>
+                        <Text fontSize="sm">• Human Emotions & Expressions</Text>
+                        <Text fontSize="sm">• Candid Campus Interactions</Text>
+                        <Text fontSize="sm">• Everyday Moments & Stories</Text>
+                      </Stack>
+                    </Box>
+                    <Box mt={2}>
+                      <Text fontSize="md" fontWeight="semibold" color={primaryColor} mb={1}>
+                        Photography Guidelines:
+                      </Text>
+                      <Stack spacing={1.5} pl={4}>
+                        <Text fontSize="sm">• One original photograph captured during the event.</Text>
+                        <Text fontSize="sm">• Genuine, unposed moments encouraged.</Text>
                       </Stack>
                     </Box>
                   </Stack>
@@ -223,16 +231,13 @@ const Freeze = () => {
                         2. The photograph must be in <chakra.span fontWeight="bold" color={primaryColor}>JPG, JPEG, or PNG</chakra.span> format (max 35MB).
                       </Text>
                       <Text>
-                        3. Mention the Camera or Device model accurately in the designated field.
+                        3. Obtain consent from any recognizable individuals in your photograph.
                       </Text>
                       <Text>
-                        4. Provide a creative photo title / caption that conveys your story.
+                        4. Minor color correction and crop adjustments are permitted; AI-generated images or heavy digital composites will be disqualified.
                       </Text>
                       <Text>
-                        5. Minor color correction and crop adjustments are permitted; AI-generated images or heavy digital composites will be disqualified.
-                      </Text>
-                      <Text>
-                        6. <chakra.span fontWeight="bold" color={primaryColor}>Submissions once made cannot be replaced or re-submitted.</chakra.span> Please review your photograph carefully before final confirmation.
+                        5. <chakra.span fontWeight="bold" color={primaryColor}>Submissions once made cannot be replaced or re-submitted.</chakra.span> Please review your photograph carefully before final confirmation.
                       </Text>
                     </Stack>
 
@@ -344,7 +349,7 @@ const Freeze = () => {
                     </Box>
                   )}
 
-                  {submission.camera_device && (
+                  {/* {submission.camera_device && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
                       <Text fontSize="10px" color="#38D9A9" fontWeight="bold" letterSpacing="0.15em" textTransform="uppercase">
                         Camera / Device Used
@@ -353,7 +358,7 @@ const Freeze = () => {
                         {submission.camera_device}
                       </Text>
                     </Box>
-                  )}
+                  )} */}
 
                   {submission.description && (
                     <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.7)" border="1px solid rgba(255, 255, 255, 0.08)">
@@ -469,21 +474,21 @@ const Freeze = () => {
                       <Stack spacing={4}>
                         <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
                           <FormField
-                            label="Photo Title / Caption *"
+                            label="Photo Title / Caption (optional)"
                             name="photo_title"
-                            placeholder="e.g. Monochrome Reflections"
+                            placeholder="e.g. celebration"
                             value={values.photo_title}
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
-                          <FormField
+                          {/* <FormField
                             label="Camera / Device Used *"
                             name="camera_device"
                             placeholder="e.g. Sony A7 IV / iPhone 15 Pro"
                             value={values.camera_device}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                          />
+                          /> */}
                         </SimpleGrid>
 
                         <FileInput
@@ -503,11 +508,11 @@ const Freeze = () => {
                             color="#38D9A9"
                             mb={1.5}
                           >
-                            Description / EXIF Settings & Story (Optional)
+                            Description (Optional)
                           </FormLabel>
                           <Textarea
                             name="description"
-                            placeholder="Camera settings (ISO, Shutter speed, Aperture), story behind the shot, or lighting notes"
+                            placeholder="Story behind the shot, Camera settings (ISO, Shutter speed, Aperture), or lighting notes"
                             rows={3}
                             fontFamily="'Inter', sans-serif"
                             fontSize="sm"

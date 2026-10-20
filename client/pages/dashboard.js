@@ -198,7 +198,7 @@ const Dashboard = () => {
                     color="#38D9A9"
                     border="1px solid #38D9A9"
                     fontFamily="'Inter', sans-serif"
-                    fontSize={{ base: "2xs", sm: "xs" }}
+                    fontSize={{ base: "xs", sm: "xs" }}
                     letterSpacing="0.08em"
                     maxW="100%"
                     whiteSpace="normal"
@@ -208,7 +208,7 @@ const Dashboard = () => {
                 </Flex>
                 <chakra.h3
                   fontFamily="'Orbitron', sans-serif !important"
-                  fontSize={{ base: "md", sm: "lg", md: "xl" }}
+                  fontSize={{ base: "xs", sm: "lg", md: "xl" }}
                   fontWeight="bold"
                   color="#FFFFFF"
                   letterSpacing="0.05em"
@@ -293,7 +293,7 @@ const Dashboard = () => {
                     color="#38D9A9"
                     border="1px solid #38D9A9"
                     fontFamily="'Inter', sans-serif"
-                    fontSize={{ base: "2xs", sm: "xs" }}
+                    fontSize={{ base: "xs", sm: "xs" }}
                     letterSpacing="0.08em"
                     maxW="100%"
                     whiteSpace="normal"
@@ -303,7 +303,7 @@ const Dashboard = () => {
                 </Flex>
                 <chakra.h3
                   fontFamily="'Orbitron', sans-serif !important"
-                  fontSize={{ base: "md", sm: "lg", md: "xl" }}
+                  fontSize={{ base: "xs", sm: "lg", md: "xl" }}
                   fontWeight="bold"
                   color="#FFFFFF"
                   letterSpacing="0.05em"

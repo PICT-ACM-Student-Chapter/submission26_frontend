@@ -336,7 +336,18 @@ const Innowave = () => {
                         3. Only the Team Leader submits on behalf of the team. One submission per team. 
                       </Text>
                       <Text>
-                        4. Your deck must use the <chakra.span fontWeight="bold" color={primaryColor}>official Innowave template</chakra.span> — 10 slides maximum, including the title slide. Submissions in other formats may not be evaluated. 
+                        4. Your deck must use the{" "}
+                        <chakra.a
+                          href="https://docs.google.com/presentation/d/12Lk81L7b35XHCwWbQGcgDjqG9-uG3FBy/edit?usp=drive_link&ouid=104340682572765813802&rtpof=true&sd=true"
+                          fontWeight="bold"
+                          color={primaryColor}
+                          textDecoration="underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          official Innowave template
+                        </chakra.a>
+                        {" "}— 10 slides maximum, including the title slide. Submissions in other formats may not be evaluated.
                       </Text>
                       <Text>
                         5. Upload the deck as PPT, PPTX or PDF (max 50MB).

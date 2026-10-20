@@ -802,9 +802,6 @@ const InnoWaveTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                     {formErrors.m2Email}
                   </Text>
                 )}
-                <Text fontFamily="'Inter', sans-serif" fontSize="xs" color="gray.400">
-                  Same email will be used during OA
-                </Text>
               </FormControl>
 
               <FormControl isRequired minW={0} maxW="100%">
@@ -943,9 +940,6 @@ const InnoWaveTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                       {formErrors.m3Email}
                     </Text>
                   )}
-                  <Text fontFamily="'Inter', sans-serif" fontSize="xs" color="gray.400">
-                    Same email will be used during OA
-                  </Text>
                 </FormControl>
 
                 <FormControl minW={0} maxW="100%">
@@ -1091,9 +1085,6 @@ const InnoWaveTeamRegistration = ({ onTeamLoaded, onTeamRegistered }) => {
                       {formErrors.m4Email}
                     </Text>
                   )}
-                  <Text fontFamily="'Inter', sans-serif" fontSize="xs" color="gray.400">
-                    Same email will be used during OA
-                  </Text>
                 </FormControl>
 
                 <FormControl minW={0} maxW="100%">

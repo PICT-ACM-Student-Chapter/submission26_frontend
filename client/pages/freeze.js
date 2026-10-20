@@ -209,7 +209,7 @@ const Freeze = () => {
                         Photography Guidelines:
                       </Text>
                       <Stack spacing={1.5} pl={4}>
-                        <Text fontSize="sm">• One original photograph captured during the event.</Text>
+                        <Text fontSize="sm">• One original photograph captured on campus.</Text>
                         <Text fontSize="sm">• Genuine, unposed moments encouraged.</Text>
                       </Stack>
                     </Box>

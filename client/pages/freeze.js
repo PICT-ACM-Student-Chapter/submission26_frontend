@@ -474,7 +474,7 @@ const Freeze = () => {
                       <Stack spacing={4}>
                         <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
                           <FormField
-                            label="Photo Title / Caption (optional)"
+                            label="Photo Title / Caption (If Not Applicable Enter NA)"
                             name="photo_title"
                             placeholder="e.g. celebration"
                             value={values.photo_title}

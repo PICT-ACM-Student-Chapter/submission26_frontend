@@ -452,15 +452,28 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Select,
+  Textarea,
+  Badge,
+  HStack,
+  Checkbox,
+  InputGroup,
+  InputLeftElement,
   useColorModeValue,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import apiConfig from '../configs/api';
 import { useRouter } from "next/router";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import privateAdminRoute from "../routers/privateAdminRoute";
 import Layout from "../components/Layout";
 import ContentLoader from "../components/ContentLoader";
+import {
+  publishResults,
+  getPublishedResultsList,
+  unpublishResults,
+  getEventCandidates,
+} from "../action/results";
 
 const INITIAL_GET_API = `${apiConfig.url}/allevents/events`;
 const SAVED_GET_API = `${apiConfig.url}/submission/get`;
@@ -473,6 +486,18 @@ const AdminPage = () => {
   const [loggingOut, setLoggingOut] = useState(false);
   const [saving, setSaving] = useState({});
   const [submissionevents, setSubmissionevents] = useState([]);
+  const [resultEventSlug, setResultEventSlug] = useState("hacknova");
+  const [resultRoundName, setResultRoundName] = useState("Round 1");
+  const [resultShortlistedIds, setResultShortlistedIds] = useState("");
+  const [publishingResults, setPublishingResults] = useState(false);
+  const [publishedResultsList, setPublishedResultsList] = useState([]);
+  const [unpublishingKey, setUnpublishingKey] = useState("");
+  const [candidatesList, setCandidatesList] = useState([]);
+  const [loadingCandidates, setLoadingCandidates] = useState(false);
+  const [selectedCandidateIds, setSelectedCandidateIds] = useState(new Set());
+  const [candidateSearchQuery, setCandidateSearchQuery] = useState("");
+  const [showIdOption, setShowIdOption] = useState(true);
+  const [showLeaderCollegeOption, setShowLeaderCollegeOption] = useState(true);
   const route = useRouter();
   const toast = useToast();
   const admin = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("admin") || "null") : null;
@@ -543,10 +568,210 @@ const AdminPage = () => {
     }
   };
 
+  const fetchPublishedResults = async () => {
+    try {
+      const data = await getPublishedResultsList();
+      if (data && Array.isArray(data.results)) {
+        setPublishedResultsList(data.results);
+      }
+    } catch (e) {
+      console.error("Failed to fetch published results:", e);
+    }
+  };
+
+  const fetchCandidates = async (slug, round) => {
+    if (!slug) return;
+    try {
+      setLoadingCandidates(true);
+      const data = await getEventCandidates(slug, round);
+      if (data && data.success && Array.isArray(data.candidates)) {
+        setCandidatesList(data.candidates);
+        const preSelected = new Set(data.shortlisted_team_ids || []);
+        setSelectedCandidateIds(preSelected);
+        setResultShortlistedIds(Array.from(preSelected).sort((a, b) => a - b).join(", "));
+        setShowIdOption(data.show_id !== false);
+        setShowLeaderCollegeOption(data.show_leader_college !== false);
+      } else {
+        setCandidatesList([]);
+        setSelectedCandidateIds(new Set());
+        setResultShortlistedIds("");
+        setShowIdOption(true);
+        setShowLeaderCollegeOption(true);
+      }
+    } catch (e) {
+      console.error("Failed to fetch candidates:", e);
+    } finally {
+      setLoadingCandidates(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCandidates(resultEventSlug, resultRoundName);
+  }, [resultEventSlug, resultRoundName]);
+
+  const toggleCandidateShortlist = (id) => {
+    setSelectedCandidateIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      setResultShortlistedIds(Array.from(next).sort((a, b) => a - b).join(", "));
+      return next;
+    });
+  };
+
+  const handleSelectAllFiltered = () => {
+    setSelectedCandidateIds((prev) => {
+      const next = new Set(prev);
+      filteredCandidates.forEach((c) => next.add(c.id));
+      setResultShortlistedIds(Array.from(next).sort((a, b) => a - b).join(", "));
+      return next;
+    });
+  };
+
+  const handleDeselectAll = () => {
+    setSelectedCandidateIds(new Set());
+    setResultShortlistedIds("");
+  };
+
+  const handleManualIdsChange = (val) => {
+    setResultShortlistedIds(val);
+    const parsed = val
+      .split(/[\s,]+/)
+      .map((s) => parseInt(s.trim(), 10))
+      .filter((n) => !isNaN(n));
+    setSelectedCandidateIds(new Set(parsed));
+  };
+
+  const filteredCandidates = candidatesList.filter((c) => {
+    const q = candidateSearchQuery.toLowerCase().trim();
+    if (!q) return true;
+    const name = String(c.team_name || "").toLowerCase();
+    const leader = String(c.leader_name || "").toLowerCase();
+    const college = String(c.college || "").toLowerCase();
+    const id = String(c.id || "").toLowerCase();
+    return name.includes(q) || leader.includes(q) || college.includes(q) || id.includes(q);
+  });
+
+  const handlePublishResults = async () => {
+    if (!resultEventSlug.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Please select or enter an event slug.",
+        status: "warning",
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+    if (!resultRoundName.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Please enter a round title (e.g. Round 1).",
+        status: "warning",
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    const numericIds = Array.from(selectedCandidateIds)
+      .map((id) => parseInt(id, 10))
+      .filter((n) => !isNaN(n));
+
+    if (numericIds.length === 0) {
+      toast({
+        title: "Validation Error",
+        description: "Please tick at least one candidate/team to shortlist.",
+        status: "warning",
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    try {
+      setPublishingResults(true);
+      const res = await publishResults({
+        event_slug: resultEventSlug.toLowerCase().trim(),
+        round_name: resultRoundName.trim(),
+        shortlisted_team_ids: numericIds,
+        show_id: showIdOption,
+        show_leader_college: showLeaderCollegeOption,
+      });
+
+      if (res && res.success) {
+        toast({
+          title: "Results Published!",
+          description: `Successfully published ${numericIds.length} shortlisted candidates for ${resultEventSlug} - ${resultRoundName}.`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        await fetchPublishedResults();
+        await fetchCandidates(resultEventSlug, resultRoundName);
+      } else {
+        toast({
+          title: "Publish Failed",
+          description: res?.error || "Could not publish results.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (err) {
+      console.error("Error publishing results:", err);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred while publishing results.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setPublishingResults(false);
+    }
+  };
+
+  const handleUnpublishResults = async (eventSlug, roundName) => {
+    try {
+      setUnpublishingKey(`${eventSlug}_${roundName}`);
+      const res = await unpublishResults({
+        event_slug: eventSlug,
+        round_name: roundName,
+      });
+      if (res && res.success) {
+        toast({
+          title: "Results Unpublished",
+          description: `Unpublished results for ${eventSlug} - ${roundName}.`,
+          status: "info",
+          duration: 4000,
+          isClosable: true,
+        });
+        await fetchPublishedResults();
+      } else {
+        toast({
+          title: "Failed",
+          description: res?.error || "Could not unpublish results.",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+        });
+      }
+    } catch (e) {
+      console.error("Error unpublishing:", e);
+    } finally {
+      setUnpublishingKey("");
+    }
+  };
+
   useEffect(() => {
     const initialize = async () => {
       await fetchInitialEvents();
       await fetchSavedEvents();
+      await fetchPublishedResults();
     };
     initialize();
   }, []);
@@ -950,6 +1175,527 @@ const AdminPage = () => {
                 ))}
               </Tbody>
             </Table>
+          </VStack>
+        </Box>
+
+        {/* Publish Event Results Card */}
+        <Box
+          w="100%"
+          maxWidth="900px"
+          p={{ base: 4, sm: 6, md: 8 }}
+          position="relative"
+          border="1px solid rgba(56, 217, 169, 0.4)"
+          borderRadius="none"
+          boxShadow="0 0 30px rgba(56, 217, 169, 0.2), 0 12px 32px rgba(0, 0, 0, 0.85)"
+          bg={bgCard}
+          backdropFilter="blur(16px)"
+          overflow="hidden"
+          mt={8}
+        >
+          {/* 4 Corner HUD Brackets */}
+          <Box position="absolute" top="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" top="4px" right="4px" w="8px" h="8px" borderRight="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="4px" right="4px" w="8px" h="8px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+
+          <Text
+            fontFamily="'Orbitron', sans-serif !important"
+            fontSize={{ base: "xl", sm: "2xl", md: "3xl" }}
+            mb={2}
+            fontWeight="bold"
+            textAlign="center"
+            color="#FFFFFF"
+            letterSpacing="0.08em"
+            textTransform="uppercase"
+          >
+            PUBLISH <chakra.span color="#38D9A9">EVENT RESULTS</chakra.span>
+          </Text>
+          <Text
+            fontFamily="'Inter', sans-serif"
+            fontSize="xs"
+            color="#94A3B8"
+            textAlign="center"
+            mb={4}
+          >
+            Broadcast shortlisted Team / Participant IDs publicly for HackNova, InnoWave, Freeze, etc.
+          </Text>
+          <Divider mb={6} borderColor="rgba(56, 217, 169, 0.3)" />
+
+          <VStack spacing={5} align="stretch" fontFamily="'Inter', sans-serif">
+            {/* Event Slug Selector */}
+            <Box>
+              <Text fontSize="xs" fontWeight="bold" color="#38D9A9" textTransform="uppercase" mb={2} letterSpacing="0.05em">
+                Select Event
+              </Text>
+              <Flex gap={3} direction={{ base: "column", sm: "row" }}>
+                <Select
+                  value={resultEventSlug}
+                  onChange={(e) => setResultEventSlug(e.target.value)}
+                  bg="rgba(3, 8, 23, 0.8)"
+                  color={textColor}
+                  borderColor="rgba(56, 217, 169, 0.3)"
+                  focusBorderColor="#38D9A9"
+                  size="md"
+                  rounded="md"
+                  flex="1"
+                >
+                  <option value="hacknova" style={{ background: "#071024" }}>HackNova (hacknova)</option>
+                  <option value="innowave" style={{ background: "#071024" }}>InnoWave (innowave)</option>
+                  <option value="freeze" style={{ background: "#071024" }}>Freeze (freeze)</option>
+                  <option value="rootcause" style={{ background: "#071024" }}>Root Cause (rootcause)</option>
+                  {events
+                    .filter((ev) => !["hacknova", "innowave", "freeze", "rootcause"].includes(ev.route?.toLowerCase().replace(/^\//, "")))
+                    .map((ev) => {
+                      const slug = (ev.route ? ev.route.replace(/^\//, "") : ev.name.toLowerCase().replace(/\s+/g, "")).toLowerCase();
+                      return (
+                        <option key={ev.id} value={slug} style={{ background: "#071024" }}>
+                          {ev.name} ({slug})
+                        </option>
+                      );
+                    })}
+                </Select>
+
+                <Input
+                  placeholder="Or custom event slug..."
+                  value={resultEventSlug}
+                  onChange={(e) => setResultEventSlug(e.target.value.toLowerCase().trim())}
+                  bg="rgba(3, 8, 23, 0.8)"
+                  color={textColor}
+                  borderColor="rgba(56, 217, 169, 0.3)"
+                  focusBorderColor="#38D9A9"
+                  size="md"
+                  rounded="md"
+                  flex="1"
+                />
+              </Flex>
+            </Box>
+
+            {/* Round Name */}
+            <Box>
+              <Text fontSize="xs" fontWeight="bold" color="#38D9A9" textTransform="uppercase" mb={2} letterSpacing="0.05em">
+                Round Title
+              </Text>
+              <Input
+                placeholder="e.g. Round 1, Round 2, Finals"
+                value={resultRoundName}
+                onChange={(e) => setResultRoundName(e.target.value)}
+                bg="rgba(3, 8, 23, 0.8)"
+                color={textColor}
+                borderColor="rgba(56, 217, 169, 0.3)"
+                focusBorderColor="#38D9A9"
+                size="md"
+                rounded="md"
+              />
+            </Box>
+
+            {/* Public Column Display Options */}
+            <Box
+              p={{ base: 3, sm: 4 }}
+              rounded="md"
+              bg="rgba(3, 8, 23, 0.75)"
+              border="1px solid rgba(56, 217, 169, 0.35)"
+              boxShadow="0 4px 14px rgba(0, 0, 0, 0.4)"
+            >
+              <Text
+                fontSize="xs"
+                fontWeight="bold"
+                color="#38D9A9"
+                textTransform="uppercase"
+                letterSpacing="0.08em"
+                mb={3}
+              >
+                Public Column Visibility Options
+              </Text>
+              <Flex direction={{ base: "column", md: "row" }} gap={{ base: 3, md: 6 }}>
+                <HStack spacing={3} align="center">
+                  <Switch
+                    id="show-id-option"
+                    colorScheme="teal"
+                    size="md"
+                    isChecked={showIdOption}
+                    onChange={(e) => setShowIdOption(e.target.checked)}
+                  />
+                  <Box>
+                    <Text fontSize="xs" fontWeight="bold" color="#FFFFFF">
+                      Display Candidate / Team ID
+                    </Text>
+                    <Badge
+                      px={1.5}
+                      py={0.2}
+                      rounded="sm"
+                      fontSize="2xs"
+                      color={showIdOption ? "#38D9A9" : "#94A3B8"}
+                      bg={showIdOption ? "rgba(56, 217, 169, 0.15)" : "rgba(255, 255, 255, 0.05)"}
+                      border={`1px solid ${showIdOption ? "rgba(56, 217, 169, 0.4)" : "rgba(255, 255, 255, 0.1)"}`}
+                    >
+                      {showIdOption ? "VISIBLE ON /RESULTS" : "HIDDEN ON /RESULTS"}
+                    </Badge>
+                  </Box>
+                </HStack>
+
+                <HStack spacing={3} align="center">
+                  <Switch
+                    id="show-leader-college-option"
+                    colorScheme="teal"
+                    size="md"
+                    isChecked={showLeaderCollegeOption}
+                    onChange={(e) => setShowLeaderCollegeOption(e.target.checked)}
+                  />
+                  <Box>
+                    <Text fontSize="xs" fontWeight="bold" color="#FFFFFF">
+                      Display Leader / College
+                    </Text>
+                    <Badge
+                      px={1.5}
+                      py={0.2}
+                      rounded="sm"
+                      fontSize="2xs"
+                      color={showLeaderCollegeOption ? "#38D9A9" : "#94A3B8"}
+                      bg={showLeaderCollegeOption ? "rgba(56, 217, 169, 0.15)" : "rgba(255, 255, 255, 0.05)"}
+                      border={`1px solid ${showLeaderCollegeOption ? "rgba(56, 217, 169, 0.4)" : "rgba(255, 255, 255, 0.1)"}`}
+                    >
+                      {showLeaderCollegeOption ? "VISIBLE ON /RESULTS" : "HIDDEN ON /RESULTS"}
+                    </Badge>
+                  </Box>
+                </HStack>
+              </Flex>
+            </Box>
+
+            {/* Candidate Shortlist Selection Table with Checkbox / Tick */}
+            <Box mt={2}>
+              <Flex
+                justify="space-between"
+                align={{ base: "flex-start", sm: "center" }}
+                direction={{ base: "column", sm: "row" }}
+                gap={2}
+                mb={3}
+              >
+                <HStack spacing={2} wrap="wrap">
+                  <Text
+                    fontSize="xs"
+                    fontWeight="bold"
+                    color="#38D9A9"
+                    textTransform="uppercase"
+                    letterSpacing="0.05em"
+                  >
+                    Candidates / Teams
+                  </Text>
+                  <Badge
+                    px={2.5}
+                    py={0.5}
+                    rounded="full"
+                    bg="rgba(56, 217, 169, 0.15)"
+                    border="1px solid #38D9A9"
+                    color="#38D9A9"
+                    fontSize="2xs"
+                    fontWeight="bold"
+                  >
+                    {selectedCandidateIds.size} Shortlisted / {candidatesList.length} Total
+                  </Badge>
+                </HStack>
+
+                <HStack spacing={2} w={{ base: "full", sm: "auto" }} justify={{ base: "space-between", sm: "flex-end" }}>
+                  <Button
+                    size="xs"
+                    flex={{ base: 1, sm: "initial" }}
+                    variant="outline"
+                    borderColor="rgba(56, 217, 169, 0.4)"
+                    color="#38D9A9"
+                    onClick={handleSelectAllFiltered}
+                    _hover={{ bg: "rgba(56, 217, 169, 0.15)" }}
+                  >
+                    Select All
+                  </Button>
+                  <Button
+                    size="xs"
+                    flex={{ base: 1, sm: "initial" }}
+                    variant="outline"
+                    borderColor="rgba(255, 255, 255, 0.2)"
+                    color="#94A3B8"
+                    onClick={handleDeselectAll}
+                    _hover={{ bg: "rgba(255, 255, 255, 0.1)" }}
+                  >
+                    Clear All
+                  </Button>
+                </HStack>
+              </Flex>
+
+              {/* Search bar */}
+              <InputGroup size="sm" mb={3}>
+                <InputLeftElement pointerEvents="none">
+                  <SearchIcon color="#38D9A9" />
+                </InputLeftElement>
+                <Input
+                  placeholder="Search by Team Name, ID, Leader, or College..."
+                  value={candidateSearchQuery}
+                  onChange={(e) => setCandidateSearchQuery(e.target.value)}
+                  bg="rgba(3, 8, 23, 0.8)"
+                  color={textColor}
+                  borderColor="rgba(56, 217, 169, 0.3)"
+                  focusBorderColor="#38D9A9"
+                  rounded="md"
+                />
+              </InputGroup>
+
+              {/* Mobile swipe hint */}
+              <Text display={{ base: "block", md: "none" }} fontSize="2xs" color="#94A3B8" mb={2}>
+                👉 Swipe horizontally to view full candidate details &amp; checkboxes
+              </Text>
+
+              {/* Candidate Table */}
+              <Box
+                border="1px solid rgba(56, 217, 169, 0.3)"
+                rounded="md"
+                bg="rgba(3, 8, 23, 0.7)"
+                maxH="440px"
+                overflowY="auto"
+                overflowX="auto"
+                sx={{
+                  "&::-webkit-scrollbar": { width: "5px", height: "5px" },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "rgba(56, 217, 169, 0.4)",
+                    borderRadius: "3px",
+                  },
+                  WebkitOverflowScrolling: "touch",
+                }}
+              >
+                {loadingCandidates ? (
+                  <Flex justify="center" align="center" py={12} direction="column" gap={2}>
+                    <Spinner size="md" color="#38D9A9" />
+                    <Text fontSize="xs" color="#94A3B8">Loading candidates for {resultEventSlug}...</Text>
+                  </Flex>
+                ) : filteredCandidates.length === 0 ? (
+                  <Box py={8} textAlign="center">
+                    <Text fontSize="xs" color="#94A3B8">
+                      {candidatesList.length === 0
+                        ? `No registered teams or candidates found for "${resultEventSlug}".`
+                        : `No candidates match "${candidateSearchQuery}".`}
+                    </Text>
+                  </Box>
+                ) : (
+                  <Table variant="simple" size="sm" minW="480px">
+                    <Thead bg="#071024" position="sticky" top={0} zIndex={1}>
+                      <Tr borderBottom="2px solid rgba(56, 217, 169, 0.4)">
+                        <Th color="#38D9A9" fontSize="2xs" w="45px" textAlign="center">#</Th>
+                        <Th color="#38D9A9" fontSize="2xs" w="75px">ID</Th>
+                        <Th color="#38D9A9" fontSize="2xs" minW="130px">Team / Candidate</Th>
+                        <Th color="#38D9A9" fontSize="2xs" minW="120px">Leader / College</Th>
+                        <Th color="#38D9A9" fontSize="2xs" w="130px" textAlign="center">Status</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {filteredCandidates.map((cand, idx) => {
+                        const isTicked = selectedCandidateIds.has(cand.id);
+                        return (
+                          <Tr
+                            key={cand.id}
+                            borderBottom="1px solid rgba(255, 255, 255, 0.06)"
+                            bg={isTicked ? "rgba(56, 217, 169, 0.09)" : "transparent"}
+                            _hover={{ bg: "rgba(56, 217, 169, 0.16)" }}
+                            cursor="pointer"
+                            onClick={() => toggleCandidateShortlist(cand.id)}
+                            transition="background 0.15s ease"
+                          >
+                            <Td color="#94A3B8" fontSize="xs" textAlign="center">{idx + 1}</Td>
+                            <Td>
+                              <Badge
+                                px={1.5}
+                                py={0.5}
+                                rounded="md"
+                                bg="rgba(34, 211, 238, 0.12)"
+                                border="1px solid rgba(34, 211, 238, 0.4)"
+                                color="#22D3EE"
+                                fontFamily="'Orbitron', sans-serif"
+                                fontSize="2xs"
+                              >
+                                #{cand.id}
+                              </Badge>
+                            </Td>
+                            <Td color="#FFFFFF" fontWeight="semibold" fontSize="xs">
+                              {cand.team_name}
+                            </Td>
+                            <Td color="#CBD5E1" fontSize="xs">
+                              {cand.leader_name}
+                              {cand.college && cand.college !== "—" ? ` (${cand.college})` : ""}
+                            </Td>
+                            <Td textAlign="center" onClick={(e) => e.stopPropagation()}>
+                              <Flex justify="center" align="center" gap={1.5}>
+                                <Checkbox
+                                  colorScheme="teal"
+                                  size="md"
+                                  isChecked={isTicked}
+                                  onChange={() => toggleCandidateShortlist(cand.id)}
+                                />
+                                <Badge
+                                  px={1.5}
+                                  py={0.5}
+                                  rounded="full"
+                                  fontSize="3xs"
+                                  fontWeight="bold"
+                                  bg={isTicked ? "rgba(56, 217, 169, 0.2)" : "rgba(255, 255, 255, 0.05)"}
+                                  color={isTicked ? "#38D9A9" : "#64748B"}
+                                  border={`1px solid ${isTicked ? "#38D9A9" : "rgba(255, 255, 255, 0.1)"}`}
+                                  cursor="pointer"
+                                  onClick={() => toggleCandidateShortlist(cand.id)}
+                                >
+                                  {isTicked ? "SHORTLISTED" : "UNSELECTED"}
+                                </Badge>
+                              </Flex>
+                            </Td>
+                          </Tr>
+                        );
+                      })}
+                    </Tbody>
+                  </Table>
+                )}
+              </Box>
+            </Box>
+
+            {/* Optional Manual IDs Synced Field */}
+            <Box>
+              <Flex justify="space-between" align="center" mb={1.5}>
+                <Text fontSize="2xs" fontWeight="bold" color="#94A3B8" textTransform="uppercase" letterSpacing="0.05em">
+                  Shortlisted IDs (Auto-synced with ticked candidates above)
+                </Text>
+              </Flex>
+              <Textarea
+                placeholder="Selected candidate IDs will automatically appear here..."
+                value={resultShortlistedIds}
+                onChange={(e) => handleManualIdsChange(e.target.value)}
+                bg="rgba(3, 8, 23, 0.8)"
+                color={textColor}
+                borderColor="rgba(56, 217, 169, 0.3)"
+                focusBorderColor="#38D9A9"
+                size="xs"
+                rounded="md"
+                rows={2}
+              />
+            </Box>
+
+            {/* Action Bar */}
+            <Flex
+              direction={{ base: "column-reverse", sm: "row" }}
+              justify="space-between"
+              align={{ base: "stretch", sm: "center" }}
+              gap={3}
+              pt={2}
+            >
+              <Button
+                as="a"
+                href={`/results/${resultEventSlug || "hacknova"}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                size="sm"
+                w={{ base: "full", sm: "auto" }}
+                variant="outline"
+                borderColor="rgba(56, 217, 169, 0.4)"
+                color="#38D9A9"
+                fontSize="xs"
+                rounded="md"
+                _hover={{ bg: "rgba(56, 217, 169, 0.1)" }}
+                textAlign="center"
+              >
+                View Public URL: /results/{resultEventSlug || "hacknova"} ↗
+              </Button>
+
+              <Button
+                size="md"
+                w={{ base: "full", sm: "auto" }}
+                bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                color="#030512"
+                fontFamily="'Inter', sans-serif"
+                fontSize="xs"
+                fontWeight="extrabold"
+                letterSpacing="0.1em"
+                textTransform="uppercase"
+                rounded="md"
+                _hover={{ bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)" }}
+                onClick={handlePublishResults}
+                isLoading={publishingResults}
+                loadingText="Publishing..."
+                px={6}
+              >
+                Publish Results
+              </Button>
+            </Flex>
+
+            {/* Currently Published Results */}
+            {publishedResultsList.length > 0 && (
+              <Box mt={6} pt={4} borderTop="1px solid rgba(56, 217, 169, 0.2)">
+                <Text
+                  fontFamily="'Orbitron', sans-serif !important"
+                  fontSize="sm"
+                  color="#38D9A9"
+                  letterSpacing="0.08em"
+                  textTransform="uppercase"
+                  mb={3}
+                >
+                  Published Results Catalog
+                </Text>
+
+                <Box
+                  overflowX="auto"
+                  sx={{
+                    "&::-webkit-scrollbar": { height: "5px" },
+                    "&::-webkit-scrollbar-thumb": {
+                      background: "rgba(56, 217, 169, 0.4)",
+                      borderRadius: "3px",
+                    },
+                    WebkitOverflowScrolling: "touch",
+                  }}
+                >
+                  <Table variant="simple" size="sm" minW="450px">
+                    <Thead bg="rgba(56, 217, 169, 0.08)">
+                      <Tr borderBottom="1px solid rgba(56, 217, 169, 0.3)">
+                        <Th color="#38D9A9" fontSize="2xs">Event</Th>
+                        <Th color="#38D9A9" fontSize="2xs">Round</Th>
+                        <Th color="#38D9A9" fontSize="2xs">Link</Th>
+                        <Th color="#38D9A9" fontSize="2xs" textAlign="right">Action</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {publishedResultsList.map((item, idx) => (
+                        <Tr key={idx} borderBottom="1px solid rgba(255, 255, 255, 0.06)">
+                          <Td color="#FFFFFF" fontWeight="semibold" textTransform="uppercase">
+                            {item.event_slug}
+                          </Td>
+                          <Td color="#CBD5E1">
+                            {item.round_name}
+                          </Td>
+                          <Td>
+                            <Button
+                              as="a"
+                              href={`/results/${item.event_slug}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              size="2xs"
+                              variant="link"
+                              color="#22D3EE"
+                            >
+                              /results/{item.event_slug} ↗
+                            </Button>
+                          </Td>
+                          <Td textAlign="right">
+                            <Button
+                              size="xs"
+                              variant="outline"
+                              borderColor="rgba(239, 68, 68, 0.4)"
+                              color="#EF4444"
+                              rounded="md"
+                              _hover={{ bg: "rgba(239, 68, 68, 0.15)" }}
+                              onClick={() => handleUnpublishResults(item.event_slug, item.round_name)}
+                              isLoading={unpublishingKey === `${item.event_slug}_${item.round_name}`}
+                            >
+                              Unpublish
+                            </Button>
+                          </Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </Box>
+              </Box>
+            )}
           </VStack>
         </Box>
       </Flex>

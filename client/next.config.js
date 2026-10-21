@@ -1,7 +1,7 @@
 const rawBackend =
   process.env.BACKEND_PROXY_URL ||
   process.env.NEXT_PUBLIC_BACKEND_URL ||
-  "http://13.200.56.216";
+  "https://api.submission.pictacm.in";
 const targetBackend = rawBackend.trim().replace(/\/+$/, "");
 
 /** @type {import('next').NextConfig} */

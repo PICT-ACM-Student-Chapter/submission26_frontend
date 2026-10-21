@@ -54,34 +54,29 @@ const Freeze = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const initialFormValues = {
-    photo_title: "",
-    camera_device: "",
+    photo_title: "NA",
+    camera_device: "NA",
     description: "",
     file: {},
   };
 
   const validationSchema = Yup.object().shape({
-    photo_title: Yup.string().trim().required("Photo title is required"),
-    camera_device: Yup.string().trim().required("Camera/device name is required"),
+    photo_title: Yup.string().trim().default("NA"),
+    camera_device: Yup.string().trim().default("NA"),
     description: Yup.string().trim(),
   });
 
-  const handleSubmit = async (values) => {
+  const handleFreezeSubmit = async (values) => {
     if (!isSubmissionActive) {
       toast.error("Submissions for Freeze the Second are currently closed. Entries cannot be submitted or stored in the database.");
       return;
     }
 
-    if (!values?.photo_title?.trim()) {
-      toast.error("Please enter your Photo Title");
-      return;
-    }
-    if (!values?.camera_device?.trim()) {
-      toast.error("Please enter the Camera or Device used");
-      return;
-    }
-    if (!values?.file?.name) {
-      toast.error("Please select a photograph to upload");
+    const finalPhotoTitle = (values?.photo_title || "").trim() || "NA";
+    const finalCameraDevice = (values?.camera_device || "").trim() || "NA";
+
+    if (!values?.file || !values.file.name) {
+      toast.error("Please select a photograph to upload (JPG, JPEG, PNG upto 35MB)");
       return;
     }
 
@@ -96,7 +91,7 @@ const Freeze = () => {
       toast.info("Uploading photograph to S3...");
       const photoData = await uploadFile(values.file);
       if (photoData?.error || !photoData?.submission) {
-        toast.error("Failed to upload photograph. Please try again.");
+        toast.error("Failed to upload photograph to S3. Please try again.");
         setLoading(false);
         return;
       }
@@ -104,8 +99,8 @@ const Freeze = () => {
       const payload = {
         submission: photoData.submission,
         photo_url: photoData.submission,
-        photo_title: values.photo_title.trim(),
-        camera_device: values.camera_device.trim(),
+        photo_title: finalPhotoTitle,
+        camera_device: finalCameraDevice,
         description: values.description?.trim() || "",
       };
 
@@ -120,7 +115,7 @@ const Freeze = () => {
       setSubmission(entryData.submission || payload);
       toast.success("Photograph Submitted Successfully! 📸");
     } catch (e) {
-      console.error(e);
+      console.error("Freeze submission error:", e);
       toast.error("Something went wrong while submitting. Please try again.");
     }
     setLoading(false);
@@ -467,7 +462,8 @@ const Freeze = () => {
                 <Formik
                   initialValues={initialFormValues}
                   validationSchema={validationSchema}
-                  onSubmit={handleSubmit}
+                  onSubmit={handleFreezeSubmit}
+                  enableReinitialize
                 >
                   {({ handleBlur, handleChange, values, handleSubmit }) => (
                     <form onSubmit={handleSubmit}>
@@ -476,19 +472,11 @@ const Freeze = () => {
                           <FormField
                             label="Photo Title / Caption (If Not Applicable Enter NA)"
                             name="photo_title"
-                            placeholder="e.g. celebration"
+                            placeholder="NA"
                             value={values.photo_title}
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
-                          {/* <FormField
-                            label="Camera / Device Used *"
-                            name="camera_device"
-                            placeholder="e.g. Sony A7 IV / iPhone 15 Pro"
-                            value={values.camera_device}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          /> */}
                         </SimpleGrid>
 
                         <FileInput
@@ -537,7 +525,7 @@ const Freeze = () => {
 
                         <Box pt={2}>
                           <ButtonWithModal
-                            handleSubmit={() => handleSubmit(values)}
+                            handleSubmit={() => handleFreezeSubmit(values)}
                             isLoading={loading}
                             loadingText="Submitting Photo..."
                             bg={primaryColor}

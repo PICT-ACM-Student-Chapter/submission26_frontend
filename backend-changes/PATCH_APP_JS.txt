@@ -1,0 +1,26 @@
+// =====================================================
+// PATCH INSTRUCTIONS for Submission26/server/app.js
+// =====================================================
+// 
+// 1. Add this import near the top with other route imports:
+//
+//    const ResultsRouter = require("./Routes/ResultsRoutes");
+//
+// 2. Add this route registration with the other app.use() calls:
+//
+//    app.use("/results", ResultsRouter);
+//
+// =====================================================
+// 
+// After applying, your active routes section should look like:
+//
+//    app.use("/user", UserRouter);
+//    app.use("/admin", AdminRouter);
+//    app.use("/submission", SubmissionEventRouter);
+//    app.use("/allevents", alleventRouter);
+//    app.use("/results", ResultsRouter);       // <-- ADD THIS
+//
+//    // 4 Target Events ...
+//    app.use("/freeze", FreezeRouter);
+//    ... etc
+//

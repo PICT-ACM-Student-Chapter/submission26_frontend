@@ -55,9 +55,9 @@ const Header = () => {
       <Flex
         alignItems="center"
         justifyContent="space-between"
-        h="70px"
+        h={{ base: "60px", sm: "70px" }}
         px={{
-          base: "4",
+          base: "3",
           sm: "6",
           md: "8",
           lg: "16",
@@ -69,7 +69,7 @@ const Header = () => {
             <Image
               src="/logo.png"
               alt="Pulzion '26"
-              h={{ base: "48px", sm: "56px", md: "62px" }}
+              h={{ base: "38px", sm: "50px", md: "60px" }}
               w="auto"
               objectFit="contain"
               filter="drop-shadow(0 0 12px rgba(56, 217, 169, 0.35))"
@@ -82,10 +82,35 @@ const Header = () => {
         </Link>
 
         {/* Right side actions */}
-        <Flex alignItems="center" gap={4}>
+        <Flex alignItems="center" gap={{ base: 2, sm: 3 }}>
+          <Link href="/results" passHref>
+            <Button
+              as="a"
+              size="sm"
+              fontFamily="'Orbitron', sans-serif"
+              fontSize={{ base: "3xs", sm: "2xs" }}
+              letterSpacing="0.08em"
+              textTransform="uppercase"
+              color="#38D9A9"
+              border="1px solid rgba(56, 217, 169, 0.4)"
+              rounded="full"
+              px={{ base: 2.5, sm: 3 }}
+              h={{ base: "28px", sm: "32px" }}
+              bg="rgba(56, 217, 169, 0.08)"
+              _hover={{
+                bg: "rgba(56, 217, 169, 0.2)",
+                borderColor: "#38D9A9",
+                boxShadow: "0 0 12px rgba(56, 217, 169, 0.3)",
+              }}
+              cursor="pointer"
+            >
+              Results
+            </Button>
+          </Link>
+
           {user?.name && (
             <Box
-              display={{ base: "none", sm: "flex" }}
+              display={{ base: "none", md: "flex" }}
               alignItems="center"
               gap={2}
               px={3}
@@ -111,15 +136,15 @@ const Header = () => {
             <Button
               onClick={handleLogout}
               isLoading={loggingOut}
-              loadingText="Logging Out..."
+              loadingText="..."
               fontFamily="'Inter', sans-serif"
-              fontSize="xs"
+              fontSize={{ base: "2xs", md: "xs" }}
               fontWeight="extrabold"
-              letterSpacing="0.15em"
+              letterSpacing={{ base: "0.08em", md: "0.15em" }}
               textTransform="uppercase"
               rounded="full"
-              px={{ base: 4, md: 5 }}
-              h="36px"
+              px={{ base: 3, md: 5 }}
+              h={{ base: "28px", sm: "34px", md: "36px" }}
               bg="rgba(5, 11, 29, 0.9)"
               border="1px solid rgba(56, 217, 169, 0.5)"
               color="#38D9A9"

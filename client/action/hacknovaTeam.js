@@ -101,3 +101,82 @@ export const getHackNovaSquadRegistrationStatus = async () => {
     return { status: false, is_active: false };
   }
 };
+
+/**
+ * Fetch list of allowed HackNova Team Leader IDs
+ */
+export const getAllowedHackNovaLeaders = async () => {
+  try {
+    const admin = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("admin") || "null") : null;
+    const submission = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("submission") || "null") : null;
+    const token = admin?.token || submission?.token;
+
+    const options = {
+      method: "GET",
+      url: `${apiConfig.url}/hacknova/allowed-leaders`,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    };
+    const res = await axios(options);
+    return res.data;
+  } catch (e) {
+    console.error("Error in getAllowedHackNovaLeaders:", e);
+    return { error: "Failed to fetch allowed Team Leader IDs." };
+  }
+};
+
+/**
+ * Admin: Save allowed HackNova Team Leader IDs and restriction flag
+ */
+export const saveAllowedHackNovaLeaders = async (allowed_leader_ids, is_restricted = true) => {
+  try {
+    const admin = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("admin") || "null") : null;
+    if (!admin?.token) {
+      return { error: "Admin authentication required." };
+    }
+
+    const options = {
+      method: "POST",
+      url: `${apiConfig.url}/hacknova/allowed-leaders`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${admin.token}`,
+      },
+      data: {
+        allowed_leader_ids,
+        is_restricted,
+      },
+    };
+    const res = await axios(options);
+    return res.data;
+  } catch (e) {
+    console.error("Error in saveAllowedHackNovaLeaders:", e);
+    return e?.response?.data || { error: "Failed to save allowed Team Leader IDs." };
+  }
+};
+
+/**
+ * Admin: Fetch all registered HackNova teams with leader and member rosters
+ */
+export const getAllHackNovaTeams = async () => {
+  try {
+    const admin = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("admin") || "null") : null;
+    if (!admin?.token) {
+      return { error: "Admin authentication required." };
+    }
+
+    const options = {
+      method: "GET",
+      url: `${apiConfig.url}/hacknova/teams`,
+      headers: {
+        Authorization: `Bearer ${admin.token}`,
+      },
+    };
+    const res = await axios(options);
+    return res.data;
+  } catch (e) {
+    console.error("Error in getAllHackNovaTeams:", e);
+    return { error: "Failed to fetch HackNova teams." };
+  }
+};
+
+

@@ -214,8 +214,24 @@ const ResultsIndexPage = () => {
             px={{ base: 2, sm: 0 }}
           >
             Check qualified teams and shortlisted participants for each round of Pulzion &apos;26
-            events. Select an event below to view shortlisted candidates.
+            events. Shortlisted candidates are displayed in alphabetical order of name.
           </Text>
+
+          <Badge
+            mt={2.5}
+            px={2.5}
+            py={0.8}
+            rounded="full"
+            bg="rgba(56, 217, 169, 0.12)"
+            border="1px solid rgba(56, 217, 169, 0.4)"
+            color="#38D9A9"
+            fontFamily="'Inter', sans-serif"
+            fontSize={{ base: "3xs", sm: "2xs" }}
+            fontWeight="semibold"
+            letterSpacing="0.05em"
+          >
+            🔤 Results are sorted in alphabetical order of name
+          </Badge>
 
           {/* Search Bar */}
           <Box mt={{ base: 4, md: 6 }} w="full" maxW="460px">

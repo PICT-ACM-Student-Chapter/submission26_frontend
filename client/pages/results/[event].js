@@ -124,7 +124,14 @@ const EventResultPage = () => {
   const showLeaderCollege = currentRound ? currentRound.show_leader_college !== false : true;
   const tableColSpan = 2 + (showId ? 1 : 0) + (showLeaderCollege ? 1 : 0);
 
-  const filteredTeams = teamsList.filter((team) => {
+  // Ensure teams are always sorted in alphabetical order of Team / Candidate Name
+  const sortedTeams = [...teamsList].sort((a, b) => {
+    const nameA = String(a.team_name || "").trim().toLowerCase();
+    const nameB = String(b.team_name || "").trim().toLowerCase();
+    return nameA.localeCompare(nameB);
+  });
+
+  const filteredTeams = sortedTeams.filter((team) => {
     const q = searchQuery.toLowerCase().trim();
     if (!q) return true;
     const teamName = String(team.team_name || "").toLowerCase();
@@ -315,6 +322,27 @@ const EventResultPage = () => {
               <Text fontFamily="'Inter', sans-serif" fontSize={{ base: "xs", sm: "sm" }} color="#94A3B8" mt={1}>
                 {meta.subtitle} • Pulzion &apos;26 Official Shortlist
               </Text>
+
+              {/* Sorted Alphabetically Badge */}
+              <HStack spacing={2} mt={2.5} wrap="wrap">
+                <Badge
+                  px={2.5}
+                  py={0.8}
+                  rounded="full"
+                  bg="rgba(56, 217, 169, 0.12)"
+                  border="1px solid rgba(56, 217, 169, 0.45)"
+                  color="#38D9A9"
+                  fontFamily="'Inter', sans-serif"
+                  fontSize={{ base: "3xs", sm: "2xs" }}
+                  fontWeight="bold"
+                  letterSpacing="0.06em"
+                  display="inline-flex"
+                  alignItems="center"
+                  gap={1.5}
+                >
+                  <chakra.span fontSize="xs">🔤</chakra.span> SORTED IN ALPHABETICAL ORDER OF NAME
+                </Badge>
+              </HStack>
             </Box>
 
             {/* Quick Stat Counter */}
@@ -481,10 +509,52 @@ const EventResultPage = () => {
                 />
               </InputGroup>
 
-              <Text fontFamily="'Inter', sans-serif" fontSize="xs" color="#94A3B8" textAlign={{ base: "left", sm: "right" }}>
-                Showing <chakra.span color="#38D9A9" fontWeight="bold">{filteredTeams.length}</chakra.span> of {teamsList.length} shortlisted
-              </Text>
+              <VStack align={{ base: "flex-start", sm: "flex-end" }} spacing={0.5}>
+                <Text fontFamily="'Inter', sans-serif" fontSize="xs" color="#94A3B8">
+                  Showing <chakra.span color="#38D9A9" fontWeight="bold">{filteredTeams.length}</chakra.span> of {teamsList.length} shortlisted
+                </Text>
+                <Text fontFamily="'Inter', sans-serif" fontSize="3xs" color="#38D9A9" fontWeight="semibold">
+                  Sorted alphabetically by name (A–Z)
+                </Text>
+              </VStack>
             </Flex>
+
+            {/* Alphabetical Order Notice Card */}
+            <Box
+              mb={3}
+              px={{ base: 3, sm: 4 }}
+              py={2.5}
+              rounded="md"
+              bg="rgba(56, 217, 169, 0.08)"
+              border="1px solid rgba(56, 217, 169, 0.3)"
+              boxShadow="0 2px 10px rgba(0, 0, 0, 0.3)"
+            >
+              <Flex
+                direction={{ base: "column", sm: "row" }}
+                justify="space-between"
+                align={{ base: "flex-start", sm: "center" }}
+                gap={1.5}
+              >
+                <Text fontSize={{ base: "2xs", sm: "xs" }} color="#CBD5E1" fontFamily="'Inter', sans-serif">
+                  <chakra.span fontWeight="bold" color="#38D9A9">Notice:</chakra.span> Shortlisted candidates are listed in{" "}
+                  <chakra.span fontWeight="bold" color="#FFFFFF">alphabetical order of name (A–Z)</chakra.span>, not by rank or score.
+                </Text>
+                <Badge
+                  px={2}
+                  py={0.5}
+                  rounded="full"
+                  fontSize="3xs"
+                  bg="rgba(34, 211, 238, 0.15)"
+                  color="#22D3EE"
+                  border="1px solid rgba(34, 211, 238, 0.4)"
+                  fontFamily="'Orbitron', sans-serif"
+                  letterSpacing="0.05em"
+                  flexShrink={0}
+                >
+                  A &rarr; Z ALPHABETICAL
+                </Badge>
+              </Flex>
+            </Box>
 
             {/* Mobile horizontal scroll hint */}
             <Text display={{ base: "block", md: "none" }} fontSize="2xs" color="#94A3B8" mb={2}>
@@ -529,7 +599,7 @@ const EventResultPage = () => {
                         </Th>
                       )}
                       <Th fontFamily="'Orbitron', sans-serif !important" color="#38D9A9" letterSpacing="0.08em" textTransform="uppercase" minW="140px">
-                        Team / Candidate
+                        Team / Candidate (A–Z)
                       </Th>
                       {showLeaderCollege && (
                         <Th fontFamily="'Orbitron', sans-serif !important" color="#38D9A9" letterSpacing="0.08em" textTransform="uppercase" minW="130px">

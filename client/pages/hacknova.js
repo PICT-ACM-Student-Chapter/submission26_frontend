@@ -65,21 +65,52 @@ const Hacknova = () => {
   const [loadingText, setLoadingText] = useState("INITIALIZING HACKNOVA MISSION...");
   const [refreshingStatus, setRefreshingStatus] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
+  const [isSubmissionApplicable, setIsSubmissionApplicable] = useState(true);
+  const [notApplicableReason, setNotApplicableReason] = useState("");
+  const [isLeader, setIsLeader] = useState(true);
+  const [leaderUserId, setLeaderUserId] = useState(null);
+  const [isRestricted, setIsRestricted] = useState(false);
   const router = useRouter();
 
   const handleRefreshStatus = async () => {
     try {
       setRefreshingStatus(true);
-      const teamData = await getHackNovaTeamMe();
+      const [teamData, entryData] = await Promise.all([
+        getHackNovaTeamMe(),
+        getEntries("hacknova"),
+      ]);
       if (teamData?.team) {
         setRegisteredTeam(teamData.team);
-        toast.success(`Squad detected: "${teamData.team.team_name}". Project submission unlocked! 🚀`);
+      }
+      if (entryData?.submission) {
+        setSubmission(entryData.submission);
+      }
+      if (entryData?.is_submission_applicable !== undefined) {
+        setIsSubmissionApplicable(Boolean(entryData.is_submission_applicable));
+      }
+      if (entryData?.not_applicable_reason) {
+        setNotApplicableReason(entryData.not_applicable_reason);
+      }
+      if (entryData?.is_leader !== undefined) {
+        setIsLeader(Boolean(entryData.is_leader));
+      }
+      if (entryData?.leader_user_id) {
+        setLeaderUserId(entryData.leader_user_id);
+      }
+      if (entryData?.is_restricted !== undefined) {
+        setIsRestricted(Boolean(entryData.is_restricted));
+      }
+
+      if (entryData?.is_submission_applicable) {
+        toast.success(`Submission access verified for squad: "${teamData?.team?.team_name || 'Your Squad'}". 🚀`);
+      } else if (entryData?.not_applicable_reason) {
+        toast.warning(entryData.not_applicable_reason);
       } else {
-        toast.info("No registered squad found yet. Please complete team registration first.");
+        toast.info("Status refreshed.");
       }
     } catch (err) {
       console.error(err);
-      toast.error("Failed to re-check squad status. Please try again.");
+      toast.error("Failed to re-check squad & submission status. Please try again.");
     } finally {
       setRefreshingStatus(false);
     }
@@ -118,6 +149,14 @@ const Hacknova = () => {
 
     if (!isSubmissionActive) {
       toast.error("Submissions for HackNova are currently closed. Entries cannot be submitted or stored in the database.");
+      return;
+    }
+
+    if (!isSubmissionApplicable) {
+      toast.error(
+        notApplicableReason ||
+          "Your Team Leader ID is not authorized by admin to submit project deliverables."
+      );
       return;
     }
     const finalTeamName = (registeredTeam?.team_name || values?.team_name || "").trim();
@@ -228,6 +267,22 @@ const Hacknova = () => {
           setIsSubmissionActive(Boolean(entryData.submission_active));
         } else if (entryData?.event_status !== undefined) {
           setIsSubmissionActive(Boolean(entryData.event_status));
+        }
+
+        if (entryData?.is_submission_applicable !== undefined) {
+          setIsSubmissionApplicable(Boolean(entryData.is_submission_applicable));
+        }
+        if (entryData?.not_applicable_reason) {
+          setNotApplicableReason(entryData.not_applicable_reason);
+        }
+        if (entryData?.is_leader !== undefined) {
+          setIsLeader(Boolean(entryData.is_leader));
+        }
+        if (entryData?.leader_user_id) {
+          setLeaderUserId(entryData.leader_user_id);
+        }
+        if (entryData?.is_restricted !== undefined) {
+          setIsRestricted(Boolean(entryData.is_restricted));
         }
 
         // Fetch team registration info quietly to prefill team name if available
@@ -906,6 +961,175 @@ const Hacknova = () => {
                   </Flex>
                 </Stack>
               </Box>
+            ) : !isSubmissionApplicable ? (
+              /* SUBMISSION ACCESS RESTRICTED NOTICE */
+              <Box
+                position="relative"
+                p={{ base: 4, sm: 6, md: 8 }}
+                bg="linear-gradient(180deg, rgba(23, 11, 20, 0.95) 0%, rgba(16, 7, 18, 0.95) 100%)"
+                border="1px solid rgba(239, 68, 68, 0.5)"
+                boxShadow="0 0 35px rgba(239, 68, 68, 0.2), 0 12px 32px rgba(0, 0, 0, 0.85)"
+                borderRadius="md"
+                overflow="hidden"
+                maxW="100%"
+                boxSizing="border-box"
+              >
+                {/* 4 Corner HUD Brackets */}
+                <Box position="absolute" top={{ base: "4px", sm: "6px" }} left={{ base: "4px", sm: "6px" }} w={{ base: "8px", sm: "10px" }} h={{ base: "8px", sm: "10px" }} borderLeft="2px solid #EF4444" borderTop="2px solid #EF4444" pointerEvents="none" />
+                <Box position="absolute" top={{ base: "4px", sm: "6px" }} right={{ base: "4px", sm: "6px" }} w={{ base: "8px", sm: "10px" }} h={{ base: "8px", sm: "10px" }} borderRight="2px solid #EF4444" borderTop="2px solid #EF4444" pointerEvents="none" />
+                <Box position="absolute" bottom={{ base: "4px", sm: "6px" }} left={{ base: "4px", sm: "6px" }} w={{ base: "8px", sm: "10px" }} h={{ base: "8px", sm: "10px" }} borderLeft="2px solid #EF4444" borderBottom="2px solid #EF4444" pointerEvents="none" />
+                <Box position="absolute" bottom={{ base: "4px", sm: "6px" }} right={{ base: "4px", sm: "6px" }} w={{ base: "8px", sm: "10px" }} h={{ base: "8px", sm: "10px" }} borderRight="2px solid #EF4444" borderBottom="2px solid #EF4444" pointerEvents="none" />
+
+                <Flex direction="column" align="center" textAlign="center" mb={{ base: 4, sm: 6 }} px={{ base: 1, sm: 2 }}>
+                  <Flex
+                    align="center"
+                    justify="center"
+                    w={{ base: "48px", sm: "56px" }}
+                    h={{ base: "48px", sm: "56px" }}
+                    rounded="full"
+                    bg="rgba(239, 68, 68, 0.15)"
+                    border="1px solid #EF4444"
+                    color="#EF4444"
+                    mb={{ base: 2.5, sm: 3.5 }}
+                    boxShadow="0 0 25px rgba(239, 68, 68, 0.35)"
+                    flexShrink={0}
+                  >
+                    <LockIcon w={{ base: 5, sm: 6 }} h={{ base: 5, sm: 6 }} />
+                  </Flex>
+
+                  <Badge
+                    px={{ base: 2.5, sm: 3 }}
+                    py={{ base: 0.5, sm: 1 }}
+                    bg="rgba(239, 68, 68, 0.2)"
+                    color="#FCA5A5"
+                    border="1px solid rgba(239, 68, 68, 0.5)"
+                    fontFamily="'Inter', sans-serif"
+                    fontSize={{ base: "3xs", sm: "2xs" }}
+                    letterSpacing={{ base: "0.06em", sm: "0.15em" }}
+                    whiteSpace="normal"
+                    textAlign="center"
+                    maxW="100%"
+                    lineHeight="shorter"
+                    mb={{ base: 2, sm: 2.5 }}
+                    borderRadius="full"
+                  >
+                    SUBMISSION ACCESS RESTRICTED &bull; ADMIN APPROVAL REQUIRED
+                  </Badge>
+
+                  <chakra.h2
+                    fontFamily="'Orbitron', sans-serif !important"
+                    fontSize={{ base: "md", sm: "xl", md: "2xl" }}
+                    fontWeight="bold"
+                    color="#FFFFFF"
+                    letterSpacing="0.04em"
+                    textTransform="uppercase"
+                    lineHeight={{ base: "short", sm: "shorter" }}
+                    wordBreak="break-word"
+                    maxW="100%"
+                  >
+                    SUBMISSION ACCESS RESTRICTED
+                  </chakra.h2>
+
+                  <chakra.p
+                    fontFamily="'Inter', sans-serif"
+                    fontSize={{ base: "2xs", sm: "xs" }}
+                    fontWeight="semibold"
+                    color="#FCA5A5"
+                    letterSpacing="0.04em"
+                    textTransform="uppercase"
+                    lineHeight={{ base: "short", sm: "normal" }}
+                    wordBreak="break-word"
+                    maxW="100%"
+                    mt={{ base: 1.5, sm: 1 }}
+                  >
+                    ONLY SHORTLISTED TEAM LEADERS ARE APPLICABLE TO SUBMIT
+                  </chakra.p>
+                </Flex>
+
+                <Stack spacing={{ base: 3, sm: 4 }} fontFamily="'Inter', sans-serif">
+                  <Box
+                    p={{ base: 3, sm: 4 }}
+                    rounded="md"
+                    bg="rgba(10, 4, 12, 0.85)"
+                    border="1px solid rgba(239, 68, 68, 0.3)"
+                  >
+                    <Text fontSize={{ base: "xs", sm: "sm" }} color="#F1F5F9" lineHeight="tall" wordBreak="break-word">
+                      {notApplicableReason ||
+                        `Your Team Leader ID is not in the list of team leaders approved by administrators to submit project deliverables for HackNova.`}
+                    </Text>
+                  </Box>
+
+                  {/* Squad Meta Info */}
+                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={{ base: 2, sm: 3 }}>
+                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.6)" border="1px solid rgba(255, 255, 255, 0.08)">
+                      <Text fontSize="10px" color="#94A3B8" fontWeight="bold" letterSpacing="0.1em" textTransform="uppercase">
+                        Squad Name
+                      </Text>
+                      <Text fontSize="sm" color="#FFFFFF" fontWeight="semibold" mt={0.5}>
+                        {registeredTeam?.team_name || "—"}
+                      </Text>
+                    </Box>
+
+                    <Box p={3} rounded="md" bg="rgba(7, 16, 36, 0.6)" border="1px solid rgba(255, 255, 255, 0.08)">
+                      <Text fontSize="10px" color="#94A3B8" fontWeight="bold" letterSpacing="0.1em" textTransform="uppercase">
+                        Team ID / Leader ID
+                      </Text>
+                      <Text fontSize="sm" color="#22D3EE" fontFamily="'Orbitron', sans-serif" fontWeight="bold" mt={0.5}>
+                        Team #{registeredTeam?.id} &bull; Leader #{leaderUserId || registeredTeam?.leader_user_id || "—"}
+                      </Text>
+                    </Box>
+                  </SimpleGrid>
+
+                  <Box
+                    p={3}
+                    rounded="md"
+                    bg="rgba(245, 158, 11, 0.08)"
+                    border="1px solid rgba(245, 158, 11, 0.3)"
+                    textAlign="center"
+                  >
+                    <Text fontSize="xs" color="#FCD34D" lineHeight="tall">
+                      If your team has been shortlisted to submit for HackNova, please contact the event administrators with your Team ID and Leader ID to grant submission access.
+                    </Text>
+                  </Box>
+
+                  {/* Actions */}
+                  <Flex direction={{ base: "column", sm: "row" }} gap={3} pt={2}>
+                    <Button
+                      w="full"
+                      size="sm"
+                      bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                      color="#030512"
+                      fontFamily="'Inter', sans-serif"
+                      fontSize="xs"
+                      fontWeight="bold"
+                      letterSpacing="0.08em"
+                      textTransform="uppercase"
+                      _hover={{ bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)" }}
+                      onClick={handleRefreshStatus}
+                      isLoading={refreshingStatus}
+                      leftIcon={<RepeatIcon />}
+                    >
+                      Re-check Submission Eligibility
+                    </Button>
+
+                    <NextLink href="/dashboard" passHref>
+                      <Button
+                        as="a"
+                        w="full"
+                        size="sm"
+                        variant="outline"
+                        borderColor="rgba(255, 255, 255, 0.2)"
+                        color="#CBD5E1"
+                        fontFamily="'Inter', sans-serif"
+                        fontSize="xs"
+                        _hover={{ bg: "rgba(255, 255, 255, 0.08)" }}
+                      >
+                        Return to Dashboard
+                      </Button>
+                    </NextLink>
+                  </Flex>
+                </Stack>
+              </Box>
             ) : (
               /* Submission Form */
               <Box
@@ -938,12 +1162,12 @@ const Hacknova = () => {
                   <chakra.p
                     fontFamily="'Inter', sans-serif"
                     fontSize="xs"
-                    color="#22D3EE"
+                    color="#38D9A9"
                     letterSpacing="0.12em"
                     textTransform="uppercase"
                     mt={1}
                   >
-                    TEAM LEADER VERIFIED &bull; ROUND 1 DELIVERABLES
+                    TEAM LEADER AUTHORIZED &bull; SHORTLISTED FOR ROUND 1 DELIVERABLES
                   </chakra.p>
                 </Box>
 
@@ -972,7 +1196,7 @@ const Hacknova = () => {
                               opacity={0.9}
                             />
                             <Text fontFamily="'Inter', sans-serif" fontSize="2xs" color="#38D9A9" mt={1}>
-                              ✓ Locked to registered squad: {registeredTeam.team_name}
+                              ✓ Locked to registered squad: {registeredTeam.team_name} (Leader ID: #{leaderUserId || registeredTeam.leader_user_id})
                             </Text>
                           </Box>
                           <FormField

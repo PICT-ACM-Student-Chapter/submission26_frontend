@@ -474,6 +474,11 @@ import {
   unpublishResults,
   getEventCandidates,
 } from "../action/results";
+import {
+  getAllowedHackNovaLeaders,
+  saveAllowedHackNovaLeaders,
+  getAllHackNovaTeams,
+} from "../action/hacknovaTeam";
 
 const INITIAL_GET_API = `${apiConfig.url}/allevents/events`;
 const SAVED_GET_API = `${apiConfig.url}/submission/get`;
@@ -498,6 +503,16 @@ const AdminPage = () => {
   const [candidateSearchQuery, setCandidateSearchQuery] = useState("");
   const [showIdOption, setShowIdOption] = useState(true);
   const [showLeaderCollegeOption, setShowLeaderCollegeOption] = useState(true);
+
+  // HackNova Submission Access Control state
+  const [hacknovaTeams, setHacknovaTeams] = useState([]);
+  const [loadingHacknovaTeams, setLoadingHacknovaTeams] = useState(false);
+  const [allowedLeaderIds, setAllowedLeaderIds] = useState(new Set());
+  const [allowedLeaderIdsInput, setAllowedLeaderIdsInput] = useState("");
+  const [isHacknovaRestrictionActive, setIsHacknovaRestrictionActive] = useState(true);
+  const [savingAllowedLeaders, setSavingAllowedLeaders] = useState(false);
+  const [hacknovaTeamSearchQuery, setHacknovaTeamSearchQuery] = useState("");
+
   const route = useRouter();
   const toast = useToast();
   const admin = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("admin") || "null") : null;
@@ -767,11 +782,144 @@ const AdminPage = () => {
     }
   };
 
+  const fetchHacknovaTeamsAndAllowedLeaders = async () => {
+    try {
+      setLoadingHacknovaTeams(true);
+      const [teamsData, allowedData] = await Promise.all([
+        getAllHackNovaTeams(),
+        getAllowedHackNovaLeaders(),
+      ]);
+
+      if (teamsData && Array.isArray(teamsData.teams)) {
+        setHacknovaTeams(teamsData.teams);
+      } else if (Array.isArray(teamsData)) {
+        setHacknovaTeams(teamsData);
+      }
+
+      if (allowedData && allowedData.success) {
+        const ids = (allowedData.allowed_leader_ids || []).map(Number);
+        const idSet = new Set(ids);
+        setAllowedLeaderIds(idSet);
+        setAllowedLeaderIdsInput(Array.from(idSet).sort((a, b) => a - b).join(", "));
+        setIsHacknovaRestrictionActive(allowedData.is_restricted !== false);
+      }
+    } catch (err) {
+      console.error("Failed to load HackNova teams and allowed leaders:", err);
+    } finally {
+      setLoadingHacknovaTeams(false);
+    }
+  };
+
+  const toggleAllowedLeaderId = (leaderId) => {
+    const numId = Number(leaderId);
+    setAllowedLeaderIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(numId)) {
+        next.delete(numId);
+      } else {
+        next.add(numId);
+      }
+      setAllowedLeaderIdsInput(Array.from(next).sort((a, b) => a - b).join(", "));
+      return next;
+    });
+  };
+
+  const handleSelectAllHacknovaLeaders = () => {
+    setAllowedLeaderIds((prev) => {
+      const next = new Set(prev);
+      filteredHacknovaTeams.forEach((t) => {
+        if (t.leader_user_id) next.add(Number(t.leader_user_id));
+      });
+      setAllowedLeaderIdsInput(Array.from(next).sort((a, b) => a - b).join(", "));
+      return next;
+    });
+  };
+
+  const handleClearAllHacknovaLeaders = () => {
+    setAllowedLeaderIds(new Set());
+    setAllowedLeaderIdsInput("");
+  };
+
+  const handleManualAllowedIdsChange = (val) => {
+    setAllowedLeaderIdsInput(val);
+    const parsed = val
+      .split(/[\s,]+/)
+      .map((s) => parseInt(s.trim(), 10))
+      .filter((n) => !isNaN(n));
+    setAllowedLeaderIds(new Set(parsed));
+  };
+
+  const handleSaveAllowedHacknovaLeaders = async () => {
+    try {
+      setSavingAllowedLeaders(true);
+      const numericIds = Array.from(allowedLeaderIds)
+        .map(Number)
+        .filter((n) => !isNaN(n));
+
+      const res = await saveAllowedHackNovaLeaders(
+        numericIds,
+        isHacknovaRestrictionActive
+      );
+
+      if (res && res.success) {
+        toast({
+          title: "Access Permissions Saved",
+          description: `Saved ${numericIds.length} allowed Team Leader IDs (Enforce Restriction: ${isHacknovaRestrictionActive ? "ON" : "OFF"}).`,
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+        });
+        await fetchHacknovaTeamsAndAllowedLeaders();
+      } else {
+        toast({
+          title: "Error",
+          description: res?.error || "Failed to save allowed leader IDs.",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+        });
+      }
+    } catch (err) {
+      console.error("Error saving allowed leaders:", err);
+      toast({
+        title: "Error",
+        description: "Failed to save allowed Team Leader IDs.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      });
+    } finally {
+      setSavingAllowedLeaders(false);
+    }
+  };
+
+  const filteredHacknovaTeams = hacknovaTeams.filter((t) => {
+    const q = hacknovaTeamSearchQuery.toLowerCase().trim();
+    if (!q) return true;
+    const name = String(t.team_name || "").toLowerCase();
+    const leaderFirst = String(t.leader_first_name || "").toLowerCase();
+    const leaderLast = String(t.leader_last_name || "").toLowerCase();
+    const leaderEmail = String(t.leader_email || "").toLowerCase();
+    const leaderCollege = String(t.leader_college || "").toLowerCase();
+    const teamId = String(t.team_id || "").toLowerCase();
+    const leaderId = String(t.leader_user_id || "").toLowerCase();
+    return (
+      name.includes(q) ||
+      leaderFirst.includes(q) ||
+      leaderLast.includes(q) ||
+      leaderEmail.includes(q) ||
+      leaderCollege.includes(q) ||
+      teamId.includes(q) ||
+      leaderId.includes(q)
+    );
+  });
+
   useEffect(() => {
     const initialize = async () => {
       await fetchInitialEvents();
       await fetchSavedEvents();
       await fetchPublishedResults();
+      await fetchHacknovaTeamsAndAllowedLeaders();
     };
     initialize();
   }, []);
@@ -1178,6 +1326,389 @@ const AdminPage = () => {
           </VStack>
         </Box>
 
+        {/* HackNova Submission Access Controller Card */}
+        <Box
+          w="100%"
+          maxWidth="900px"
+          p={{ base: 4, sm: 6, md: 8 }}
+          position="relative"
+          border="1px solid rgba(56, 217, 169, 0.4)"
+          borderRadius="none"
+          boxShadow="0 0 30px rgba(56, 217, 169, 0.2), 0 12px 32px rgba(0, 0, 0, 0.85)"
+          bg={bgCard}
+          backdropFilter="blur(16px)"
+          overflow="hidden"
+          mt={8}
+        >
+          {/* 4 Corner HUD Brackets */}
+          <Box position="absolute" top="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" top="4px" right="4px" w="8px" h="8px" borderRight="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+          <Box position="absolute" bottom="4px" right="4px" w="8px" h="8px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
+
+          <Text
+            fontFamily="'Orbitron', sans-serif !important"
+            fontSize={{ base: "xl", sm: "2xl", md: "3xl" }}
+            mb={2}
+            fontWeight="bold"
+            textAlign="center"
+            color="#FFFFFF"
+            letterSpacing="0.08em"
+            textTransform="uppercase"
+          >
+            HACKNOVA <chakra.span color="#38D9A9">SUBMISSION ACCESS</chakra.span>
+          </Text>
+          <Text
+            fontFamily="'Inter', sans-serif"
+            fontSize="xs"
+            color="#94A3B8"
+            textAlign="center"
+            mb={4}
+          >
+            Authorize specific Team Leader IDs applicable to submit project deliverables on /hacknova
+          </Text>
+          <Divider mb={6} borderColor="rgba(56, 217, 169, 0.3)" />
+
+          <VStack spacing={5} align="stretch" fontFamily="'Inter', sans-serif">
+            {/* Whitelist Mode Toggle Switch */}
+            <Box
+              p={{ base: 3, sm: 4 }}
+              rounded="md"
+              bg="rgba(3, 8, 23, 0.75)"
+              border="1px solid rgba(56, 217, 169, 0.35)"
+              boxShadow="0 4px 14px rgba(0, 0, 0, 0.4)"
+            >
+              <Flex
+                direction={{ base: "column", sm: "row" }}
+                justify="space-between"
+                align={{ base: "flex-start", sm: "center" }}
+                gap={3}
+              >
+                <HStack spacing={3} align="center">
+                  <Switch
+                    id="enforce-hacknova-restriction"
+                    colorScheme="teal"
+                    size="md"
+                    isChecked={isHacknovaRestrictionActive}
+                    onChange={(e) => setIsHacknovaRestrictionActive(e.target.checked)}
+                  />
+                  <Box>
+                    <Text fontSize="xs" fontWeight="bold" color="#FFFFFF">
+                      Enforce Shortlist Restriction
+                    </Text>
+                    <Text fontSize="2xs" color="#94A3B8">
+                      {isHacknovaRestrictionActive
+                        ? "Only checked / listed Team Leaders are applicable to submit deliverables"
+                        : "Open mode: Any registered team leader can submit deliverables"}
+                    </Text>
+                  </Box>
+                </HStack>
+
+                <Badge
+                  px={2.5}
+                  py={1}
+                  rounded="full"
+                  fontSize="2xs"
+                  fontWeight="bold"
+                  color={isHacknovaRestrictionActive ? "#38D9A9" : "#F59E0B"}
+                  bg={isHacknovaRestrictionActive ? "rgba(56, 217, 169, 0.15)" : "rgba(245, 158, 11, 0.15)"}
+                  border={`1px solid ${isHacknovaRestrictionActive ? "#38D9A9" : "#F59E0B"}`}
+                >
+                  {isHacknovaRestrictionActive ? "RESTRICTION ACTIVE" : "RESTRICTION OFF"}
+                </Badge>
+              </Flex>
+            </Box>
+
+            {/* Team Leader Shortlist Table */}
+            <Box mt={2}>
+              <Flex
+                justify="space-between"
+                align={{ base: "flex-start", sm: "center" }}
+                direction={{ base: "column", sm: "row" }}
+                gap={2}
+                mb={3}
+              >
+                <HStack spacing={2} wrap="wrap">
+                  <Text
+                    fontSize="xs"
+                    fontWeight="bold"
+                    color="#38D9A9"
+                    textTransform="uppercase"
+                    letterSpacing="0.05em"
+                  >
+                    Registered HackNova Squads
+                  </Text>
+                  <Badge
+                    px={2.5}
+                    py={0.5}
+                    rounded="full"
+                    bg="rgba(56, 217, 169, 0.15)"
+                    border="1px solid #38D9A9"
+                    color="#38D9A9"
+                    fontSize="2xs"
+                    fontWeight="bold"
+                  >
+                    {allowedLeaderIds.size} Allowed Leaders / {hacknovaTeams.length} Total Squads
+                  </Badge>
+                </HStack>
+
+                <HStack spacing={2} w={{ base: "full", sm: "auto" }} justify={{ base: "space-between", sm: "flex-end" }}>
+                  <Button
+                    size="xs"
+                    flex={{ base: 1, sm: "initial" }}
+                    variant="outline"
+                    borderColor="rgba(56, 217, 169, 0.4)"
+                    color="#38D9A9"
+                    onClick={handleSelectAllHacknovaLeaders}
+                    _hover={{ bg: "rgba(56, 217, 169, 0.15)" }}
+                  >
+                    Select All
+                  </Button>
+                  <Button
+                    size="xs"
+                    flex={{ base: 1, sm: "initial" }}
+                    variant="outline"
+                    borderColor="rgba(255, 255, 255, 0.2)"
+                    color="#94A3B8"
+                    onClick={handleClearAllHacknovaLeaders}
+                    _hover={{ bg: "rgba(255, 255, 255, 0.1)" }}
+                  >
+                    Clear All
+                  </Button>
+                  <Button
+                    size="xs"
+                    flex={{ base: 1, sm: "initial" }}
+                    variant="outline"
+                    borderColor="rgba(34, 211, 238, 0.4)"
+                    color="#22D3EE"
+                    onClick={fetchHacknovaTeamsAndAllowedLeaders}
+                    isLoading={loadingHacknovaTeams}
+                    _hover={{ bg: "rgba(34, 211, 238, 0.15)" }}
+                  >
+                    Refresh
+                  </Button>
+                </HStack>
+              </Flex>
+
+              {/* Search bar */}
+              <InputGroup size="sm" mb={3}>
+                <InputLeftElement pointerEvents="none">
+                  <SearchIcon color="#38D9A9" />
+                </InputLeftElement>
+                <Input
+                  placeholder="Search by Squad Name, Team ID, Leader ID, Leader Name, or College..."
+                  value={hacknovaTeamSearchQuery}
+                  onChange={(e) => setHacknovaTeamSearchQuery(e.target.value)}
+                  bg="rgba(3, 8, 23, 0.8)"
+                  color={textColor}
+                  borderColor="rgba(56, 217, 169, 0.3)"
+                  focusBorderColor="#38D9A9"
+                  rounded="md"
+                />
+              </InputGroup>
+
+              {/* Mobile swipe hint */}
+              <Text display={{ base: "block", md: "none" }} fontSize="2xs" color="#94A3B8" mb={2}>
+                👉 Swipe horizontally to view full squad details &amp; checkboxes
+              </Text>
+
+              {/* Squads Table */}
+              <Box
+                border="1px solid rgba(56, 217, 169, 0.3)"
+                rounded="md"
+                bg="rgba(3, 8, 23, 0.7)"
+                maxH="440px"
+                overflowY="auto"
+                overflowX="auto"
+                sx={{
+                  "&::-webkit-scrollbar": { width: "5px", height: "5px" },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "rgba(56, 217, 169, 0.4)",
+                    borderRadius: "3px",
+                  },
+                  WebkitOverflowScrolling: "touch",
+                }}
+              >
+                {loadingHacknovaTeams ? (
+                  <Flex justify="center" align="center" py={12} direction="column" gap={2}>
+                    <Spinner size="md" color="#38D9A9" />
+                    <Text fontSize="xs" color="#94A3B8">Loading HackNova squads...</Text>
+                  </Flex>
+                ) : filteredHacknovaTeams.length === 0 ? (
+                  <Box py={8} textAlign="center">
+                    <Text fontSize="xs" color="#94A3B8">
+                      {hacknovaTeams.length === 0
+                        ? "No registered HackNova squads found."
+                        : `No squads match "${hacknovaTeamSearchQuery}".`}
+                    </Text>
+                  </Box>
+                ) : (
+                  <Table variant="simple" size="sm" minW="520px">
+                    <Thead bg="#071024" position="sticky" top={0} zIndex={1}>
+                      <Tr borderBottom="2px solid rgba(56, 217, 169, 0.4)">
+                        <Th color="#38D9A9" fontSize="2xs" w="45px" textAlign="center">#</Th>
+                        <Th color="#38D9A9" fontSize="2xs" w="95px">Leader ID</Th>
+                        <Th color="#38D9A9" fontSize="2xs" w="80px">Team ID</Th>
+                        <Th color="#38D9A9" fontSize="2xs" minW="130px">Squad / Team</Th>
+                        <Th color="#38D9A9" fontSize="2xs" minW="130px">Leader / College</Th>
+                        <Th color="#38D9A9" fontSize="2xs" w="140px" textAlign="center">Applicable to Submit</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {filteredHacknovaTeams.map((team, idx) => {
+                        const leaderId = Number(team.leader_user_id);
+                        const isAllowed = allowedLeaderIds.has(leaderId);
+                        const leaderFullName = [team.leader_first_name, team.leader_last_name].filter(Boolean).join(" ") || "Leader";
+                        return (
+                          <Tr
+                            key={team.team_id || idx}
+                            borderBottom="1px solid rgba(255, 255, 255, 0.06)"
+                            bg={isAllowed ? "rgba(56, 217, 169, 0.09)" : "transparent"}
+                            _hover={{ bg: "rgba(56, 217, 169, 0.16)" }}
+                            cursor="pointer"
+                            onClick={() => toggleAllowedLeaderId(leaderId)}
+                            transition="background 0.15s ease"
+                          >
+                            <Td color="#94A3B8" fontSize="xs" textAlign="center">{idx + 1}</Td>
+                            <Td>
+                              <Badge
+                                px={2}
+                                py={0.5}
+                                rounded="md"
+                                bg="rgba(34, 211, 238, 0.15)"
+                                border="1px solid rgba(34, 211, 238, 0.5)"
+                                color="#22D3EE"
+                                fontFamily="'Orbitron', sans-serif"
+                                fontSize="2xs"
+                                fontWeight="bold"
+                              >
+                                #{leaderId}
+                              </Badge>
+                            </Td>
+                            <Td>
+                              <Badge
+                                px={1.5}
+                                py={0.5}
+                                rounded="sm"
+                                bg="rgba(255, 255, 255, 0.06)"
+                                border="1px solid rgba(255, 255, 255, 0.15)"
+                                color="#CBD5E1"
+                                fontFamily="'Orbitron', sans-serif"
+                                fontSize="2xs"
+                              >
+                                #{team.team_id}
+                              </Badge>
+                            </Td>
+                            <Td color="#FFFFFF" fontWeight="semibold" fontSize="xs">
+                              {team.team_name}
+                            </Td>
+                            <Td color="#CBD5E1" fontSize="xs">
+                              {leaderFullName}
+                              {team.leader_college && team.leader_college !== "—" ? ` (${team.leader_college})` : ""}
+                            </Td>
+                            <Td textAlign="center" onClick={(e) => e.stopPropagation()}>
+                              <Flex justify="center" align="center" gap={1.5}>
+                                <Checkbox
+                                  colorScheme="teal"
+                                  size="md"
+                                  isChecked={isAllowed}
+                                  onChange={() => toggleAllowedLeaderId(leaderId)}
+                                />
+                                <Badge
+                                  px={2}
+                                  py={0.5}
+                                  rounded="full"
+                                  fontSize="3xs"
+                                  fontWeight="bold"
+                                  bg={isAllowed ? "rgba(56, 217, 169, 0.2)" : "rgba(239, 68, 68, 0.15)"}
+                                  color={isAllowed ? "#38D9A9" : "#F87171"}
+                                  border={`1px solid ${isAllowed ? "#38D9A9" : "rgba(239, 68, 68, 0.4)"}`}
+                                  cursor="pointer"
+                                  onClick={() => toggleAllowedLeaderId(leaderId)}
+                                >
+                                  {isAllowed ? "APPLICABLE" : "RESTRICTED"}
+                                </Badge>
+                              </Flex>
+                            </Td>
+                          </Tr>
+                        );
+                      })}
+                    </Tbody>
+                  </Table>
+                )}
+              </Box>
+            </Box>
+
+            {/* Manual IDs Synced Input */}
+            <Box>
+              <Flex justify="space-between" align="center" mb={1.5}>
+                <Text fontSize="2xs" fontWeight="bold" color="#94A3B8" textTransform="uppercase" letterSpacing="0.05em">
+                  Allowed Team Leader IDs (comma-separated, auto-synced with ticked leaders above)
+                </Text>
+              </Flex>
+              <Textarea
+                placeholder="Selected Team Leader IDs will automatically appear here, or enter comma-separated IDs (e.g. 101, 105, 120)..."
+                value={allowedLeaderIdsInput}
+                onChange={(e) => handleManualAllowedIdsChange(e.target.value)}
+                bg="rgba(3, 8, 23, 0.8)"
+                color={textColor}
+                borderColor="rgba(56, 217, 169, 0.3)"
+                focusBorderColor="#38D9A9"
+                size="xs"
+                rounded="md"
+                rows={2}
+              />
+            </Box>
+
+            {/* Action Buttons */}
+            <Flex
+              direction={{ base: "column-reverse", sm: "row" }}
+              justify="space-between"
+              align={{ base: "stretch", sm: "center" }}
+              gap={3}
+              pt={2}
+            >
+              <Button
+                as="a"
+                href="/hacknova"
+                target="_blank"
+                rel="noopener noreferrer"
+                size="sm"
+                w={{ base: "full", sm: "auto" }}
+                variant="outline"
+                borderColor="rgba(56, 217, 169, 0.4)"
+                color="#38D9A9"
+                fontSize="xs"
+                rounded="md"
+                _hover={{ bg: "rgba(56, 217, 169, 0.1)" }}
+                textAlign="center"
+              >
+                View Submission Portal: /hacknova ↗
+              </Button>
+
+              <Button
+                size="md"
+                w={{ base: "full", sm: "auto" }}
+                bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                color="#030512"
+                fontFamily="'Inter', sans-serif"
+                fontSize="xs"
+                fontWeight="extrabold"
+                letterSpacing="0.1em"
+                textTransform="uppercase"
+                rounded="md"
+                _hover={{ bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)" }}
+                onClick={handleSaveAllowedHacknovaLeaders}
+                isLoading={savingAllowedLeaders}
+                loadingText="Saving Permissions..."
+                px={6}
+              >
+                Save Allowed Team Leaders
+              </Button>
+            </Flex>
+          </VStack>
+        </Box>
+
         {/* Publish Event Results Card */}
         <Box
           w="100%"
@@ -1217,7 +1748,7 @@ const AdminPage = () => {
             textAlign="center"
             mb={4}
           >
-            Broadcast shortlisted Team / Participant IDs publicly for HackNova, InnoWave, Freeze, etc.
+            Broadcast shortlisted Team / Participant IDs publicly for HackNova, InnoWave, Freeze, etc. Public results on /results are automatically sorted in alphabetical order of name.
           </Text>
           <Divider mb={6} borderColor="rgba(56, 217, 169, 0.3)" />
 

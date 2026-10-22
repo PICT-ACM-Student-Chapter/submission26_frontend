@@ -132,7 +132,7 @@ const ResultsIndexPage = () => {
               bg="rgba(7, 17, 38, 0.6)"
               rounded="md"
               fontFamily="'Inter', sans-serif"
-              fontSize={{ base: "2xs", sm: "xs" }}
+              fontSize={{ base: "xs", sm: "xs" }}
               letterSpacing="0.08em"
               textTransform="uppercase"
               onClick={handleBack}
@@ -157,7 +157,7 @@ const ResultsIndexPage = () => {
                 bg="rgba(7, 17, 38, 0.6)"
                 rounded="md"
                 fontFamily="'Inter', sans-serif"
-                fontSize={{ base: "2xs", sm: "xs" }}
+                fontSize={{ base: "xs", sm: "xs" }}
                 letterSpacing="0.08em"
                 textTransform="uppercase"
                 _hover={{
@@ -183,7 +183,7 @@ const ResultsIndexPage = () => {
             border="1px solid rgba(56, 217, 169, 0.4)"
             color="#38D9A9"
             fontFamily="'Orbitron', sans-serif"
-            fontSize={{ base: "3xs", sm: "2xs", md: "xs" }}
+            fontSize={{ base: "10px", sm: "2xs", md: "xs" }}
             letterSpacing={{ base: "0.1em", sm: "0.15em" }}
             textTransform="uppercase"
             boxShadow="0 0 12px rgba(56, 217, 169, 0.2)"
@@ -207,7 +207,7 @@ const ResultsIndexPage = () => {
 
           <Text
             fontFamily="'Inter', sans-serif"
-            fontSize={{ base: "xs", sm: "sm", md: "md" }}
+            fontSize={{ base: "9px", sm: "sm", md: "md" }}
             color="#94A3B8"
             maxW="650px"
             lineHeight="tall"
@@ -226,21 +226,21 @@ const ResultsIndexPage = () => {
             border="1px solid rgba(56, 217, 169, 0.4)"
             color="#38D9A9"
             fontFamily="'Inter', sans-serif"
-            fontSize={{ base: "3xs", sm: "2xs" }}
+            fontSize={{ base: "10px", sm: "2xs" }}
             fontWeight="semibold"
             letterSpacing="0.05em"
           >
-            🔤 Results are sorted in alphabetical order of name
+            Results are sorted in alphabetical order of name
           </Badge>
 
           {/* Search Bar */}
           <Box mt={{ base: 4, md: 6 }} w="full" maxW="460px">
-            <InputGroup size={{ base: "sm", sm: "md" }}>
+            <InputGroup size={{ base: "md", sm: "md" }}>
               <InputLeftElement pointerEvents="none">
-                <SearchIcon color="#38D9A9" />
+                <SearchIcon color="#38D9A9" boxSize={2} mt={1.5} ml={1.5} />
               </InputLeftElement>
               <Input
-                placeholder="Search event or round (e.g. HackNova, Round 1)..."
+                placeholder="    Search event or round (e.g. HackNova, Round 1)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 bg="rgba(7, 17, 38, 0.85)"

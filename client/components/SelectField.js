@@ -21,8 +21,12 @@ const SelectField = ({ name, placeholder, label, options, ...otherProps }) => {
         placeholder={placeholder}
         name={name}
         w="100%"
-        h="44px"
+        maxW="100%"
+        boxSizing="border-box"
+        h={{ base: "42px", sm: "44px" }}
         fontFamily="'Inter', sans-serif"
+        fontSize={{ base: "xs", sm: "sm" }}
+        px={{ base: 2, sm: 4 }}
         color="#FFFFFF"
         bg="rgba(7, 16, 36, 0.85)"
         border="1px solid rgba(56, 217, 169, 0.35)"

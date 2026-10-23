@@ -802,9 +802,45 @@ const AdminPage = () => {
         setAllowedLeaderIds(idSet);
         setAllowedLeaderIdsInput(Array.from(idSet).sort((a, b) => a - b).join(", "));
         setIsHacknovaRestrictionActive(allowedData.is_restricted !== false);
+        if (typeof window !== "undefined") {
+          try {
+            localStorage.setItem("hacknova_allowed_leader_ids", JSON.stringify(Array.from(idSet)));
+            localStorage.setItem("hacknova_is_restricted", JSON.stringify(allowedData.is_restricted !== false));
+          } catch (e) {}
+        }
+      } else {
+        // Fallback to locally cached IDs if backend GET failed
+        if (typeof window !== "undefined") {
+          try {
+            const cachedIds = JSON.parse(localStorage.getItem("hacknova_allowed_leader_ids") || "null");
+            const cachedRestricted = JSON.parse(localStorage.getItem("hacknova_is_restricted") || "null");
+            if (Array.isArray(cachedIds)) {
+              const idSet = new Set(cachedIds.map(Number));
+              setAllowedLeaderIds(idSet);
+              setAllowedLeaderIdsInput(Array.from(idSet).sort((a, b) => a - b).join(", "));
+            }
+            if (cachedRestricted !== null) {
+              setIsHacknovaRestrictionActive(cachedRestricted);
+            }
+          } catch (e) {}
+        }
       }
     } catch (err) {
       console.error("Failed to load HackNova teams and allowed leaders:", err);
+      if (typeof window !== "undefined") {
+        try {
+          const cachedIds = JSON.parse(localStorage.getItem("hacknova_allowed_leader_ids") || "null");
+          const cachedRestricted = JSON.parse(localStorage.getItem("hacknova_is_restricted") || "null");
+          if (Array.isArray(cachedIds)) {
+            const idSet = new Set(cachedIds.map(Number));
+            setAllowedLeaderIds(idSet);
+            setAllowedLeaderIdsInput(Array.from(idSet).sort((a, b) => a - b).join(", "));
+          }
+          if (cachedRestricted !== null) {
+            setIsHacknovaRestrictionActive(cachedRestricted);
+          }
+        } catch (e) {}
+      }
     } finally {
       setLoadingHacknovaTeams(false);
     }
@@ -838,6 +874,11 @@ const AdminPage = () => {
   const handleClearAllHacknovaLeaders = () => {
     setAllowedLeaderIds(new Set());
     setAllowedLeaderIdsInput("");
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.removeItem("hacknova_allowed_leader_ids");
+      } catch (e) {}
+    }
   };
 
   const handleManualAllowedIdsChange = (val) => {
@@ -855,6 +896,14 @@ const AdminPage = () => {
       const numericIds = Array.from(allowedLeaderIds)
         .map(Number)
         .filter((n) => !isNaN(n));
+
+      // Always save locally immediately so state is preserved across refreshes
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem("hacknova_allowed_leader_ids", JSON.stringify(numericIds));
+          localStorage.setItem("hacknova_is_restricted", JSON.stringify(isHacknovaRestrictionActive));
+        } catch (e) {}
+      }
 
       const res = await saveAllowedHackNovaLeaders(
         numericIds,
@@ -883,7 +932,7 @@ const AdminPage = () => {
       console.error("Error saving allowed leaders:", err);
       toast({
         title: "Error",
-        description: "Failed to save allowed Team Leader IDs.",
+        description: "An unexpected error occurred while saving.",
         status: "error",
         duration: 4000,
         isClosable: true,

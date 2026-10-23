@@ -149,7 +149,7 @@ const postHackNova = async (req, res) => {
 
     if (!github_url && !presentation_url && !project_zip_url && !submission_file_url) {
       return res.status(400).json({
-        error: "Please provide your GitHub repository link, presentation deck (PPTX/PDF), or project ZIP archive.",
+        error: "Please provide your GitHub repository link or presentation deck (PPTX/PDF).",
       });
     }
 

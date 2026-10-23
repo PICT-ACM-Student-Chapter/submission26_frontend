@@ -31,6 +31,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import FileInput from "../components/FileInput";
 import FormField from "../components/FormField";
+import SelectField from "../components/SelectField";
 import { uploadFile } from "../action/uploadFile";
 import ButtonWithModal from "../components/ButtonWithModal";
 import { getEntries, submitEntries } from "../action/entries";
@@ -122,7 +123,6 @@ const Hacknova = () => {
     github_url: "",
     live_demo_url: "",
     presentation_file: {},
-    project_zip: {},
     notes: "",
   };
 
@@ -155,7 +155,7 @@ const Hacknova = () => {
     if (!isSubmissionApplicable) {
       toast.error(
         notApplicableReason ||
-          "Your Team Leader ID is not authorized by admin to submit project deliverables."
+        "Your Team Leader ID is not authorized by admin to submit project deliverables."
       );
       return;
     }
@@ -183,17 +183,15 @@ const Hacknova = () => {
     }
 
     if (
-      values?.project_zip?.size &&
-      values.project_zip.size > 50 * 1024 * 1024
+      values?.presentation_file?.size &&
+      values.presentation_file.size > 15 * 1024 * 1024
     ) {
-      toast.error("Project ZIP file exceeds 50MB limit");
+      toast.error("Presentation file exceeds 15MB limit");
       return;
     }
 
-    if (!values?.presentation_file?.name && !values?.project_zip?.name) {
-      toast.error(
-        "Please upload at least your presentation deck (PPT/PDF) or project ZIP archive"
-      );
+    if (!values?.presentation_file?.name) {
+      toast.error("Please upload your presentation deck (PPT/PDF)");
       return;
     }
 
@@ -201,7 +199,6 @@ const Hacknova = () => {
       setLoadingText("UPLOADING DELIVERABLES & SUBMITTING PROJECT...");
       setLoading(true);
       let presentation_url = null;
-      let project_zip_url = null;
 
       // Upload presentation file if selected
       if (values?.presentation_file?.name) {
@@ -215,26 +212,14 @@ const Hacknova = () => {
         presentation_url = pData.submission;
       }
 
-      // Upload project zip archive if selected
-      if (values?.project_zip?.name) {
-        toast.info("Uploading project ZIP archive to S3...");
-        const zData = await uploadFile(values.project_zip);
-        if (zData?.error || !zData?.submission) {
-          toast.error("Failed to upload project ZIP archive. Please try again.");
-          setLoading(false);
-          return;
-        }
-        project_zip_url = zData.submission;
-      }
-
       const payload = {
         team_name: finalTeamName,
         project_title: values.project_title.trim(),
         github_url: values.github_url.trim(),
         live_demo_url: values.live_demo_url?.trim() || "",
         presentation_url,
-        project_zip_url,
-        submission_file_url: project_zip_url || presentation_url || null,
+        project_zip_url: null,
+        submission_file_url: presentation_url || null,
         notes: values.notes?.trim() || "",
       };
 
@@ -352,89 +337,152 @@ const Hacknova = () => {
                       Problem Statements:
                     </Text>
 
-                    <Box
-                      position="relative"
-                      p={{ base: 4, sm: 6, md: 7 }}
-                      rounded="md"
-                      bg="linear-gradient(180deg, rgba(11, 21, 46, 0.75) 0%, rgba(7, 16, 36, 0.85) 100%)"
-                      border="1px dashed rgba(56, 217, 169, 0.45)"
-                      boxShadow="0 0 25px rgba(56, 217, 169, 0.1)"
-                      textAlign="center"
-                      overflow="hidden"
-                      w="full"
-                      maxW="100%"
-                      boxSizing="border-box"
-                    >
-                      {/* HUD Corner Accent Marks */}
-                      <Box position="absolute" top="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
-                      <Box position="absolute" top="4px" right="4px" w="8px" h="8px" borderRight="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
-                      <Box position="absolute" bottom="4px" left="4px" w="8px" h="8px" borderLeft="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
-                      <Box position="absolute" bottom="4px" right="4px" w="8px" h="8px" borderRight="2px solid #38D9A9" borderBottom="2px solid #38D9A9" pointerEvents="none" />
-
-                      <Flex
-                        align="center"
-                        justify="center"
-                        w={{ base: "40px", sm: "48px", md: "52px" }}
-                        h={{ base: "40px", sm: "48px", md: "52px" }}
-                        rounded="full"
-                        bg="rgba(56, 217, 169, 0.12)"
-                        border="1px solid rgba(56, 217, 169, 0.5)"
-                        color="#38D9A9"
-                        mx="auto"
-                        mb={{ base: 2.5, sm: 3 }}
-                        boxShadow="0 0 20px rgba(56, 217, 169, 0.3)"
-                      >
-                        <TimeIcon w={{ base: 4, sm: 5, md: 6 }} h={{ base: 4, sm: 5, md: 6 }} />
-                      </Flex>
-
-                      <Badge
-                        display="inline-flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        px={{ base: 2.5, sm: 3.5 }}
-                        py={{ base: 0.8, sm: 1 }}
+                    {/* ── Problem Statement Cards ── */}
+                    {[
+                      {
+                        id: "PS-1",
+                        title: "EnergyIQ — Smart Energy Consumption Optimizer",
+                        // focus: "Energy consumption analytics, anomaly detection, peak-load analysis, and energy-efficiency recommendations.",
+                        icon: "⚡",
+                        accent: "#38D9A9",
+                      },
+                      {
+                        id: "PS-2",
+                        title: "Disaster Information Verification Agent",
+                        // focus: "AI-powered disaster information verification, source credibility, conflicting reports, and evidence-based verification.",
+                        icon: "🛡️",
+                        accent: "#22D3EE",
+                      },
+                      {
+                        id: "PS-3",
+                        title: "SquadSync — Spotting Workload Imbalance and Integration Risk from Git and Task Data",
+                        // focus: "Analyzing Git activity and task-board data to identify workload imbalance, review participation gaps, and integration risks.",
+                        icon: "🔀",
+                        accent: "#A78BFA",
+                      },
+                      {
+                        id: "PS-4",
+                        title: "Meeting-to-Execution Automation Agent",
+                        // focus: "Converting meeting transcripts into actionable tasks, extracting deadlines and owners, detecting conflicts, and implementing approval workflows.",
+                        icon: "📋",
+                        accent: "#F59E0B",
+                      },
+                      {
+                        id: "PS-5",
+                        title: "Competitor Intelligence and Market Monitoring Agent",
+                        // focus: "Monitoring competitors, detecting pricing and feature changes, maintaining historical records, and generating evidence-backed reports.",
+                        icon: "📊",
+                        accent: "#F472B6",
+                      },
+                    ].map((ps) => (
+                      <Box
+                        key={ps.id}
+                        position="relative"
+                        p={{ base: 4, sm: 5 }}
+                        rounded="md"
+                        bg="linear-gradient(180deg, rgba(11, 21, 46, 0.80) 0%, rgba(7, 16, 36, 0.90) 100%)"
+                        border={`1px solid ${ps.accent}44`}
+                        boxShadow={`0 0 18px ${ps.accent}15`}
+                        overflow="hidden"
+                        w="full"
                         maxW="100%"
-                        whiteSpace="normal"
-                        textAlign="center"
-                        bg="rgba(56, 217, 169, 0.15)"
-                        color="#38D9A9"
-                        border="1px solid rgba(56, 217, 169, 0.4)"
+                        boxSizing="border-box"
+                        transition="all 0.3s ease"
+                        _hover={{
+                          border: `1px solid ${ps.accent}88`,
+                          boxShadow: `0 0 30px ${ps.accent}30, 0 4px 20px rgba(0,0,0,0.5)`,
+                          transform: "translateY(-2px)",
+                        }}
+                        cursor="pointer"
+                        onClick={() => window.open("https://drive.google.com/drive/folders/1L0NK8SyNjDLcutBnC4uKY8K3-rTvzq3J?usp=sharing", "_blank")}
+                      >
+                        {/* HUD Corner Accent Marks */}
+                        <Box position="absolute" top="4px" left="4px" w="8px" h="8px" borderLeft={`2px solid ${ps.accent}`} borderTop={`2px solid ${ps.accent}`} pointerEvents="none" />
+                        <Box position="absolute" top="4px" right="4px" w="8px" h="8px" borderRight={`2px solid ${ps.accent}`} borderTop={`2px solid ${ps.accent}`} pointerEvents="none" />
+                        <Box position="absolute" bottom="4px" left="4px" w="8px" h="8px" borderLeft={`2px solid ${ps.accent}`} borderBottom={`2px solid ${ps.accent}`} pointerEvents="none" />
+                        <Box position="absolute" bottom="4px" right="4px" w="8px" h="8px" borderRight={`2px solid ${ps.accent}`} borderBottom={`2px solid ${ps.accent}`} pointerEvents="none" />
+
+                        <Flex align="center" gap={3} mb={2.5}>
+                          <Flex
+                            align="center"
+                            justify="center"
+                            w={{ base: "36px", sm: "42px" }}
+                            h={{ base: "36px", sm: "42px" }}
+                            rounded="full"
+                            bg={`${ps.accent}18`}
+                            border={`1px solid ${ps.accent}66`}
+                            flexShrink={0}
+                            fontSize={{ base: "md", sm: "lg" }}
+                            boxShadow={`0 0 12px ${ps.accent}30`}
+                          >
+                            {ps.icon}
+                          </Flex>
+                          <Badge
+                            px={2.5}
+                            py={0.5}
+                            bg={`${ps.accent}20`}
+                            color={ps.accent}
+                            border={`1px solid ${ps.accent}55`}
+                            fontFamily="'Orbitron', sans-serif"
+                            fontSize={{ base: "2xs", sm: "xs" }}
+                            letterSpacing="0.1em"
+                            borderRadius="full"
+                            flexShrink={0}
+                          >
+                            {ps.id}
+                          </Badge>
+                        </Flex>
+
+                        <chakra.h3
+                          fontFamily="'Inter', sans-serif"
+                          fontSize={{ base: "sm", sm: "md" }}
+                          fontWeight="bold"
+                          color="#FFFFFF"
+                          lineHeight="1.4"
+                          mb={1.5}
+                          wordBreak="break-word"
+                        >
+                          {ps.title}
+                        </chakra.h3>
+
+                        <Text
+                          fontSize={{ base: "xs", sm: "sm" }}
+                          color="gray.400"
+                          lineHeight="1.65"
+                          mb={3}
+                          wordBreak="break-word"
+                        >
+                          {ps.focus}
+                        </Text>
+
+
+                      </Box>
+                    ))}
+
+                    {/* Common Drive Link Button */}
+                    <Box textAlign="center" pt={2}>
+                      <Button
+                        as="a"
+                        href="https://drive.google.com/drive/folders/1L0NK8SyNjDLcutBnC4uKY8K3-rTvzq3J?usp=sharing"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        size="sm"
+                        bg="linear-gradient(90deg, #38D9A9 0%, #22D3EE 100%)"
+                        color="#030512"
                         fontFamily="'Inter', sans-serif"
-                        fontSize={{ base: "10px", sm: "11px", md: "xs" }}
-                        letterSpacing={{ base: "0.08em", sm: "0.15em" }}
-                        borderRadius="full"
-                        mb={{ base: 2, sm: 2.5 }}
-                        textTransform="uppercase"
-                        lineHeight="short"
-                      >
-                        ANNOUNCEMENT &bull; COMING SOON
-                      </Badge>
-
-                      <chakra.h2
-                        fontFamily="'Orbitron', sans-serif !important"
-                        fontSize={{ base: "md", sm: "xl", md: "2xl" }}
-                        fontWeight="bold"
-                        color="#FFFFFF"
-                        letterSpacing={{ base: "0.03em", sm: "0.06em" }}
-                        textTransform="uppercase"
-                        mb={2}
-                        lineHeight={{ base: "1.35", sm: "1.3" }}
-                        wordBreak="break-word"
-                      >
-                        PS Will Be Released Soon
-                      </chakra.h2>
-
-                      <Text
                         fontSize={{ base: "xs", sm: "sm" }}
-                        color="gray.300"
-                        maxW={{ base: "100%", sm: "420px" }}
-                        mx="auto"
-                        px={{ base: 1, sm: 2 }}
-                        lineHeight={{ base: "1.6", sm: "tall" }}
-                        wordBreak="break-word"
+                        fontWeight="bold"
+                        letterSpacing="0.08em"
+                        textTransform="uppercase"
+                        boxShadow="0 0 20px rgba(56, 217, 169, 0.3)"
+                        _hover={{
+                          bg: "linear-gradient(90deg, #22D3EE 0%, #38D9A9 100%)",
+                          boxShadow: "0 0 30px rgba(56, 217, 169, 0.5)",
+                        }}
+                        rightIcon={<ExternalLinkIcon />}
                       >
-                        Problem statements (PS) for HackNova &apos;26 will be released soon. Assemble your squad, complete team registration, and stay tuned!
-                      </Text>
+                        View All Problem Statements
+                      </Button>
                     </Box>
                   </Stack>
                 </TabPanel>
@@ -466,7 +514,6 @@ const Hacknova = () => {
                         <Text>4. For Step 2 Project Submission, upload all of the following:</Text>
                         <Stack spacing={1} pl={6} pt={1}>
                           <Text>• GitHub Repository Link</Text>
-                          <Text>• Project ZIP File (upto 50MB)</Text>
                           <Text>• Presentation (PDF/PPT/PPTX upto 15MB)</Text>
                         </Stack>
                       </Box>
@@ -476,6 +523,29 @@ const Hacknova = () => {
                       <Text>
                         6. <chakra.span fontWeight="bold" color={primaryColor}>Only one submission per team is allowed.</chakra.span>
                       </Text>
+                      <Box
+                        p={{ base: 3, sm: 3.5 }}
+                        rounded="md"
+                        bg="rgba(245, 158, 11, 0.08)"
+                        border="1px solid rgba(245, 158, 11, 0.35)"
+                        mt={1}
+                      >
+                        <Text>
+                          7. <chakra.span fontWeight="bold" color="#F59E0B">You must use the official Presentation Template</chakra.span> provided by HackNova for your submission deck.{" "}
+                          Download the template from the{" "}
+                          <Link
+                            href="https://drive.google.com/drive/folders/1L0NK8SyNjDLcutBnC4uKY8K3-rTvzq3J"
+                            isExternal
+                            color="#22D3EE"
+                            fontWeight="bold"
+                            textDecoration="underline"
+                            _hover={{ color: "#38D9A9" }}
+                          >
+                            Google Drive Folder <ExternalLinkIcon mx="2px" />
+                          </Link>
+                          . Submissions not using the official template may be rejected.
+                        </Text>
+                      </Box>
                     </Stack>
 
                     <Box
@@ -886,7 +956,7 @@ const Hacknova = () => {
                         </Text>
                       </Flex>
                       <Text fontSize={{ base: "2xs", sm: "2xs" }} color="gray.400" lineHeight="tall" wordBreak="break-word">
-                        Submit GitHub repo, presentation (PPT/PDF), and ZIP archive.
+                        Submit GitHub repo and presentation (PPT/PDF).
                       </Text>
                     </Box>
                   </SimpleGrid>
@@ -1134,13 +1204,15 @@ const Hacknova = () => {
               /* Submission Form */
               <Box
                 position="relative"
-                p={{ base: 4, sm: 5, md: 7 }}
+                p={{ base: 3, sm: 5, md: 7 }}
                 bg="linear-gradient(180deg, rgba(11, 21, 46, 0.95) 0%, rgba(7, 16, 36, 0.95) 100%)"
                 border="1px solid rgba(56, 217, 169, 0.35)"
                 boxShadow="0 12px 32px rgba(0, 0, 0, 0.85)"
                 borderRadius="md"
                 overflow="hidden"
                 maxW="100%"
+                w="full"
+                boxSizing="border-box"
               >
                 {/* 4 Corner HUD Brackets */}
                 <Box position="absolute" top="6px" left="6px" w="10px" h="10px" borderLeft="2px solid #38D9A9" borderTop="2px solid #38D9A9" pointerEvents="none" />
@@ -1151,21 +1223,25 @@ const Hacknova = () => {
                 <Box mb={{ base: 3, sm: 5 }}>
                   <chakra.h2
                     fontFamily="'Orbitron', sans-serif !important"
-                    fontSize={{ base: "lg", sm: "xl", md: "2xl" }}
+                    fontSize={{ base: "md", sm: "xl", md: "2xl" }}
                     fontWeight="bold"
                     color="#FFFFFF"
-                    letterSpacing="0.08em"
+                    letterSpacing={{ base: "0.04em", sm: "0.08em" }}
                     textTransform="uppercase"
+                    wordBreak="break-word"
+                    lineHeight={{ base: "1.3", sm: "1.2" }}
                   >
                     PROJECT SUBMISSION PORTAL
                   </chakra.h2>
                   <chakra.p
                     fontFamily="'Inter', sans-serif"
-                    fontSize="xs"
+                    fontSize={{ base: "2xs", sm: "xs" }}
                     color="#38D9A9"
-                    letterSpacing="0.12em"
+                    letterSpacing={{ base: "0.06em", sm: "0.12em" }}
                     textTransform="uppercase"
                     mt={1}
+                    wordBreak="break-word"
+                    lineHeight="short"
                   >
                     TEAM LEADER AUTHORIZED &bull; SHORTLISTED FOR ROUND 1 DELIVERABLES
                   </chakra.p>
@@ -1183,31 +1259,39 @@ const Hacknova = () => {
                   {({ handleBlur, handleChange, values, handleSubmit }) => (
                     <form onSubmit={handleSubmit}>
                       <Stack spacing={4}>
-                        <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
-                          <Box>
-                            <FormField
-                              label="Squad Name (Locked) *"
-                              name="team_name"
-                              placeholder="e.g. CyberNovas"
-                              value={registeredTeam?.team_name || values.team_name}
-                              isReadOnly={true}
-                              readOnly={true}
-                              cursor="not-allowed"
-                              opacity={0.9}
-                            />
-                            <Text fontFamily="'Inter', sans-serif" fontSize="2xs" color="#38D9A9" mt={1}>
-                              ✓ Locked to registered squad: {registeredTeam.team_name} (Leader ID: #{leaderUserId || registeredTeam.leader_user_id})
-                            </Text>
-                          </Box>
+                        <Box w="full">
                           <FormField
-                            label="Project Title *"
+                            label="Squad Name (Locked) *"
+                            name="team_name"
+                            placeholder="e.g. CyberNovas"
+                            value={registeredTeam?.team_name || values.team_name}
+                            isReadOnly={true}
+                            readOnly={true}
+                            cursor="not-allowed"
+                            opacity={0.9}
+                          />
+                          <Text fontFamily="'Inter', sans-serif" fontSize="2xs" color="#38D9A9" mt={1} wordBreak="break-word">
+                            ✓ Locked to registered squad: {registeredTeam.team_name} (Leader ID: #{leaderUserId || registeredTeam.leader_user_id})
+                          </Text>
+                        </Box>
+
+                        <Box w="full">
+                          <SelectField
+                            label="Project Title (Select Problem Statement) *"
                             name="project_title"
-                            placeholder="e.g. End-to-End AI SQL Assistant"
+                            placeholder="— Select a Problem Statement —"
                             value={values.project_title}
                             onChange={handleChange}
                             onBlur={handleBlur}
+                            options={[
+                              { value: "PS-1: EnergyIQ — Smart Energy Consumption Optimizer", label: "PS-1: EnergyIQ — Smart Energy Consumption Optimizer" },
+                              { value: "PS-2: Disaster Information Verification Agent", label: "PS-2: Disaster Information Verification Agent" },
+                              { value: "PS-3: SquadSync — Spotting Workload Imbalance and Integration Risk", label: "PS-3: SquadSync — Spotting Workload Imbalance and Integration Risk" },
+                              { value: "PS-4: Meeting-to-Execution Automation Agent", label: "PS-4: Meeting-to-Execution Automation Agent" },
+                              { value: "PS-5: Competitor Intelligence and Market Monitoring Agent", label: "PS-5: Competitor Intelligence and Market Monitoring Agent" },
+                            ]}
                           />
-                        </SimpleGrid>
+                        </Box>
 
                         <FormField
                           label="GitHub Repository Link *"
@@ -1227,20 +1311,14 @@ const Hacknova = () => {
                           onBlur={handleBlur}
                         />
 
-                        <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+                        <Box>
                           <FileInput
                             accept=".ppt,.pptx,.pdf"
                             label="Presentation (PPTX/PDF upto 15MB)"
                             name="presentation_file"
                             onBlur={handleBlur}
                           />
-                          <FileInput
-                            accept=".zip,.rar,.7z,.tar,.gz"
-                            label="Project Archive (ZIP upto 50MB)"
-                            name="project_zip"
-                            onBlur={handleBlur}
-                          />
-                        </SimpleGrid>
+                        </Box>
 
                         <FormControl id="notes">
                           <FormLabel
@@ -1259,11 +1337,14 @@ const Hacknova = () => {
                             placeholder="Any special setup instructions, test credentials, or notes for the evaluators"
                             rows={3}
                             fontFamily="'Inter', sans-serif"
-                            fontSize="sm"
+                            fontSize={{ base: "xs", sm: "sm" }}
                             color="#FFFFFF"
                             bg="rgba(7, 16, 36, 0.85)"
                             border="1px solid rgba(56, 217, 169, 0.35)"
                             borderRadius="md"
+                            w="full"
+                            maxW="100%"
+                            boxSizing="border-box"
                             _hover={{ borderColor: "rgba(56, 217, 169, 0.6)" }}
                             _focus={{
                               borderColor: "#38D9A9",
@@ -1271,7 +1352,7 @@ const Hacknova = () => {
                             }}
                             _placeholder={{
                               color: "rgba(203, 213, 225, 0.45)",
-                              fontSize: "sm",
+                              fontSize: "xs",
                             }}
                             value={values.notes}
                             onChange={handleChange}
